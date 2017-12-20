@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jzsoft.platform.module.user.dao.SysUserDAO">
+    <!-- sp namespace:映射StudentMapper的接口 -->
+    
+    <resultMap type="SysUser" id="resultModelMap">  
+        <id column="id" property="id" />  
+        <result column="name" property="name"/>  
+        <result column="displayName" property="displayName"/>  
+        <result column="pinyin" property="pinyin"/>  
+        <result column="loginName" property="loginName"/>  
+        <result column="password" property="password"/>  
+        <result column="type" property="type"/>  
+        <result column="enableFlag" property="enableFlag"/>  
+        <result column="num" property="num"/>  
+        <result column="email" property="email"/>  
+        <result column="mobile" property="mobile"/>  
+        <result column="phone" property="phone"/>  
+        <result column="id_headPortraitSmall" property="headPortraitSmallId"/>  
+        <result column="id_headPortraitBig" property="headPortraitBigId"/>  
+        <result column="headPortraitSmallUrl" property="headPortraitSmallUrl"/>  
+        <result column="headPortraitBigUrl" property="headPortraitBigUrl"/>  
+        <result column="ft" property="ft"/>  
+        <result column="lt" property="lt"/>  
+        <result column="fu" property="fu"/>  
+        <result column="lu" property="lu"/>  
+        
+        <result column="Userprofile" property="userprofile"/>  
+        <result column="PlatformTitle" property="platformTitle"/>  
+        <result column="Autograph" property="autograph"/>  
+    </resultMap>  
+    
+    
+    <!-- 添加一条数据 -->
+    <insert id="save" keyProperty="id" useGeneratedKeys="false" parameterType="SysUser">
+        insert into sys_user(id,name,displayName,pinyin,loginName,password,type,enableFlag,num,email,mobile,phone,id_headPortraitSmall,id_headPortraitBig,headPortraitSmallUrl,headPortraitBigUrl,ft,fu,Userprofile,PlatformTitle,Autograph) 
+        values(#{id},#{name},#{displayName},#{pinyin},#{loginName},#{password},#{type},#{enableFlag},#{num},#{email},#{mobile},#{phone},#{headPortraitSmallId},#{headPortraitBigId},#{headPortraitSmallUrl},#{headPortraitBigUrl},#{ft},#{fu},#{userprofile},#{platformTitle},#{autograph})
+    </insert>
+    
+    <update id="update" parameterType="SysUser">
+        update sys_user 
+        <set>
+         <if test="name != null and name != '' ">  
+            name=#{name},  
+         </if>  
+         <if test="displayName != null and displayName != '' ">  
+            displayName=#{displayName},  
+         </if>  
+         <if test="pinyin != null and pinyin != '' ">  
+            pinyin=#{pinyin},  
+         </if>  
+         <if test="loginName != null and loginName != '' ">  
+            loginName=#{loginName},  
+         </if>  
+         <if test="password != null and password != '' ">  
+            password=#{password},  
+         </if>  
+         <if test="type != null and type != '' ">  
+            type=#{type},  
+         </if>  
+         <if test="enableFlag != null and enableFlag != '' ">  
+            enableFlag=#{enableFlag},  
+         </if>  
+         <if test="num != null and num != '' ">  
+            num=#{num},  
+         </if>  
+         <if test="email != null and email != '' ">  
+            email=#{email},  
+         </if>  
+         <if test="mobile != null and mobile != '' ">  
+            mobile=#{mobile},  
+         </if>  
+         <if test="phone != null and phone != '' ">  
+            phone=#{phone},  
+         </if>  
+         <if test="headPortraitSmallId != null and headPortraitSmallId != '' ">  
+            id_headPortraitSmall=#{headPortraitSmallId},  
+         </if>  
+         <if test="headPortraitBigUrl != null and headPortraitBigUrl != '' ">  
+            id_headPortraitBig=#{headPortraitBigUrl},  
+         </if>  
+         <if test="headPortraitSmallUrl != null and headPortraitSmallUrl != '' ">  
+            headPortraitSmallUrl=#{headPortraitSmallUrl},  
+         </if>  
+         <if test="headPortraitBigUrl != null and headPortraitBigUrl != '' ">  
+            headPortraitBigUrl=#{headPortraitBigUrl},  
+         </if>  
+         <if test="'lt' != null and 'lt' != ''">  
+            lt=#{lt}, 
+         </if>  
+         <if test="lu != null and lu != '' ">  
+            lu=#{lu} 
+         </if>  
+        </set>
+         WHERE id=#{id}  
+    </update> 
+    
+    <update id="updateEnableFlag" parameterType="Map">
+        update sys_user set enableFlag=#{enableFlag} where id=#{id}  
+    </update> 
+    
+    <update id="updatePassword" parameterType="Map">
+        update sys_user set password=#{password} where id=#{id}  
+    </update> 
+    
+    <!-- 删除一条数据 -->
+    <delete id="delete">
+        delete from sys_user where id=#{id}
+    </delete>
+    
+    <sql id="selectSql">
+		select * from sys_user
+	</sql>
+    
+    <!-- 获取一条数据 -->
+    <select id="get"  resultMap="resultModelMap">
+        <include refid="selectSql" /> where id=#{id}
+    </select>
+    
+      <!-- 获取一条数据 -->
+    <select id="selectOne"  resultMap="resultModelMap">
+        <include refid="selectSql" /> where displayName=#{displayName}
+    </select>
+    
+    <select id="getAll" resultMap="resultModelMap">  
+        <include refid="selectSql" /> order by num
+    </select> 
+    
+    <select id="getPage" resultMap="resultModelMap" parameterType="page">  
+        <include refid="selectSql" /> 
+        <if test="params.type != null ">  
+         where type=#{params.type} 
+    	</if>
+        <if test="params.sidx == null or params.sidx == ''">  
+         order by num 
+    	</if>
+        <if test="params.sidx != null and params.sidx != ''">  
+         order by ${params.sidx} ${params.sord}
+    	</if>
+    </select>   
+    
+    <select id="getWithLoginNameAndExclude" resultMap="resultModelMap" parameterType="Map">  
+        <include refid="selectSql" /> where loginName=#{loginName} 
+        <if test="excludeLoginName != null ">  
+         and loginName!=#{excludeLoginName}
+    	</if>
+    </select> 
+    
+</mapper>

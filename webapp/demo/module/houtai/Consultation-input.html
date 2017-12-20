@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<#include "/platform/common/meta.html">
+<div class="container-fluid layer-content-custom">
+   <form class="form-horizontal m-t" role="form" id="theForm" enctype="multipart/form-data">
+	   <c:if test="${entity.id}??}">
+			<input type="hidden" name="id" value="${entity.id}"/>
+			<input type="hidden" name="imagePath" value="${entity.imagePath}"/>
+	   </c:if>
+         <div class="form-group">
+           <label class="col-sm-3 control-label">类别</label>
+           <div class="col-sm-7">
+	           	<select class="form-control"  name="subtype">
+	          		<#if entity.typeMap??>
+	          			<option value="">请选择类别</option>
+	           		<#list entity.typeMap?keys as key>
+	           		<option value="${key}" <#if key==entity.subtype>selected="selected"</#if>>${entity.typeMap[key]}</option>
+	           		</#list>
+	          		</#if>
+	           	</select>
+           </div>
+         </div>
+
+         <div class="form-group">
+           <label class="col-sm-3 control-label">资讯标题</label>
+           <div class="col-sm-7">
+				<input type="text" class="form-control" name="titleLabel" value="${entity.titleLabel}" placeholder="请输入资讯标题">
+           </div>
+		</div>
+          <div class="form-group">
+           <label class="col-sm-3 control-label">资讯来源</label>
+           <div class="col-sm-7">
+				<input type="text" class="form-control" name="csource" value="${entity.csource}" placeholder="请输入资讯来源">
+           </div>
+        </div>
+           
+         <div class="form-group">
+           <label class="col-sm-3 control-label">具体内容</label>
+           <div class="col-sm-7">
+				<textarea type="text" style="resize: none; width:428px; height:500px;" class="form-control" name="contentLabel"placeholder="请输入具体内容">${entity.contentLabel}</textarea>
+           </div>
+         </div>
+         
+         
+           
+           
+           <div class="form-group">
+            <#if entity.ifclassicMap??>
+           <label class="col-sm-3 control-label">是否经典</label>
+           <div class="col-sm-7">
+           <#list entity.ifclassicMap?keys as key> 
+           <input type="radio" name="Ifclassic" value="${key}"<#if key==entity.ifclassic>checked="checked"</#if>>${entity.ifclassicMap[key]}
+           </#list>
+           </div>
+           </#if>
+           </div>   
+           
+            <div class="form-group">
+           <label class="col-sm-3 control-label">图片路径</label>
+           <div class="col-sm-7">
+           		<input type="file" name="upload"/>
+           </div>
+           </div>
+           
+           
+           
+       </div>
+
+	</form>
+</div>
+<div class="layer-footer-custom">
+	<div class="col-sm-12">
+		<button class="btn btn-primary m-r-xs" id="submitBtn">提交</button>
+		<button class="btn btn-white m-l-xs" id="cancelBtn">取消</button>
+	</div>
+</div>
+<script type="text/javascript">
+require(["jquery","/demo/module/houtai/js/Consultation-input.js"],function($,page){
+	page.init();
+});
+</script>

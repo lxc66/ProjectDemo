@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<#include "/platform/common/meta.html">
+   <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="panel panel-default">
+  
+                    <div class="panel-body">
+ 						<form class="form-inline" role="form" id="queryForm" name="queryForm">
+						      <input type="hidden" name="pageNo" value="1">
+<!-- 							<div class="form-group"> -->
+<!-- 					    		<input type="text" name="tsource" class="form-control" id="in" placeholder="标题与分类"/> -->
+<!-- 							</div> -->
+							<a class="ss" id="queryBtn"></a>
+						</form>
+				专家审核
+						
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="panel panel-default">
+                    <div class="panel-body" id="listContent">
+                    
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<script type="text/javascript">
+require(["jquery","/demo/module/houtai/js/Expert-index.js"],function($,page){
+	page.init();
+});
+</script>

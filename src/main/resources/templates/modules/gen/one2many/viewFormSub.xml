@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<template>
+	<name>viewFormSub</name>
+	<filePath>src/main/webapp/WEB-INF/views/${moduleName}</filePath>
+	<filePath2>src/main/webapp/WEB-INF/views/${moduleName}</filePath2>
+	<fileName>${className}.ftl</fileName>
+	<content><![CDATA[
+${'<@layout.head>'}
+<script type="text/javascript" src="${'$'}{base}/res/js/jquery-ui/jquery.ui.js"></script>
+<script type="text/javascript" src="${'$'}{base}/res/js/jquery-ui/i18n/zh-CN.js" charset="utf-8"></script>
+<link rel="stylesheet" type="text/css" href="${'$'}{base}/res/js/jquery-ui/themes/ui-lightness/jquery.ui.css"  />
+<script type="text/javascript" src="${'$'}{base}/res/js/ajaxfileupload/ajaxfileupload.js"></script>
+<script type="text/javascript" src="${'$'}{base}/res/js/My97DatePicker/WdatePicker.js" charset="utf-8"></script>
+${'</@layout.head>'}
+${'<@layout.body>'}
+<div class="page">
+<div class="fixed-bar">
+    <div class="item-title">
+        <h3>${functionNameSimple}管理</h3>
+        <ul class="tab-base">
+            <li><a href="${'$'}{base}/${className}/list"><span>管理</span></a></li>
+            <li><a href="${'$'}{base}/${className}/list?${table.parentTableFk}=${'$'}{${className}.${table.parentTableFk}}"><span>管理</span></a></li>
+            <li><a href="javascript:void(0)" class="current"><span>新增</span></a></li>
+        </ul>
+    </div>
+</div>
+<div class="fixed-empty"></div>
+<form id="${className}_form" action="${'$'}{base}/${className}/saveOrUpdate" method="post">
+    <input type="hidden" name="${table.javaPrimaryKey}" value="${'$'}{${className}.${table.javaPrimaryKey}}">
+    <input type="hidden" name="${table.parentTableFk}" value="${'$'}{${className}.${table.parentTableFk}}">
+    <table class="table tb-type2">
+        <tbody>
+        	
+	   	<#list table.columnList as c>
+			<#if c.javaFieldId !=table.javaPrimaryKey &&  c.isEdit?? && c.isEdit == 1 && (c.isNotBaseField || c.simpleJavaField == 'remarks') && c.javaFieldId != table.parentTableFk>
+			<tr class="noborder">
+	            <td width="120" style="text-align:right;" class="<#if c.isNull != 1>required</#if>" ><label for="${c.javaFieldId}" class="<#if c.isNull != 1>validation</#if>">${c.comments}:</label></td>
+			<#if c.showType == "input">
+				<td class="vatop rowform" style="width:auto;"><input type="text" style="width: 285px;" class="txt" value="${'$'}{${className}.${c.javaFieldId}<#if c.javaFieldId == 'sort'>!'1'</#if>}" name="${c.javaFieldId}" id="${c.javaFieldId}"></td>
+	           	<td class="vatop tips"><#if c.javaFieldId == 'sort'>(数字越大越靠前)</#if></td>
+	        </tr>
+			<#elseif c.showType == "textarea">
+				<td class="vatop rowform" style="width:auto;"><textarea id="${c.javaFieldId}" style="width: 285px;" name="${c.javaFieldId}" rows="3">${'$'}{${className}.${c.javaFieldId}}</textarea></td>
+	           	<td class="vatop tips"></td>
+	        </tr>
+			<#elseif c.showType == "select">
+				<form:select path="${c.javaFieldId}" class="input-xlarge <#if c.isNull != 1>required</#if>">
+					<form:option value="" label=""/>
+					<form:options items="${"$"}{fns:getDictList('${c.dictType}')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
+				</form:select>
+			<#elseif c.showType == "checkbox">
+				<form:checkboxes path="${c.javaFieldId}" items="${"$"}{fns:getDictList('${c.dictType}')}" itemLabel="label" itemValue="value" htmlEscape="false" class="<#if c.isNull != 1>required</#if>"/>
+			<#elseif c.showType == "radiobox">
+				<form:radiobuttons path="${c.javaFieldId}" items="${"$"}{fns:getDictList('${c.dictType}')}" itemLabel="label" itemValue="value" htmlEscape="false" class="<#if c.isNull != 1>required</#if>"/>
+			<#elseif c.showType == "dateselect">
+				<td class="vatop rowform" style="width:auto;"><input type="text" style="width: 285px;" class="txt Wdate" value="${'$'}{${className}.${c.javaFieldId}Str}" name="${c.javaFieldId}Str" id="${c.javaFieldId}Str" onClick="WdatePicker({skin:'twoer',dateFmt:'yyyy-MM-dd HH:mm:ss'});"></td>
+	           	<td class="vatop tips"></td>
+	        </tr>
+			<#elseif c.showType == "fileselect">
+				<form:hidden id="${c.simpleJavaField}" path="${c.javaFieldId}" htmlEscape="false"<#if c.dataLength != "0"> maxlength="${c.dataLength}"</#if> class="input-xlarge"/>
+				<sys:ckfinder input="${c.simpleJavaField}" type="files" uploadPath="/${moduleName}/${className}" selectMultiple="true"/>
+			</#if>
+			</#if>
+		</#list>
+        </tbody>
+        <tfoot>
+	        <tr>
+	        	<td></td>
+	            <td colspan="2">
+	            	<a href="JavaScript:void(0);" class="btn" id="submitBtn"><span>提交</span></a>
+	            	<a href="JavaScript:history.go(-1);" class="btns"><span>返回</span></a>
+	            </td>
+	        </tr>
+        </tfoot>
+    </table>
+</form>
+</div>
+<script>
+    //按钮先执行验证再提交表单
+    $(function(){
+        $("#submitBtn").click(function(){
+            $("#${className}_form").submit();
+        });
+    });
+</script>
+${'</@layout.body>'}
+]]>
+	</content>
+</template>

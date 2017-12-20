@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<#include "/platform/common/meta.html">
+<!-- 	<button class="btn btn-outline btn-success btn-sm" id="ExportImageBtn">批量上传图片</button> -->
+	  <td class="text-navy"> 
+			            	<a class="btn btn-outline btn-warning btn-sm Expert-details"><i class="fa fa-folder-open-o"/>&nbsp;待审核资料</a>
+	  </td>
+	
+	<table style="min-width:1600px" class="table table-striped">
+	    <thead>
+	        <tr>
+	            <th>序号</th>
+                <th>用户名</th>
+                <th>用户ID</th>
+                <th>用户类型</th>
+                <th>签名</th>
+                <th>电话</th>
+                <th>账户额度</th>
+<!--                 <th>类型</th> -->
+                <th>注册时间</th>
+                <th>是否认证专家</th>
+<!--                 <th>大类型</th> -->
+	        </tr>
+	    </thead>
+	    <tbody>
+	    	<#if list??>
+	    		<#list list as entity>
+	    		
+	    		 
+			        <tr>
+			         <td><input type="radio" value="${entity.userId}" name="chk_uid">${entity_index+1}</td>
+						<td>${entity.userName}</td>
+		                <td>${entity.userId}</td>
+                        <td>普通用户</td>
+		                <td>${entity.userSignature}</td>
+		                <td>${entity.tel}</td>
+		                <td>${entity.account}</td>
+		                <td>${entity.time}</td>
+		                <#if entity.autograph != ''>
+		                <td>是</td>
+		                </#if>
+		                <#if entity.autograph = ''>
+		                <td>否</td>
+		                </#if>		                
+			          
+			        </tr>
+
+			  
+		        </#list>
+	        </#if>
+	    </tbody>
+	    
+    
+	</table>
+	
+	<@c.pager pager/>
+<script type="text/javascript">
+require(["jquery","/demo/module/houtai/js/Expert-list.js"],function($,page){
+	page.init();
+});
+</script>

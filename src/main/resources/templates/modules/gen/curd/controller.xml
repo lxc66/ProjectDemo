@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<template>
+	<name>controller</name>
+	<filePath>src/main/java/${packageName}/controller</filePath>
+	<filePath2>src/main/java/com/jzsoft/module/${moduleName}/controller</filePath2>
+	<fileName>${ClassName}Controller.java</fileName>
+	<content><![CDATA[
+package ${packageName}.controller;
+
+<#list table.fieldImportList as i>
+import ${i};
+</#list>
+
+import javax.annotation.Resource;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.apache.commons.lang.StringUtils;
+import com.jzsoft.platform.core.web.controller.SpringController;
+import com.jzsoft.platform.core.dao.Page;
+import ${packageName}.entity.${ClassName};
+import ${packageName}.service.${ClassName}Service;
+
+/**
+ * ${functionName}Controller
+ *
+ * @author ${functionAuthor}
+ * @version ${functionVersion}
+ */
+@Controller
+@RequestMapping("/${moduleName}/${className}")
+public class ${ClassName}Controller extends SpringController {
+
+	/** ${functionName}Service接口*/
+	@Resource
+	private ${ClassName}Service ${className}Service;
+
+	@RequestMapping("/index")
+	public String index() {
+		return "${viewPath}/${className}-index";
+	}
+	
+	/**
+	 * ${functionName}列表
+	 */
+	@RequestMapping("/list")
+<#if paging>
+	public String list(Model model,
+			<#list table.columnList as c>
+				<#if (c.isQuery?? && c.isQuery == 1) || (table.parentExists && table.parentTableFk == c.name)>
+			@RequestParam(required = false, value = "${c.simpleJavaField}", defaultValue = "") ${c.simpleJavaType} ${c.simpleJavaField},
+				</#if>
+			</#list>
+			@RequestParam(required = false, value = "pageNo", defaultValue = "1") int pageNo) {
+
+		Page<${ClassName}> pager = new Page<>();
+		pager.setPageNo(pageNo);
+		${ClassName} ${className} = new ${ClassName}();
+		<#list table.columnList as c>
+			<#if (c.isQuery?? && c.isQuery == 1) || (table.parentExists && table.parentTableFk == c.name)>
+			${className}.set${c.simpleJavaField?cap_first}(${c.simpleJavaField});
+			</#if>
+		</#list>
+		pager.setCondition(${className});
+		model.addAttribute("list", ${className}Service.getPage(pager).getResults());
+		model.addAttribute("pager", pager);
+		return "${viewPath}/${className}-list";
+	}
+<#else>
+	public String list(Model model,@ModelAttribute ${ClassName} entity) {
+		model.addAttribute("list", ${className}Service.getList(entity));
+		return "${viewPath}/${className}-list";
+	}
+</#if>
+
+	/**
+	 * 跳转至${functionName}新增或修改页面
+	 */
+	@RequestMapping("/input")
+	public String input(Model model , String id) {
+		${ClassName} entity = null;
+		if (StringUtils.isNotBlank(id)) {
+			entity = ${className}Service.get(id);
+		}else{
+			entity = new ${ClassName}();
+		}
+		model.addAttribute("entity", entity);
+		return "${viewPath}/${className}-input";
+	}
+
+	/**
+	 * ${functionName}修改或保存
+	 */
+	@RequestMapping("/save")
+	@ResponseBody
+	public void save(@ModelAttribute ${ClassName} entity) {
+		if(!beanValidatorForJson(entity))return;
+		if (StringUtils.isBlank(entity.getId())) {
+			${className}Service.save(entity);
+		} else {
+			${className}Service.update(entity);
+		}
+		this.print(entity.getId());
+	}
+
+	/**
+	 * ${functionName}删除
+	 */
+	@RequestMapping("/delete")
+	@ResponseBody
+	public void delete(String id) {
+		${className}Service.delete(id);
+	}
+	
+	
+}]]>
+	</content>
+</template>

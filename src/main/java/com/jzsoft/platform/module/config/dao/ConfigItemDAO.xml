@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jzsoft.platform.module.config.dao.ConfigItemDAO">
+    
+    <resultMap type="ConfigItem" id="resultModelMap">  
+        <id column="id" property="id" />  
+        <result column="id_config" property="configId"/>  
+        <result column="name" property="name"/>  
+        <result column="value" property="value"/>  
+        <result column="defaultFlag" property="defaultFlag"/>  
+        <result column="enableFlag" property="enableFlag"/>  
+        <result column="ft" property="ft"/>  
+        <result column="lt" property="lt"/>  
+        <result column="fu" property="fu"/>  
+        <result column="lu" property="lu"/>  
+    </resultMap>  
+    
+    
+    <!-- 添加一条数据 -->
+    <insert id="save" keyProperty="id" useGeneratedKeys="false" parameterType="ConfigItem">
+        insert into sys_configitem(id,id_config,name,value,defaultFlag,enableFlag,ft,fu) 
+        values(#{id},#{configId},#{name},#{value},#{defaultFlag},#{enableFlag},#{ft},#{fu})
+    </insert>
+    
+    <update id="update" parameterType="ConfigItem">
+        update sys_configitem 
+        <set>
+         <if test="configId != null and configId != '' ">  
+            id_config=#{configId},  
+         </if>  
+         <if test="name != null">  
+            name=#{name},  
+         </if>  
+         <if test="value != null">  
+            value=#{value},  
+         </if>  
+         <if test="defaultFlag != '' ">  
+            defaultFlag=#{defaultFlag},  
+         </if>  
+         <if test="enableFlag != '' ">  
+            enableFlag=#{enableFlag},  
+         </if>  
+         <if test="'lt' != null and 'lt' != ''">  
+            lt=#{lt}, 
+         </if>  
+         <if test="lu != null and lu != '' ">  
+            lu=#{lu} 
+         </if>  
+        </set>
+         WHERE id=#{id}  
+    </update> 
+    
+    <!-- 删除一条数据 -->
+    <delete id="delete">
+        delete from sys_configitem where id=#{id}
+    </delete>
+    
+    <delete id="deleteWithConfigId">
+        delete from sys_configitem where id_config=#{configId}
+    </delete>
+    
+    <sql id="selectSql">
+		select * from sys_configitem
+	</sql>
+    
+    <!-- 获取一条数据 -->
+    <select id="get"  resultMap="resultModelMap">
+        <include refid="selectSql" /> where id=#{id}
+    </select>
+    
+    <select id="getListWithConfigId" resultMap="resultModelMap">  
+        <include refid="selectSql" /> where id_config=#{configId} order by id
+    </select> 
+    
+    <select id="getListWithConfigKind" resultMap="resultModelMap">  
+        select cm.* from sys_configitem cm join sys_config cfg on cm.id_config=cfg.id where cfg.kind=#{configKind} order by id
+    </select> 
+    
+    <select id="getListWithConfigCodeAndValues" resultMap="resultModelMap" parameterType="Map">  
+        select cm.* from sys_configitem cm join sys_config cfg on cm.id_config=cfg.id where cfg.code=#{configCode} and value in 
+        <foreach collection="valueArray" item="values" open="(" separator="," close=")">
+         #{values}
+        </foreach>
+         order by id 
+    </select> 
+</mapper>

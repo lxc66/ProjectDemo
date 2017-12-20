@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<template>
+	<name>viewChildOption</name>
+	<filePath>src/main/webapp/WEB-INF/views/${moduleName}</filePath>
+	<filePath2>src/main/webapp/WEB-INF/views/${moduleName}</filePath2>
+	<fileName>${className}ChildOption.ftl</fileName>
+	<content><![CDATA[
+<${'#'}list ${className}List as a>
+	<${'#'}if ${className}.${table.javaPrimaryKey}!=a.${table.javaPrimaryKey}>
+	<option <${'#'}if ${className}.pid==a.${table.javaPrimaryKey}>selected="selected"</${'#'}if> value="${'$'}{a.${table.javaPrimaryKey}}">
+	<${'#'}assign size=a.levels*2>
+	<${'#'}list 1..size as ss>&nbsp;</${'#'}list>
+	${'$'}{a.name}
+	</option>
+	<${'#'}if a.${className}List?exists && a.${className}List?size gt 0>
+		<${'#'}assign ${className}List=a.${className}List>
+		<${'#'}include "/${moduleName}/${className}ChildOption.ftl"/>
+	</${'#'}if>
+	</${'#'}if>
+</${'#'}list>
+]]>
+	</content>
+</template>

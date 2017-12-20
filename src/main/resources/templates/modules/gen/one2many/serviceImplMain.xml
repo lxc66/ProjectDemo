@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<template>
+	<name>serviceImplMain</name>
+	<filePath>src/main/java/${packageName}/service/${subModuleName}/impl</filePath>
+	<filePath2>src/main/java/com/leimingtech/service/module/${moduleName}/service/impl</filePath2>
+	<fileName>${ClassName}ServiceImpl.java</fileName>
+	<content><![CDATA[
+<#if type==1>
+package ${packageName}.service.impl;
+<#elseif type==2>
+package com.jzsoft.service.module.${moduleName}.service.impl;
+</#if>
+
+import java.util.List;
+
+import javax.annotation.Resource;
+
+import org.springframework.stereotype.Service;
+
+import com.jzsoft.service.utils.page.Pager;
+<#if type==1>
+import ${packageName}.dao.${ClassName}Dao;
+import ${packageName}.entity.${ClassName};
+import ${packageName}.service.${ClassName}Service;
+<#elseif type==2>
+import com.jzsoft.service.module.${moduleName}.dao.${ClassName}Dao;
+import com.jzsoft.core.entity.base.${ClassName};
+<#list table.childList as c>
+import com.jzsoft.service.module.${moduleName}.service.${c.className?cap_first}Service;
+</#list>
+import com.jzsoft.service.module.${moduleName}.service.${ClassName}Service;
+</#if>
+
+/**
+ * ${functionName}ServiceImpl
+ *
+ * @author ${functionAuthor}
+ * @version ${functionVersion}
+ */
+@Service
+public class ${ClassName}ServiceImpl implements ${ClassName}Service {
+
+	/** ${functionName}DAO接口*/
+	@Resource
+	private ${ClassName}Dao ${className}Dao;
+	<#list table.childList as c>
+	@Resource
+	private ${c.className?cap_first}Service ${c.className?uncap_first}Service;
+	</#list>
+	
+	/**
+	 * 查询分页${functionName}数据
+	 * 
+	 * @param pager 分页对象
+	 * @return
+	 */
+	@Override
+	public List<${ClassName}> find${ClassName}PagerList(Pager pager){
+		return ${className}Dao.find${ClassName}PagerList(pager);
+	}
+
+	/**
+	 * 通过${table.javaPrimaryKey}获取单条${functionName}数据
+	 * 
+	 * @param ${table.javaPrimaryKey}
+	 * @return
+	 */
+	@Override 
+	public ${ClassName} find${ClassName}By${table.javaPrimaryKey?cap_first}(String ${table.javaPrimaryKey}){
+		return ${className}Dao.find${ClassName}By${table.javaPrimaryKey?cap_first}(${table.javaPrimaryKey});
+	}
+
+	/**
+	 * 通过${table.javaPrimaryKey}删除${functionName}数据
+	 * 
+	 * @param ${table.javaPrimaryKey}
+	 */
+	@Override
+	public void delete${ClassName}By${table.javaPrimaryKey?cap_first}(String ${table.javaPrimaryKey}){
+		<#list table.childList as c>
+		${c.className?uncap_first}Service.delete${c.className?cap_first}By${c.parentTableFk?cap_first}(${table.javaPrimaryKey});
+		</#list>
+		${className}Dao.delete${ClassName}By${table.javaPrimaryKey?cap_first}(${table.javaPrimaryKey});
+	}
+
+	/**
+	 * 修改${functionName}数据
+	 * 
+	 * @param ${className}
+	 */
+	@Override
+	public void update${ClassName}(${ClassName} ${className}){
+		${className}Dao.update${ClassName}(${className});
+	}
+	/**
+	 * 保存${functionName}数据
+	 * 
+	 * @param ${className}
+	 */
+	@Override
+	public void save${ClassName}(${ClassName} ${className}){
+		${className}Dao.save${ClassName}(${className});
+	}
+	/**
+	 * 获取所有${functionName}数据
+	 * 
+	 * @return
+	 */
+	@Override
+	public List<${ClassName}> find${ClassName}AllList(){
+		return ${className}Dao.find${ClassName}AllList();
+	}
+	
+}]]>
+	</content>
+</template>

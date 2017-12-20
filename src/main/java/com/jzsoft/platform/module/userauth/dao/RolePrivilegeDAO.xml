@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jzsoft.platform.module.userauth.dao.RolePrivilegeDAO">
+    <!-- sp namespace:映射StudentMapper的接口 -->
+    
+    <resultMap type="RolePrivilege" id="resultModelMap">  
+        <id column="id" property="id" />  
+        <result column="id_role" property="roleId"/>  
+        <result column="id_privilege" property="privilegeId"/>  
+        <result column="ft" property="ft"/>  
+        <result column="lt" property="lt"/>  
+        <result column="fu" property="fu"/>  
+        <result column="lu" property="lu"/>  
+    </resultMap>  
+    
+    <!-- 添加一条数据 -->
+    <insert id="save" keyProperty="id" useGeneratedKeys="false" parameterType="RolePrivilege">
+        insert into sys_roleprivilege(id,id_role,id_privilege,ft,fu) 
+        values(#{id},#{roleId},#{privilegeId},#{ft},#{fu})
+    </insert>
+    <!-- 批量添加数据 -->
+    <insert id="saveBatch" keyProperty="id" useGeneratedKeys="false" parameterType="list">
+        insert into sys_roleprivilege(id,id_role,id_privilege,ft,fu) values
+        <foreach collection="list" item="m" index="index" separator="," >  
+        	(#{m.id},#{m.roleId},#{m.privilegeId},#{m.ft},#{m.fu})
+    	</foreach>
+    </insert>
+    
+    <update id="update" parameterType="Role">
+        update sys_roleprivilege 
+        <set>
+         <if test="roleId != null and roleId != '' ">  
+            id_role=#{roleId},  
+         </if>  
+         <if test="privilegeId != null and privilegeId != '' ">  
+            id_privilege=#{privilegeId},  
+         </if>  
+         <if test="'lt' != null and 'lt' != ''">  
+            lt=#{lt}, 
+         </if>  
+         <if test="lu != null and lu != '' ">  
+            lu=#{lu} 
+         </if>  
+        </set>
+         WHERE id=#{id}  
+    </update> 
+    
+    <!-- 删除一条数据 -->
+    <delete id="delete">
+        delete from sys_roleprivilege where id=#{id}
+    </delete>
+    
+    <delete id="deleteWithRoleId">
+        delete from sys_roleprivilege where id_role=#{roleId}
+    </delete>
+    
+    <delete id="deleteWithPrivilegeId">
+        delete from sys_roleprivilege where id_privilege=#{privilegeId}
+    </delete>
+    
+    <sql id="selectSql">
+		select * from sys_roleprivilege
+	</sql>
+    
+    <select id="getListWithRoleId" resultMap="resultModelMap">  
+        <include refid="selectSql" /> where id_role=#{roleId}
+    </select> 
+    
+    <select id="getListWithPrivilegeId" resultMap="resultModelMap">  
+        <include refid="selectSql" /> where id_privilege=#{privilegeId}
+    </select> 
+    
+    <select id="getPrivilegeWithRoleId" resultMap="com.jzsoft.platform.module.userauth.dao.PrivilegeDAO.resultJoinModuleMap">  
+    	select p.*,m.name m_name from sys_privilege p join sys_module m on p.id_module = m.id join sys_roleprivilege rp on p.id = rp.id_privilege 
+    	 where rp.id_role=#{roleId} order by m.num,m.code,p.num,p.code
+    </select> 
+    
+    <select id="getRoleWithPrivilegeId" resultMap="com.jzsoft.platform.module.userauth.dao.RoleDAO.resultModelMap">  
+    	select r.* from sys_role r join sys_roleprivilege rp on r.id=rp.id_role where rp.id_privilege=#{privilegeId} order by r.num,r.code
+    </select> 
+    
+</mapper>

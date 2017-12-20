@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<template>
+	<name>daoImpl</name>
+	<filePath>src/main/java/${packageName}/dao/impl</filePath>
+	<filePath2>src/main/java/com/leimingtech/service/module/${moduleName}/dao/impl</filePath2>
+	<fileName>${ClassName}DaoImpl.java</fileName>
+	<content><![CDATA[
+<#if type==1>
+package ${packageName}.dao.impl;
+<#elseif type==2>
+package com.jzsoft.service.module.${moduleName}.dao.impl;
+</#if>
+
+import java.util.List;
+
+import javax.annotation.Resource;
+
+import org.springframework.stereotype.Repository;
+
+import com.jzsoft.core.common.IdGen;
+import com.jzsoft.service.utils.page.Pager;
+<#if type==1>
+import ${packageName}.dao.${ClassName}Dao;
+import ${packageName}.dao.mapper.${ClassName}Mapper;
+import ${packageName}.entity.${ClassName};
+<#elseif type==2>
+import com.jzsoft.service.module.${moduleName}.dao.${ClassName}Dao;
+import com.jzsoft.core.entity.base.${ClassName};
+import com.jzsoft.service.module.${moduleName}.dao.mapper.${ClassName}Mapper;
+</#if>
+
+/**
+ * ${functionName}daoImpl
+ *
+ * @author ${functionAuthor}
+ * @version ${functionVersion}
+ */
+@Repository
+public class ${ClassName}DaoImpl implements ${ClassName}Dao {
+	
+	/** ${functionName}mapper接口*/
+	@Resource
+	private ${ClassName}Mapper ${className}Mapper;
+	
+	/**
+	 * 查询分页${functionName}数据
+	 * 
+	 * @param pager 分页对象
+	 * @return
+	 */
+	@Override
+	public List<${ClassName}> find${ClassName}PagerList(Pager pager){
+		return ${className}Mapper.find${ClassName}PagerList(pager);
+	}
+
+	/**
+	 * 通过${table.javaPrimaryKey}获取单条${functionName}数据
+	 * 
+	 * @param ${table.javaPrimaryKey}
+	 * @return
+	 */
+	@Override 
+	public ${ClassName} find${ClassName}By${table.javaPrimaryKey?cap_first}(String ${table.javaPrimaryKey}){
+		return ${className}Mapper.find${ClassName}By${table.javaPrimaryKey?cap_first}(${table.javaPrimaryKey});
+	}
+
+	/**
+	 * 通过${table.javaPrimaryKey}删除${functionName}数据
+	 * 
+	 * @param ${table.javaPrimaryKey}
+	 */
+	@Override
+	public void delete${ClassName}By${table.javaPrimaryKey?cap_first}(String ${table.javaPrimaryKey}){
+		${className}Mapper.delete${ClassName}By${table.javaPrimaryKey?cap_first}(${table.javaPrimaryKey});
+	}
+	
+	/**
+	 * 通过${table.parentTableFk?cap_first}删除${functionName}数据
+	 * 
+	 * @param ${table.parentTableFk?cap_first}
+	 */
+	@Override
+	public void delete${ClassName}By${table.parentTableFk?cap_first}(String ${table.parentTableFk}){
+		${className}Mapper.delete${ClassName}By${table.parentTableFk?cap_first}(${table.parentTableFk});
+	}
+
+	/**
+	 * 修改${functionName}数据
+	 * 
+	 * @param ${className}
+	 */
+	@Override
+	public void update${ClassName}(${ClassName} ${className}){
+		${className}Mapper.update${ClassName}(${className});
+	}
+	/**
+	 * 保存${functionName}数据
+	 * 
+	 * @param ${className}
+	 */
+	@Override
+	public void save${ClassName}(${ClassName} ${className}){
+		${className}.set${table.javaPrimaryKey?cap_first}(IdGen.uuid());
+		${className}Mapper.save${ClassName}(${className});
+	}
+	/**
+	 * 获取所有${functionName}数据
+	 * 
+	 * @return
+	 */
+	@Override
+	public List<${ClassName}> find${ClassName}AllList(){
+		return ${className}Mapper.find${ClassName}AllList();
+	}
+	
+}]]>
+	</content>
+</template>

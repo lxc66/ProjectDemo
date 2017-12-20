@@ -1,0 +1,369 @@
+@charset "utf-8";
+/*
+Copyright (c) 2011, Unitever! Inc. All rights reserved.
+http://www.unitever.com
+version: 1.0
+*/
+
+/*16x16_icon style,default size 16x16*/
+
+.pc,
+.network,
+.disk,
+.cd_driver,
+.cd,
+.folder,
+.folder_doc,
+.folder_img,
+.folder_music,
+.folder_open,
+
+.recycle,
+.html,
+.reg,
+.ttf,
+.txt,
+.unknown,
+.bmp,
+.jpg,
+.gif,
+.png,
+
+.doc,
+.ppt,
+.excel,
+.pdf,
+.img,
+.swf,
+.rar,
+.zip,
+.exe,
+.mdb,
+
+.avi,
+.wmv,
+.rm,
+.mov,
+.wmp,
+.mp3,
+.mp4,
+.flv,
+.key,
+.email,
+
+.js,
+.jsp,
+.asp,
+.php,
+
+.add,
+.delete,
+.edit,
+.cut,
+.copy,
+.paste,
+.save,
+.print,
+.hook,
+.fork,
+
+.poll,
+.refresh,
+.reload,
+.statistics,
+.message,
+.reply,
+.view,
+.favorites,
+.light_on,
+.light_off,
+
+.back,
+.forward,
+.up,
+.chart,
+.cancel,
+.info,
+/*.loading,*/
+.check,
+.consulting,
+.config,
+
+.warn,
+
+.page_first,
+.page_prev,
+.page_next,
+.page_last,
+
+.heart,
+.new,
+	
+/*other*/	
+.layout_16,
+.layout2_16,
+.form_16,
+.input_16,
+.select_16,
+.multiSelect_16,
+.textarea_16,
+.tip_16,
+.twoMove_16,
+.menu_16,
+.tab_16,
+.progressBar_16,
+.checkbox_16,
+.radio_16,
+.group_16,
+.button_16,
+.cssTable_16,
+.headFixTable_16,
+.treeTable_16,
+.dataTable_16,
+.calendar_16,
+.media_16,
+.articleList_16,
+.step_16,
+.users_16,
+.slider_16,
+.color_16,
+.stepper_16,
+.scroll_16,
+.dialog_16,
+.tree_16,
+.star_16,
+.menu_16,
+.search_16,
+.ibutton_16,
+.accordion_16,
+.autocomplete_16,
+.editor_16,
+.pageBar_16,
+.box_16,
+.attachments_16,
+.notice1_16,
+.notice2_16,
+.notice3_16,
+.flag1_16,
+.flag2_16,
+.accessories_16
+	
+{width:16px;height:16px;display:inline-block;}
+
+.pc{background:url(../images/icons/16x16/pc.gif) no-repeat;}
+.network{background:url(../images/icons/16x16/network.gif) no-repeat;}
+.disk{background:url(../images/icons/16x16/disk.gif) no-repeat;}
+.cd_driver{background:url(../images/icons/16x16/cd_driver.gif) no-repeat;}
+.cd{background:url(../images/icons/16x16/cd.gif) no-repeat;}
+.folder{background:url(../images/icons/16x16/folder.gif) no-repeat;}
+.folder_doc{background:url(../images/icons/16x16/folder_doc.gif) no-repeat;}
+.folder_img{background:url(../images/icons/16x16/folder_img.gif) no-repeat;}
+.folder_music{background:url(../images/icons/16x16/folder_music.gif) no-repeat;}
+.folder_open{background:url(../images/icons/16x16/folder_open.gif) no-repeat;}
+
+.recycle{background:url(../images/icons/16x16/recycle.gif) no-repeat;}
+.html{background:url(../images/icons/16x16/html.gif) no-repeat;}
+.reg{background:url(../images/icons/16x16/reg.gif) no-repeat;}
+.ttf{background:url(../images/icons/16x16/ttf.gif) no-repeat;}
+.txt{background:url(../images/icons/16x16/txt.gif) no-repeat;}
+.unknown{background:url(../images/icons/16x16/unknown.gif) no-repeat;}
+.bmp{background:url(../images/icons/16x16/bmp.gif) no-repeat;}
+.jpg{background:url(../images/icons/16x16/jpg.gif) no-repeat;}
+.gif{background:url(../images/icons/16x16/gif.gif) no-repeat;}
+.png{background:url(../images/icons/16x16/png.gif) no-repeat;}
+
+.doc{background:url(../images/icons/16x16/doc.gif) no-repeat;}
+.ppt{background:url(../images/icons/16x16/ppt.gif) no-repeat;}
+.excel{background:url(../images/icons/16x16/excel.gif) no-repeat;}
+.pdf{background:url(../images/icons/16x16/pdf.gif) no-repeat;}
+.img{background:url(../images/icons/16x16/img.gif) no-repeat;}
+.swf{background:url(../images/icons/16x16/swf.gif) no-repeat;}
+.rar{background:url(../images/icons/16x16/rar.gif) no-repeat;}
+.zip{background:url(../images/icons/16x16/zip.gif) no-repeat;}
+.exe{background:url(../images/icons/16x16/exe.gif) no-repeat;}
+.mdb{background:url(../images/icons/16x16/mdb.gif) no-repeat;}
+
+.avi{background:url(../images/icons/16x16/avi.gif) no-repeat;}
+.wmv{background:url(../images/icons/16x16/wmv.gif) no-repeat;}
+.rm{background:url(../images/icons/16x16/rm.gif) no-repeat;}
+.mov{background:url(../images/icons/16x16/mov.gif) no-repeat;}
+.wmp{background:url(../images/icons/16x16/wmp.gif) no-repeat;}
+.mp3{background:url(../images/icons/16x16/mp3.gif) no-repeat;}
+.mp4{background:url(../images/icons/16x16/mp4.gif) no-repeat;}
+.flv{background:url(../images/icons/16x16/flv.gif) no-repeat;}
+.key{background:url(../images/icons/16x16/key.gif) no-repeat;}
+.email{background:url(../images/icons/16x16/email.gif) no-repeat;}
+
+.js{background:url(../images/icons/16x16/js.gif) no-repeat;}
+.jsp{background:url(../images/icons/16x16/jsp.gif) no-repeat;}
+.asp{background:url(../images/icons/16x16/asp.gif) no-repeat;}
+.php{background:url(../images/icons/16x16/php.gif) no-repeat;}
+
+.add{background:url(../images/icons/16x16/add.gif) no-repeat;}
+.delete{background:url(../images/icons/16x16/delete.gif) no-repeat;}
+.edit{background:url(../images/icons/16x16/edit.gif) no-repeat;}
+.cut{background:url(../images/icons/16x16/cut.gif) no-repeat;}
+.copy{background:url(../images/icons/16x16/copy.gif) no-repeat;}
+.paste{background:url(../images/icons/16x16/paste.gif) no-repeat;}
+.save{background:url(../images/icons/16x16/save.gif) no-repeat;}
+.print{background:url(../images/icons/16x16/print.gif) no-repeat;}
+.hook{background:url(../images/icons/16x16/hook.png) no-repeat;}
+.fork{background:url(../images/icons/16x16/fork.gif) no-repeat;}
+
+.poll{background:url(../images/icons/16x16/poll.gif) no-repeat;}
+.refresh{background:url(../images/icons/16x16/refresh.gif) no-repeat;}
+.reload{background:url(../images/icons/16x16/reload.gif) no-repeat;}
+.statistics{background:url(../images/icons/16x16/statistics.png) no-repeat;}
+.message{background:url(../images/icons/16x16/message.gif) no-repeat;}
+.reply{background:url(../images/icons/16x16/reply.gif) no-repeat;}
+.view{background:url(../images/icons/16x16/view.gif) no-repeat;}
+.favorites{background:url(../images/icons/16x16/favorites.gif) no-repeat;}
+.light_off{background:url(../images/icons/16x16/light_2.gif) no-repeat;}
+.light_on,.light_off:hover{background:url(../images/icons/16x16/light_1.gif) no-repeat;}
+
+.back{background:url(../images/icons/16x16/back.png) no-repeat;}
+.forward{background:url(../images/icons/16x16/forward.png) no-repeat;}
+.up{background:url(../images/icons/16x16/up.png) no-repeat;}
+.chart{background:url(../images/icons/16x16/chart.png) no-repeat;}
+.cancel{background:url(../images/icons/16x16/cancel.png) no-repeat;}
+.info{background:url(../images/icons/16x16/info.png) no-repeat;}
+/*.loading{background:url(../images/icons/16x16/loading.gif) no-repeat;}*/
+.check{background:url(../images/icons/16x16/check.png) no-repeat;}
+.consulting{background:url(../images/icons/16x16/consulting.png) no-repeat;}
+.config{background:url(../images/icons/16x16/config.png) no-repeat;}
+
+.warn{background:url(../images/icons/16x16/warning.gif) no-repeat;}
+
+.page_first{background:url(../images/icons/16x16/first.gif) no-repeat;}
+.page_prev{background:url(../images/icons/16x16/prev.gif) no-repeat;}
+.page_next{background:url(../images/icons/16x16/next.gif) no-repeat;}
+.page_last{background:url(../images/icons/16x16/last.gif) no-repeat;}
+
+.heart{background:url(../images/icons/16x16/heart.png) no-repeat;}
+.new{background:url(../images/icons/16x16/new.gif) no-repeat;}
+
+
+
+/*other*/
+.layout_16{background:url(../images/icons/16x16/layout.gif) no-repeat;}
+.layout2_16{background:url(../images/icons/16x16/layout2.png) no-repeat;}
+.form_16{background:url(../images/icons/16x16/form.gif) no-repeat;}
+.input_16{background:url(../images/icons/16x16/input.gif) no-repeat;}
+.select_16{background:url(../images/icons/16x16/select.gif) no-repeat;}
+.multiSelect_16{background:url(../images/icons/16x16/multiSelect.gif) no-repeat;}
+.textarea_16{background:url(../images/icons/16x16/textarea.gif) no-repeat;}
+.tip_16{background:url(../images/icons/16x16/tip.gif) no-repeat;}
+.twoMove_16{background:url(../images/icons/16x16/twoMove.gif) no-repeat;}
+.menu_16{background:url(../images/icons/16x16/menu.gif) no-repeat;}
+.tab_16{background:url(../images/icons/16x16/tab.gif) no-repeat;}
+.progressBar_16{background:url(../images/icons/16x16/progressBar.gif) no-repeat;}
+.checkbox_16{background:url(../images/icons/16x16/checkbox.gif) no-repeat;}
+.radio_16{background:url(../images/icons/16x16/radio.gif) no-repeat;}
+.group_16{background:url(../images/icons/16x16/group.gif) no-repeat;}
+.button_16{background:url(../images/icons/16x16/button.png) no-repeat;}
+.cssTable_16{background:url(../images/icons/16x16/cssTable.png) no-repeat;}
+.headFixTable_16{background:url(../images/icons/16x16/headFixTable.png) no-repeat;}
+.treeTable_16{background:url(../images/icons/16x16/treeTable.png) no-repeat;}
+.dataTable_16{background:url(../images/icons/16x16/dataTable.png) no-repeat;}
+.calendar_16{background:url(../images/icons/16x16/clock.png) no-repeat;}
+.media_16{background:url(../images/icons/16x16/media.png) no-repeat;}
+.articleList_16{background:url(../images/icons/16x16/articleList.png) no-repeat;}
+.step_16{background:url(../images/icons/16x16/step.png) no-repeat;}
+.users_16{background:url(../images/icons/16x16/users.png) no-repeat;}
+.slidar_16{background:url(../images/icons/16x16/slider.png) no-repeat;}
+.color_16{background:url(../images/icons/16x16/color.png) no-repeat;}
+.stepper_16{background:url(../images/icons/16x16/stepper.png) no-repeat;}
+.scroll_16{background:url(../images/icons/16x16/scroll.png) no-repeat;}
+.dialog_16{background:url(../images/icons/16x16/dialog.png) no-repeat;}
+.tree_16{background:url(../images/icons/16x16/tree.png) no-repeat;}
+.star_16{background:url(../images/icons/16x16/star.png) no-repeat;}
+.menu_16{background:url(../images/icons/16x16/menu.png) no-repeat;}
+.ibutton_16{background:url(../images/icons/16x16/ibutton.png) no-repeat;}
+.accordion_16{background:url(../images/icons/16x16/accordion.png) no-repeat;}
+.autocomplete_16{background:url(../images/icons/16x16/autocomplete.png) no-repeat;}
+.editor_16{background:url(../images/icons/16x16/editor.png) no-repeat;}
+.pageBar_16{background:url(../images/icons/16x16/pageBar.png) no-repeat;}
+.box_16{background:url(../images/icons/16x16/box.png) no-repeat;}
+.attachments_16{background:url(../images/icons/16x16/attachments.png) no-repeat;}
+.notice1_16{background:url(../images/icons/16x16/notice_1.gif) no-repeat;}
+.notice2_16{background:url(../images/icons/16x16/notice_2.gif) no-repeat;}
+.notice3_16{background:url(../images/icons/16x16/notice_t.gif) no-repeat;}
+.flag1_16{background:url(../images/icons/16x16/flag_1.gif) no-repeat;}
+.flag2_16{background:url(../images/icons/16x16/flag_2.gif) no-repeat;}
+.accessories_16{background:url(../images/icons/16x16/accessories.gif) no-repeat;}
+
+
+
+
+
+/*24x24_icon style*/
+
+.add_24,.delete_24,.eidt_24,.img_24{
+	width:24px;
+	height:24px;
+	display:inline-block;
+}
+
+/*32x32_icon style*/
+
+.add_32,.delete_32,.eidt_32,.img_32{
+	width:32px;
+	height:32px;
+	display:inline-block;
+}
+
+/*48x48_icon style*/
+
+.add_48,.delete_48,.eidt_48,.img_48{
+	width:48px;
+	height:48px;
+	display:inline-block;
+}
+
+/*64x64_icon style*/
+
+.add_64,.delete_64,.eidt_64,.img_64{
+	width:64px;
+	height:64px;
+	display:inline-block;
+}
+
+
+/*20x20_icon face library*/
+
+.face01,.face02,.face03,.face04,.face05,.face06,.face07,.face08,.face09,.face10,
+.face11,.face12,.face13,.face14,.face15,.face16,.face17,.face18,.face19,.face20,
+.face21,.face22,.face23,.face24,.face25,.face26,.face27,.face28,.face29,.face30
+{width:20px;height:20px;display:inline-block;}
+.face01{background:url(../images/icons/face/1.gif) no-repeat;}
+.face02{background:url(../images/icons/face/2.gif) no-repeat;}
+.face03{background:url(../images/icons/face/3.gif) no-repeat;}
+.face04{background:url(../images/icons/face/4.gif) no-repeat;}
+.face05{background:url(../images/icons/face/5.gif) no-repeat;}
+.face06{background:url(../images/icons/face/6.gif) no-repeat;}
+.face07{background:url(../images/icons/face/7.gif) no-repeat;}
+.face08{background:url(../images/icons/face/8.gif) no-repeat;}
+.face09{background:url(../images/icons/face/9.gif) no-repeat;}
+.face10{background:url(../images/icons/face/10.gif) no-repeat;}
+
+.face11{background:url(../images/icons/face/11.gif) no-repeat;}
+.face12{background:url(../images/icons/face/12.gif) no-repeat;}
+.face13{background:url(../images/icons/face/13.gif) no-repeat;}
+.face14{background:url(../images/icons/face/14.gif) no-repeat;}
+.face15{background:url(../images/icons/face/15.gif) no-repeat;}
+.face16{background:url(../images/icons/face/16.gif) no-repeat;}
+.face17{background:url(../images/icons/face/17.gif) no-repeat;}
+.face18{background:url(../images/icons/face/18.gif) no-repeat;}
+.face19{background:url(../images/icons/face/19.gif) no-repeat;}
+.face20{background:url(../images/icons/face/20.gif) no-repeat;}
+
+.face21{background:url(../images/icons/face/21.gif) no-repeat;}
+.face22{background:url(../images/icons/face/22.gif) no-repeat;}
+.face23{background:url(../images/icons/face/23.gif) no-repeat;}
+.face24{background:url(../images/icons/face/24.gif) no-repeat;}
+.face25{background:url(../images/icons/face/25.gif) no-repeat;}
+.face26{background:url(../images/icons/face/26.gif) no-repeat;}
+.face27{background:url(../images/icons/face/27.gif) no-repeat;}
+.face28{background:url(../images/icons/face/28.gif) no-repeat;}
+.face29{background:url(../images/icons/face/29.gif) no-repeat;}
+.face30{background:url(../images/icons/face/30.gif) no-repeat;}

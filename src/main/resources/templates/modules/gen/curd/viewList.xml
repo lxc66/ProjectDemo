@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<template>
+	<name>viewList</name>
+	<filePath>src/main/webapp/WEB-INF/views/${viewPath}</filePath>
+	<filePath2>src/main/webapp/WEB-INF/views/${viewPath}</filePath2>
+	<fileName>${className}-list.html</fileName>
+	<content><![CDATA[
+<!DOCTYPE html>
+<${'#'}include "/platform/common/meta.html">
+	<button class="btn btn-outline btn-success btn-sm" id="addBtn">添加</button>
+	<table class="table table-striped">
+	    <thead>
+	        <tr>
+	            <th>序号</th>
+			<#list table.columnList as c>
+				<#if c.isList?? && c.isList == 1>
+                <th>${c.comments}</th>
+				</#if>
+			</#list>
+                <th>操作</th>
+	        </tr>
+	    </thead>
+	    <tbody>
+	    	<${'#'}if list??>
+	    		<${'#'}list list as entity>
+			        <tr>
+			            <td>${"$"}{entity_index+1}</td>
+					<#list table.columnList as c>
+						<#if c.isList?? && c.isList == 1>
+		                <td><#if c.constantValueField>${"$"}{entity.${c.javaFieldId}View}<#else>${"$"}{entity.${c.javaFieldId}}</#if></td>
+						</#if>
+					</#list>
+			            <td class="text-navy"> 
+			            	<a class="btn btn-outline btn-warning btn-sm model-edit" modelId="${"$"}{entity.id}"><i class="fa fa-pencil"/>&nbsp;编辑</a>
+			            	<a class="btn btn-outline btn-danger btn-sm model-del" modelId="${"$"}{entity.id}"><i class="fa fa-minus-circle"/>&nbsp;删除</a>
+			            </td>
+			        </tr>
+		        </${'#'}list>
+	        </${'#'}if>
+	    </tbody>
+	</table>
+	<#if paging>
+	<${'@'}c.pager pager/>
+	</#if>
+<script type="text/javascript">
+require(["jquery","${viewPath}/js/${className}-list.js"],function($,page){
+	page.init();
+});
+</script>
+]]>
+	</content>
+</template>

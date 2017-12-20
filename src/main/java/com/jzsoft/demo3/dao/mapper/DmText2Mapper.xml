@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jzsoft.demo3.dao.mapper.DmText2Mapper">
+	
+	<resultMap id="BaseResultMap" type="com.jzsoft.demo3.entity.DmText2">
+		<result column="id" property="id"/>
+		<result column="name" property="name"/>
+		<result column="type" property="type"/>
+		<result column="email" property="email"/>
+		<result column="comments" property="comments"/>
+		<result column="num" property="num"/>
+	</resultMap>
+    
+	<sql id="Base_Column_List">
+		id,
+		name,
+		type,
+		email,
+		comments,
+		num
+	</sql>
+	
+	<sql id="whereStatementByPage">
+		<where>
+			1 = 1
+			<if test="condition !=null">
+			<if test="condition.name != null and condition.name != ''">
+				AND name LIKE 
+					<if test="dbName == 'oracle'">'%'||#{condition.name}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{condition.name}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{condition.name},'%')</if>
+			</if>
+			</if>
+		</where>
+	</sql>
+	
+	<sql id="whereStatement">
+		<where>
+			1 = 1
+			<if test="name != null and name != ''">
+				AND name LIKE 
+					<if test="dbName == 'oracle'">'%'||#{name}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{name}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{name},'%')</if>
+			</if>
+		</where>
+	</sql>
+	
+	<select id="getPage" resultMap="BaseResultMap" parameterType="com.jzsoft.platform.core.dao.Page">
+		select * from dm_text2 
+		<include refid="whereStatementByPage" /> 
+		order by id desc
+	</select>
+	
+	<select id="getList" resultMap="BaseResultMap" parameterType="com.jzsoft.demo2.entity.DmText">
+		SELECT 
+		<include refid="Base_Column_List" /> 
+		from dm_text2 
+		<include refid="whereStatement" /> 
+		order by id desc
+	</select>
+	
+	<select id="getAll" resultMap="BaseResultMap" parameterType="com.jzsoft.demo3.entity.DmText2">
+		SELECT 
+		<include refid="Base_Column_List" /> 
+		from dm_text2 
+		order by id desc
+	</select>
+	
+	<select id="get" resultMap="BaseResultMap" parameterType="java.lang.String">
+		select 
+		<include refid="Base_Column_List" /> 
+		from dm_text2 c where id = #{id}
+	</select>
+	
+	<delete id="delete" parameterType="java.lang.String">
+		delete from dm_text2 where id = #{id}
+	</delete>
+	
+	<insert id="save" parameterType="com.jzsoft.demo3.entity.DmText2">
+		insert into dm_text2 
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+
+			<if test="id != null and id != ''">
+			id,
+			</if>
+			<if test="name != null and name != ''">
+			name,
+			</if>
+			<if test="type != null and type != ''">
+			type,
+			</if>
+			<if test="email != null and email != ''">
+			email,
+			</if>
+			<if test="comments != null and comments != ''">
+			comments,
+			</if>
+			<if test="num != null ">
+			num,
+			</if>
+		</trim>
+
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null and id != ''">
+				#{id},
+			</if>
+			<if test="name != null and name != ''">
+				#{name},
+			</if>
+			<if test="type != null and type != ''">
+				#{type},
+			</if>
+			<if test="email != null and email != ''">
+				#{email},
+			</if>
+			<if test="comments != null and comments != ''">
+				#{comments},
+			</if>
+			<if test="num != null ">
+				#{num},
+			</if>
+		</trim>
+	</insert>
+	
+	<update id="update" parameterType="com.jzsoft.demo3.entity.DmText2">
+		update dm_text2 
+		<set>
+			<if test="name != null and name != ''">
+				name = #{name},
+			</if>
+			<if test="type != null and type != ''">
+				type = #{type},
+			</if>
+			<if test="email != null and email != ''">
+				email = #{email},
+			</if>
+			<if test="comments != null and comments != ''">
+				comments = #{comments},
+			</if>
+			<if test="num != null ">
+				num = #{num},
+			</if>
+		</set>
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

@@ -1,0 +1,7 @@
+#-----------------------global-----------------------
+
+{
+  	"show.module1":true,
+  	"show.module2":true,
+  	"show.module3":false
+}

@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<template>
+	<name>serviceImpl</name>
+	<filePath>src/main/java/${packageName}/service</filePath>
+	<filePath2>src/main/java/com/jzsoft/module/${moduleName}/service</filePath2>
+	<fileName>${ClassName}Service.java</fileName>
+	<content><![CDATA[
+package ${packageName}.service;
+import java.util.List;
+import javax.annotation.Resource;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import com.jzsoft.platform.core.dao.Page;
+import ${packageName}.dao.${ClassName}DAO;
+import ${packageName}.entity.${ClassName};
+import ${packageName}.service.${ClassName}Service;
+
+/**
+ * ${functionName}Service
+ *
+ * @author ${functionAuthor}
+ * @version ${functionVersion}
+ */
+@Service
+@Transactional
+public class ${ClassName}Service {
+
+	/** ${functionName}DAO接口*/
+	@Resource
+	private ${ClassName}DAO ${className}DAO;
+	
+	/**
+	 * 查询分页${functionName}数据
+	 * 
+	 * @param pager 分页对象
+	 * @return
+	 */
+	public Page<${ClassName}> getPage(Page<${ClassName}> page){
+		return ${className}DAO.getPage(page);
+	}
+
+	/**
+	 * 通过${table.javaPrimaryKey}获取单条${functionName}数据
+	 * 
+	 * @param ${table.javaPrimaryKey}
+	 * @return
+	 */
+	public ${ClassName} get(String ${table.javaPrimaryKey}){
+		return ${className}DAO.get(${table.javaPrimaryKey});
+	}
+
+	/**
+	 * 通过${table.javaPrimaryKey}删除${functionName}数据
+	 * 
+	 * @param ${table.javaPrimaryKey}
+	 */
+	public void delete(String ${table.javaPrimaryKey}){
+		${className}DAO.delete(${table.javaPrimaryKey});
+	}
+
+	/**
+	 * 修改${functionName}数据
+	 * 
+	 * @param ${className}
+	 */
+	public void update(${ClassName} ${className}){
+		${className}DAO.update(${className});
+	}
+	/**
+	 * 保存${functionName}数据
+	 * 
+	 * @param ${className}
+	 */
+	public void save(${ClassName} ${className}){
+		${className}DAO.save(${className});
+	}
+	/**
+	 * 获取所有${functionName}数据
+	 * 
+	 * @return
+	 */
+	public List<${ClassName}> getAll(){
+		return ${className}DAO.getAll();
+	}
+	
+	/**
+	 * 获取${functionName}数据列表
+	 * 
+	 * @return
+	 */
+	public List<${ClassName}> getList(${ClassName} entity){
+		return ${className}DAO.getList(entity);
+	}
+}]]>
+	</content>
+</template>

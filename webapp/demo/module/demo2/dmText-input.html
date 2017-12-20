@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<#include "/platform/common/meta.html">
+<div class="container-fluid layer-content-custom">
+   <form class="form-horizontal m-t" role="form" id="theForm" enctype="multipart/form-data">
+	   <c:if test="${entity.id??}">
+			<input type="hidden" name="id" value="${entity.id}"/>
+	   </c:if>
+       <div class="form-group">
+           <label class="col-sm-3 control-label">名称:</label>
+           <div class="col-sm-7">
+				<input type="text" class="form-control" name="name" value="${entity.name}">
+           </div>
+       </div>
+       <div class="form-group">
+           <label class="col-sm-3 control-label">E-mail:</label>
+           <div class="col-sm-7">
+				<input type="text" class="form-control" name="email" value="${entity.email}">
+           </div>
+       </div>
+       <div class="form-group">
+           <label class="col-sm-3 control-label">描述:</label>
+           <div class="col-sm-7">
+				<textarea class="form-control" name="comments" rows="3">${entity.comments}</textarea>
+           </div>
+       </div>
+       <div class="form-group">
+           <label class="col-sm-3 control-label">备注信息:</label>
+           <div class="col-sm-7">
+				<textarea class="form-control" name="remarks" rows="3">${entity.remarks}</textarea>
+           </div>
+       </div>
+       <div class="form-group">
+           <label class="col-sm-3 control-label">序号:</label>
+           <div class="col-sm-7">
+				<input type="text" class="form-control" name="num" value="${entity.num}">
+           </div>
+       </div>
+		<div class="form-group">
+           <label class="col-sm-3 control-label">文件:</label>
+           <div class="col-sm-7">
+				<input type="file" name="upFiles" multiple="multiple" accept="image/png,image/gif,image/jpeg"/>
+           </div>
+       </div>
+	</form>
+</div>
+<div class="layer-footer-custom">
+	<div class="col-sm-12">
+		<button class="btn btn-primary m-r-xs" id="submitBtn">提交</button>
+		<button class="btn btn-white m-l-xs" id="cancelBtn">取消</button>
+	</div>
+</div>
+<script type="text/javascript">
+require(["jquery","/demo/module/demo2/js/dmText-input.js"],function($,page){
+	page.init();
+});
+</script>

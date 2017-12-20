@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<template>
+	<name>daoImpl</name>
+	<filePath>src/main/java/${packageName}/dao</filePath>
+	<filePath2>src/main/java/com/jzsoft/module/${moduleName}/dao</filePath2>
+	<fileName>${ClassName}DAO.java</fileName>
+	<content><![CDATA[
+package ${packageName}.dao;
+import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
+import org.springframework.stereotype.Repository;
+import com.jzsoft.platform.core.dao.BaseDAO;
+import ${packageName}.dao.mapper.${ClassName}Mapper;
+import ${packageName}.entity.${ClassName};
+
+/**
+ * ${functionName}DAO
+ *
+ * @author ${functionAuthor}
+ * @version ${functionVersion}
+ */
+@Repository
+public class ${ClassName}DAO extends BaseDAO<${ClassName}, String> {
+	
+	/** ${functionName}mapper接口*/
+	@Resource
+	private ${ClassName}Mapper ${className}Mapper;
+	
+	@PostConstruct
+	public void init() {
+		super.setNameSpace(${ClassName}Mapper.class.getName());
+	}
+	
+}]]>
+	</content>
+</template>

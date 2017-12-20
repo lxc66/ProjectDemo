@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<#include "/platform/common/meta.html">
+
+<td class="text-navy"> 
+			            	<a class="btn btn-outline btn-warning btn-sm model-edit""><i class="fa fa-pencil"/>&nbsp;编辑</a>
+			            	
+	 </td>
+	<button class="btn btn-outline btn-success btn-sm" id="loadImageBtn"><i class="fa fa-file-image-o"/>&nbsp;批量上传图片</button>
+	<button class="btn btn-outline btn-success btn-sm" id="loadExcelBtn1"><i class="fa fa-file-excel-o"/>&nbsp;批量上传Excel(单答案上传)</button>
+	<button class="btn btn-outline btn-success btn-sm" id="loadExcelBtn"><i class="fa fa-file-excel-o"/>&nbsp;批量上传Excel(多答案上传)</button>
+	
+	
+	
+	<table style="min-width:1600px" class="table table-striped">
+	    <thead>
+	        <tr>
+	            <th>序号</th>
+	            <th>问题标题</th>
+                <th>问题类型</th>
+                <th>提问人</th>
+                <th>提问时间</th>
+                <th>是否结贴</th>
+                <th>结贴时间</th>
+<!--                 <th>是否经典</th> -->
+<!--                 <th>回答总数</th> -->
+<!--                 <th>参与人数</th> -->
+<!--                 <th>关注总数</th> -->
+<!--                 <th>点赞总数</th> -->
+                <th>是否可见</th>
+                <th>显示类型</th>
+	        </tr>
+	    </thead>
+	    <tbody>
+	    	<#if list??>
+	    		<#list list as entity>
+			        <tr>
+			            <td><input type="radio" value="${entity.problemid}" name="chk_uid">${entity_index+1}</td>
+			            
+			            <#if (entity.questionTitle)?length lt 4>
+						<td>${entity.questionTitle}</td>&nbsp;
+						<#else>
+						<td>${(entity.questionTitle[0..4])?default("")}...</td>
+						</#if> 
+			            
+<!-- 			            <td>${entity.questionTitle}</td> -->
+			            
+		                <td>${entity.typeView}</td>
+		                <td>${entity.tese}</td>
+		                <td>${entity.releaseTime}</td>
+		                <td>${entity.ifOverView}</td>
+		                <td>${entity.OTime}</td>
+<!-- 		                <td>${entity.ifClassicView}</td> -->
+<!-- 		                <td>${entity.answerNumber}</td> -->
+<!-- 		                <td>${entity.number}</td> -->
+<!-- 		                <td>${entity.focusNumber}</td> -->
+<!-- 		                <td>${entity.clickUpNumber}</td> -->
+		                <td>${entity.ifVisibleView}</td>
+		                <td>${entity.leixingView}</td>
+			            
+			        </tr>
+		        </#list>
+	        </#if>
+	    </tbody>
+	</table>
+	<@c.pager pager/>
+<script type="text/javascript">
+require(["jquery","/demo/module/houtai/js/wenda-list.js"],function($,page){
+	page.init();
+});
+</script>

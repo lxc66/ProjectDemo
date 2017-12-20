@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jzsoft.platform.module.userauth.dao.UserRoleDAO">
+    <!-- sp namespace:映射StudentMapper的接口 -->
+    
+    <resultMap type="UserRole" id="resultModelMap">  
+        <id column="id" property="id" />  
+        <result column="id_user" property="userId"/>  
+        <result column="id_role" property="roleId"/>  
+        <result column="id_department" property="departmentId"/>  
+        <result column="ft" property="ft"/>  
+        <result column="lt" property="lt"/>  
+        <result column="fu" property="fu"/>  
+        <result column="lu" property="lu"/>  
+    </resultMap>  
+    
+    <!-- 添加一条数据 -->
+    <insert id="save" keyProperty="id" useGeneratedKeys="false" parameterType="UserRole">
+        insert into sys_userrole(id,id_user,id_role,id_department,ft,fu) 
+        values(#{id},#{userId},#{roleId},#{departmentId},#{ft},#{fu})
+    </insert>
+    <!-- 批量添加数据 -->
+    <insert id="saveBatch" keyProperty="id" useGeneratedKeys="false" parameterType="list">
+        insert into sys_userrole(id,id_user,id_role,id_department,ft,fu) values
+        <foreach collection="list" item="m" index="index" separator="," >  
+        	(#{m.id},#{m.userId},#{m.roleId},#{m.departmentId},#{m.ft},#{m.fu})
+    	</foreach>
+    </insert>
+    <update id="update" parameterType="Role">
+        update sys_userrole 
+        <set>
+         <if test="userId != null and userId != '' ">  
+            id_user=#{userId},  
+         </if>  
+         <if test="roleId != null and roleId != '' ">  
+            id_role=#{roleId},  
+         </if>  
+         <if test="departmentId != null and departmentId != '' ">  
+            id_department=#{departmentId},  
+         </if>  
+         <if test="'lt' != null and 'lt' != ''">  
+            lt=#{lt}, 
+         </if>  
+         <if test="lu != null and lu != '' ">  
+            lu=#{lu} 
+         </if>  
+        </set>
+         WHERE id=#{id}  
+    </update> 
+    
+    <!-- 删除一条数据 -->
+    <delete id="delete">
+        delete from sys_userrole where id=#{id}
+    </delete>
+    
+    <delete id="deleteWithUserId">
+        delete from sys_userrole where id_user=#{userId}
+    </delete>
+    
+    <delete id="deleteWithRoleId">
+        delete from sys_userrole where id_role=#{roleId}
+    </delete>
+    
+    <sql id="selectSql">
+		select * from sys_userrole
+	</sql>
+    
+    <select id="getListWithUserId" resultMap="resultModelMap">  
+        <include refid="selectSql" /> where id_user=#{userId}
+    </select> 
+    
+    <select id="getListWithRoleId" resultMap="resultModelMap">  
+        <include refid="selectSql" /> where id_role=#{roleId}
+    </select> 
+    
+    <select id="getRolesWithUserId" resultMap="com.jzsoft.platform.module.userauth.dao.RoleDAO.resultModelMap" >  
+        select r.* from sys_role r join sys_userrole ur on r.id=ur.id_role where id_user=#{userId} order by r.num,r.code
+    </select> 
+    
+    <select id="getUsersWithRoleId" resultMap="com.jzsoft.platform.module.user.dao.SysUserDAO.resultModelMap">  
+        select u.* from sys_user u join sys_userrole ur on u.id=ur.id_user where id_role=#{roleId} order by u.num
+    </select> 
+</mapper>

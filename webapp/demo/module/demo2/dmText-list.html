@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<#include "/platform/common/meta.html">
+	<button class="btn btn-outline btn-success btn-sm" id="addBtn">添加</button>
+	<table class="table table-striped">
+	    <thead>
+	        <tr>
+	            <th>序号</th>
+                <th>名称</th>
+                <th>E-mail</th>
+                <th>备注信息</th>
+                <th>操作</th>
+	        </tr>
+	    </thead>
+	    <tbody>
+	    	<#if list??>
+	    		<#list list as entity>
+			        <tr>
+			            <td>${entity_index+1}</td>
+		                <td>${entity.name}</td>
+		                <td>${entity.email}</td>
+		                <td>${entity.remarks}</td>
+			            <td class="text-navy"> 
+			            	<a class="btn btn-outline btn-warning btn-sm model-edit" modelId="${entity.id}"><i class="fa fa-pencil"/>&nbsp;编辑</a>
+			            	<a class="btn btn-outline btn-danger btn-sm model-del" modelId="${entity.id}"><i class="fa fa-minus-circle"/>&nbsp;删除</a>
+			            </td>
+			        </tr>
+		        </#list>
+	        </#if>
+	    </tbody>
+	</table>
+<script type="text/javascript">
+require(["jquery","/demo/module/demo2/js/dmText-list.js"],function($,page){
+	page.init();
+});
+</script>

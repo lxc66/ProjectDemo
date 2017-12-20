@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jzsoft.platform.module.job.dao.QrtzTriggersDAO">
+    <!-- sp namespace:映射StudentMapper的接口 -->
+    
+    <resultMap type="QrtzTriggers" id="resultModelMap">  
+        <result column="JOB_GROUP" property="jobGroup"/>  
+        <result column="JOB_NAME" property="jobName"/>  
+        <result column="TRIGGER_NAME" property="triggerName"/>  
+        <result column="NEXT_FIRE_TIME" property="nextFireTime"/>  
+        <result column="PREV_FIRE_TIME" property="prevFireTime"/>  
+        <result column="START_TIME" property="startTime"/>  
+        <result column="END_TIME" property="endTime"/>  
+        <result column="TRIGGER_STATE" property="status"/>  
+    </resultMap>  
+    
+    <sql id="selectSql">
+		select * from qrtz_triggers
+	</sql>
+    
+    <!-- 获取一条数据 -->
+    <select id="get"  resultMap="resultModelMap">
+        <include refid="selectSql" /> where id=#{id}
+    </select>
+    
+    <select id="getAll" resultMap="resultModelMap">  
+        <include refid="selectSql" /> 
+    </select> 
+</mapper>

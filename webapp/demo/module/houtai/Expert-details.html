@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<#include "/platform/common/meta.html">
+<link rel="stylesheet" href="/demo/module/app/AppCss/demo.css">
+<link rel="stylesheet" href="/demo/module/app/AppCss/font-awesome.css">
+<div class="container-fluid layer-content-custom" id= "hello">
+
+<!-- 用户名：${entity.userName}&nbsp;&nbsp;&nbsp;&nbsp; -->
+<p class="username">
+	<img class="tx" src="${entity.userProfile}" alt="">名称:${entity.userName} &nbsp;&nbsp;&nbsp;&nbsp;  
+ID:${entity.userId}&nbsp;&nbsp;&nbsp;&nbsp;注册时间:${entity.time} &nbsp;&nbsp;&nbsp;&nbsp; 真实姓名:${entity.userRealName}&nbsp;&nbsp;&nbsp;&nbsp; 地址:${entity.userLocation}&nbsp;&nbsp;&nbsp;&nbsp;
+
+		<#if list6??>
+			<#list list6 as imag>
+			        真实照片:<img class="tx" src="${imag}" alt="">
+			</#list>
+		</#if>
+
+</p>
+<!-- 用户类型：${entity.userType}&nbsp;&nbsp;&nbsp;&nbsp; -->
+<!-- ${entity.attachment} -->
+
+<!-- Autograph -->
+<br>
+<br>
+<#if list1??>
+		            <#if (list1?size>0)>
+						<p style="font-weight: 900;font-size: 17px;">注册会计师</p>
+						<br>
+						  <#list list1 as imag>
+						  
+						
+						 <img src="${imag}" height="300" width="300"/>&nbsp;&nbsp;&nbsp;&nbsp;
+						 
+						  </#list>
+						  <br>
+							 <a class="btn btn-outline btn-danger btn-sm btn-sm Expert-tongg" modelId="${entity.userId}" modelId1="zhukuai" id="zhukuai" style="margin-top:14px;" ><i class="fa fa-pencil"/>&nbsp;通过</a>
+							 <a class="btn btn-outline btn-warning btn-sm Expert-tonggs"  style="display: none;" id="zhukuaiSuccess" style="margin-top:14px;"><i class="fa fa-pencil"/>&nbsp;审核成功</a>
+		             </#if>
+</#if>
+<br>
+<br>
+<br>
+<#if list2??>
+                	<#if (list2?size>0)>
+						<p style="font-weight: 900;font-size: 17px;">评估师</p>
+						<br>
+						<#list list2 as imag>
+						<img src="${imag}" height="300" width="300"/>&nbsp;&nbsp;&nbsp;&nbsp;
+						</#list>
+					
+					<br>
+							<a class="btn btn-outline btn-danger btn-sm Expert-tongg"  modelId="${entity.userId}" modelId1="pinggu" id="pinggu" style="margin-top: 14px;"><i class="fa fa-pencil"/>&nbsp;通过</a>
+							
+							<a class="btn btn-outline btn-warning btn-sm Expert-tonggs"  style="display: none;" id="pingguSuccess" style="margin-top:14px;"><i class="fa fa-pencil"/>&nbsp;审核成功</a>
+					</#if>
+
+</#if>
+<br>
+<br>
+<br>
+<#if list3??>
+					<#if (list3?size>0)>
+					<p style="font-weight: 900;font-size: 17px;">税务师</p>
+					<br>
+					<#list list3 as imag>
+					<img src="${imag}" height="300" width="300"/>&nbsp;&nbsp;&nbsp;&nbsp;	
+					</#list>
+					<br>
+							<a class="btn btn-outline btn-danger btn-sm Expert-tongg" modelId="${entity.userId}" modelId1="shuiwu" id="shuiwu" style="margin-top:14px;"><i class="fa fa-pencil"/>&nbsp;通过</a>
+							
+							<a class="btn btn-outline btn-warning btn-sm Expert-tonggs"  style="display: none;" id="shuiwuSuccess" style="margin-top:14px;"><i class="fa fa-pencil"/>&nbsp;审核成功</a>
+	                </#if>
+</#if>
+<br>
+<br>
+<br>
+<#if list4??>
+                    <#if (list4?size>0)>
+					<p style="font-weight: 900;font-size: 17px;">财务师</p>	
+					<br>
+					<#list list4 as imag>
+					<img src="${imag}" height="300" width="300"/>&nbsp;&nbsp;&nbsp;&nbsp;
+					</#list>
+					<br>
+							<a class="btn btn-outline btn-danger btn-sm Expert-tongg" modelId="${entity.userId}" modelId1="caiwu" id="caiwu" style="margin-top:14px;"><i class="fa fa-pencil"/>&nbsp;通过</a>
+							
+							<a class="btn btn-outline btn-warning btn-sm Expert-tonggs"  style="display: none;" id="caiwuSuccess" style="margin-top:14px;"><i class="fa fa-pencil"/>&nbsp;审核成功</a>
+					</#if>
+</#if>
+<br>
+<br>
+<br>
+<#if list5??>
+					<#if (list5?size>0)>
+					
+							<p style="font-weight: 900;font-size: 17px;">律师</p>
+							<br>
+							<#list list5 as imag>
+							<img src="${imag}" height="300" width="300"/>&nbsp;&nbsp;&nbsp;&nbsp;
+							</#list>
+							<br>
+									<a class="btn btn-outline btn-danger btn-sm Expert-tongg" modelId="${entity.userId}" modelId1="lvshi" id="lvshi" style="margin-top:14px;"><i class="fa fa-pencil"/>&nbsp;通过</a>
+									
+									<a class="btn btn-outline btn-warning btn-sm Expert-tonggs"  style="display: none;" id="lvshiSuccess" style="margin-top:14px;"><i class="fa fa-pencil"/>&nbsp;审核成功</a>
+					</#if>
+</#if>
+
+
+
+</div>
+
+<div class="layer-footer-custom">
+	<div class="col-sm-12">
+		<button class="btn btn-primary m-r-xs" modelIdUs="${entity.userId}" id="cancelBtn">完成</button>
+</div>
+
+
+
+</div>
+<script type="text/javascript">
+require(["jquery","/demo/module/houtai/js/Expert-details.js"],function($,page){
+	page.init();
+});
+</script>

@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+<template>
+	<name>serviceImpl</name>
+	<filePath>src/main/java/${packageName}/service/${subModuleName}/impl</filePath>
+	<filePath2>src/main/java/com/leimingtech/service/module/${moduleName}/service/impl</filePath2>
+	<fileName>${ClassName}ServiceImpl.java</fileName>
+	<content><![CDATA[
+<#if type==1>
+package ${packageName}.service.impl;
+<#elseif type==2>
+package com.jzsoft.service.module.${moduleName}.service.impl;
+</#if>
+
+import java.util.List;
+
+import javax.annotation.Resource;
+
+import org.springframework.stereotype.Service;
+
+import com.jzsoft.service.utils.page.Pager;
+<#if type==1>
+import ${packageName}.dao.${ClassName}Dao;
+import ${packageName}.entity.${ClassName};
+import ${packageName}.service.${ClassName}Service;
+<#elseif type==2>
+import com.jzsoft.service.module.${moduleName}.dao.${ClassName}Dao;
+import com.jzsoft.core.entity.base.${ClassName};
+import com.jzsoft.service.module.${moduleName}.service.${ClassName}Service;
+</#if>
+
+/**
+ * ${functionName}ServiceImpl
+ *
+ * @author ${functionAuthor}
+ * @version ${functionVersion}
+ */
+@Service
+public class ${ClassName}ServiceImpl implements ${ClassName}Service {
+
+	/** ${functionName}DAO接口*/
+	@Resource
+	private ${ClassName}Dao ${className}Dao;
+	
+	/**
+	 * 查询分页${functionName}数据
+	 * 
+	 * @param pager 分页对象
+	 * @return
+	 */
+	@Override
+	public List<${ClassName}> find${ClassName}PagerList(Pager pager){
+		return ${className}Dao.find${ClassName}PagerList(pager);
+	}
+
+	/**
+	 * 通过${table.javaPrimaryKey}获取单条${functionName}数据
+	 * 
+	 * @param ${table.javaPrimaryKey}
+	 * @return
+	 */
+	@Override 
+	public ${ClassName} find${ClassName}By${table.javaPrimaryKey?cap_first}(String ${table.javaPrimaryKey}){
+		return ${className}Dao.find${ClassName}By${table.javaPrimaryKey?cap_first}(${table.javaPrimaryKey});
+	}
+	
+	/**
+	 * 根据父${table.javaPrimaryKey}查询${functionName}列表
+	 * 
+	 * @param pid
+	 * @return
+	 */
+	@Override
+	public List<${ClassName}> find${ClassName}ListByPid(String pid){
+		return ${className}Dao.find${ClassName}ListByPid(pid);
+	}
+
+	/**
+	 * 通过${table.javaPrimaryKey}删除${functionName}数据
+	 * 
+	 * @param ${table.javaPrimaryKey}
+	 */
+	@Override
+	public void delete${ClassName}By${table.javaPrimaryKey?cap_first}(String ${table.javaPrimaryKey}){
+		List<${ClassName}> ${className}Child = find${ClassName}ListByPid(${table.javaPrimaryKey});
+		if (${className}Child != null && ${className}Child.size() > 0) {
+			for (int i = 0; i < ${className}Child.size(); i++) {
+				delete${ClassName}By${table.javaPrimaryKey?cap_first}(${className}Child.get(i).get${table.javaPrimaryKey?cap_first}());
+			}
+		}
+		${className}Dao.delete${ClassName}By${table.javaPrimaryKey?cap_first}(${table.javaPrimaryKey});
+	}
+
+	/**
+	 * 修改${functionName}数据
+	 * 
+	 * @param ${className}
+	 */
+	@Override
+	public void update${ClassName}(${ClassName} ${className}){
+		${ClassName} old = find${ClassName}By${table.javaPrimaryKey?cap_first}(${className}.get${table.javaPrimaryKey?cap_first}());
+
+		if (old.getPid() != ${className}.getPid()) {
+
+			${ClassName} p = null;
+			// 重置levels和idpaths字段
+			if (${className}.getPid() .equals("0")) {
+				${className}.setLevels(1);
+
+				${className}.setPids(${className}.get${table.javaPrimaryKey?cap_first}() + ",");
+			} else {
+				p = ${className}Dao.find${ClassName}By${table.javaPrimaryKey?cap_first}(${className}.getPid());
+				${className}.setLevels(p.getLevels() + 1);
+
+				${className}.setPids(p.getPids() + ${className}.get${table.javaPrimaryKey?cap_first}()
+						+ ",");
+			}
+
+		}
+
+		${className}Dao.update${ClassName}(${className});
+
+		if (old.getPid() != ${className}.getPid()) {
+			updateChildLevelAndPids(${className});
+		}
+		
+		${className}Dao.update${ClassName}(${className});
+	}
+	
+	/**
+	 * 更新子levels和pids字段
+	 * 
+	 * @param ${className}
+	 */
+	private void updateChildLevelAndPids(${ClassName} ${className}) {
+		List<${ClassName}> ${className}List = find${ClassName}ListByPid(${className}.get${table.javaPrimaryKey?cap_first}());
+		if (${className}List != null && ${className}List.size() > 0) {
+			for (int i = 0; i < ${className}List.size(); i++) {
+				${ClassName} child = ${className}List.get(i);
+
+				child.setLevels(${className}.getLevels() + 1);
+
+				child.setPids(${className}.getPids()
+						+ child.get${table.javaPrimaryKey?cap_first}() + ",");
+
+				${className}Dao.update${ClassName}(child);
+
+				updateChildLevelAndPids(child);
+			}
+		}
+	}
+	
+	/**
+	 * 保存${functionName}数据
+	 * 
+	 * @param ${className}
+	 */
+	@Override
+	public void save${ClassName}(${ClassName} ${className}){
+		String pid = ${className}.getPid();
+
+		${ClassName} p${ClassName} = null;
+
+		// 设置层级当前
+		if (pid .equals("0")) {
+			${className}.setLevels(1);
+		} else {
+			p${ClassName} = ${className}Dao.find${ClassName}By${table.javaPrimaryKey?cap_first}(pid);
+			${className}.setLevels(p${ClassName}.getLevels() + 1);
+		}
+
+		${className}Dao.save${ClassName}(${className});
+
+		// 保存成功后修改idpaths
+		if (p${ClassName} != null) {
+			${className}.setPids(p${ClassName}.getPids() + ${className}.get${table.javaPrimaryKey?cap_first}()
+					+ ",");
+		} else {
+			${className}.setPids(${className}.get${table.javaPrimaryKey?cap_first}() + ",");
+		}
+		${className}Dao.update${ClassName}(${className});
+	}
+	
+	/**
+	 * 获取所有${functionName}数据
+	 * 
+	 * @return
+	 */
+	@Override
+	public List<${ClassName}> find${ClassName}AllList(){
+		return ${className}Dao.find${ClassName}AllList();
+	}
+	
+}]]>
+	</content>
+</template>

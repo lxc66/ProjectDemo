@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<template>
+	<name>viewForm</name>
+	<filePath>src/main/webapp/WEB-INF/views/${moduleName}</filePath>
+	<filePath2>src/main/webapp/WEB-INF/views/${moduleName}</filePath2>
+	<fileName>${className}.ftl</fileName>
+	<content><![CDATA[
+${'<@layout.head>'}
+<script type="text/javascript" src="${'$'}{base}/res/js/jquery-ui/jquery.ui.js"></script>
+<script type="text/javascript" src="${'$'}{base}/res/js/jquery-ui/i18n/zh-CN.js" charset="utf-8"></script>
+<link rel="stylesheet" type="text/css" href="${'$'}{base}/res/js/jquery-ui/themes/ui-lightness/jquery.ui.css"  />
+<script type="text/javascript" src="${'$'}{base}/res/js/ajaxfileupload/ajaxfileupload.js"></script>
+<script type="text/javascript" src="${'$'}{base}/res/js/My97DatePicker/WdatePicker.js" charset="utf-8"></script>
+${'</@layout.head>'}
+${'<@layout.body>'}
+<div class="page">
+<div class="fixed-bar">
+    <div class="item-title">
+        <h3>${functionNameSimple}管理</h3>
+        <ul class="tab-base">
+            <li><a href="${'$'}{base}/${className}/list"><span>管理</span></a></li>
+            <li><a href="javascript:void(0)" class="current"><span>新增</span></a></li>
+        </ul>
+    </div>
+</div>
+<div class="fixed-empty"></div>
+<form id="${className}_form" action="${'$'}{base}/${className}/saveOrUpdate" method="post">
+    <input type="hidden" name="${table.javaPrimaryKey}" value="${'$'}{${className}.${table.javaPrimaryKey}}">
+    <table class="table tb-type2" style="width:auto;">
+        <tbody>
+        	
+	   	<#list table.columnList as c>
+			<#if c.javaFieldId !=table.javaPrimaryKey && c.isEdit?? && c.isEdit == 1 && (c.isNotBaseField || c.simpleJavaField == 'remarks')  && c.javaFieldId != 'pids' && c.javaFieldId != 'levels'>
+	        <tr class="noborder">
+	            <td width="120" style="text-align:right;" class="<#if c.isNull != 1>required</#if>" ><label for="${c.javaFieldId}" class="<#if c.isNull != 1>validation</#if>">${c.comments}:</label></td>
+	        <#if c.javaFieldId == 'pid'>
+	            <td class="vatop rowform" style="width:auto;">
+	            	<select name="pid" id="pid" style="width: 295px;">
+	                    <option value="0">请选择...</option>
+	                    <${'#'}list ${className}List as a>
+	                    	<${'#'}if ${className}.${table.javaPrimaryKey}!=a.${table.javaPrimaryKey}>
+							<option <${'#'}if ${className}.pid==a.${table.javaPrimaryKey}>selected="selected"</${'#'}if> value="${'$'}{a.${table.javaPrimaryKey}}">
+							<${'#'}assign size=a.levels*2>
+							<${'#'}list 1..size as ss>&nbsp;</${'#'}list>
+							${'$'}{a.name}
+							</option>
+							<${'#'}if a.${className}List?exists && a.${className}List?size gt 0>
+								<${'#'}assign ${className}List=a.${className}List>
+								<${'#'}include "/${moduleName}/${className}ChildOption.ftl"/>
+	                        </${'#'}if>
+	                        </${'#'}if>
+						</${'#'}list>
+	                </select>
+	            </td>
+	           	<td class="vatop tips"></td>
+	        </tr>
+			<#elseif c.showType == "input">
+	            <td class="vatop rowform" style="width:auto;"><input type="text" style="width: 285px;" class="txt" value="${'$'}{${className}.${c.javaFieldId}<#if c.javaFieldId == 'sort'>!'1'</#if>}" name="${c.javaFieldId}" id="${c.javaFieldId}"></td>
+	           	<td class="vatop tips"><#if c.javaFieldId == 'sort'>(数字越大越靠前)</#if></td>
+	        </tr>
+			<#elseif c.showType == "textarea">
+	            <td class="vatop rowform" style="width:auto;"><textarea id="${c.javaFieldId}" style="width: 285px;" name="${c.javaFieldId}" rows="3">${'$'}{${className}.${c.javaFieldId}}</textarea></td>
+	           	<td class="vatop tips"></td>
+	        </tr>
+			<#elseif c.showType == "select">
+				<form:select path="${c.javaFieldId}" class="input-xlarge <#if c.isNull != 1>required</#if>">
+					<form:option value="" label=""/>
+					<form:options items="${"$"}{fns:getDictList('${c.dictType}')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
+				</form:select>
+			<#elseif c.showType == "checkbox">
+				<form:checkboxes path="${c.javaFieldId}" items="${"$"}{fns:getDictList('${c.dictType}')}" itemLabel="label" itemValue="value" htmlEscape="false" class="<#if c.isNull != 1>required</#if>"/>
+			<#elseif c.showType == "radiobox">
+				<form:radiobuttons path="${c.javaFieldId}" items="${"$"}{fns:getDictList('${c.dictType}')}" itemLabel="label" itemValue="value" htmlEscape="false" class="<#if c.isNull != 1>required</#if>"/>
+			<#elseif c.showType == "dateselect">
+	        	<td class="vatop rowform" style="width:auto;"><input type="text" style="width: 285px;" class="txt Wdate" value="${'$'}{${className}.${c.javaFieldId}}Str" name="${c.javaFieldId}" id="${c.javaFieldId}" onClick="WdatePicker({skin:'twoer',dateFmt:'yyyy-MM-dd HH:mm:ss'});"></td>
+	           	<td class="vatop tips"></td>
+	        </tr>
+			<#elseif c.showType == "fileselect">
+				<form:hidden id="${c.simpleJavaField}" path="${c.javaFieldId}" htmlEscape="false"<#if c.dataLength != "0"> maxlength="${c.dataLength}"</#if> class="input-xlarge"/>
+				<sys:ckfinder input="${c.simpleJavaField}" type="files" uploadPath="/${moduleName}<#if subModuleName != "">/${subModuleName}</#if>/${className}" selectMultiple="true"/>
+			</#if>
+			</#if>
+		</#list>
+        </tbody>
+        <tfoot>
+	        <tr>
+	        	<td></td>
+	            <td colspan="2">
+	            	<a href="JavaScript:void(0);" class="btn" id="submitBtn"><span>提交</span></a>
+	            	<a href="JavaScript:history.go(-1);" class="btns"><span>返回</span></a>
+	            </td>
+	        </tr>
+        </tfoot>
+    </table>
+</form>
+</div>
+<script>
+    //按钮先执行验证再提交表单
+    $(function(){
+        $("#submitBtn").click(function(){
+            $("#${className}_form").submit();
+        });
+    });
+</script>
+${'</@layout.body>'}
+]]>
+	</content>
+</template>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<template>
+	<name>viewChildList</name>
+	<filePath>src/main/webapp/WEB-INF/views/${moduleName}</filePath>
+	<filePath2>src/main/webapp/WEB-INF/views/${moduleName}</filePath2>
+	<fileName>${className}ChildList.ftl</fileName>
+	<content><![CDATA[
+<${'#'}if ${className}List?exists && ${className}List?size gt 0>
+<${'#'}list ${className}List as ${className}>
+    <tr class="hover edit row${'$'}{${table.javaPrimaryKey}}" rowid="${'$'}{${table.javaPrimaryKey}}">
+        <td>
+        	<input value="${'$'}{${className}.${table.javaPrimaryKey}}" class="checkitem" type="checkbox" name="${table.javaPrimaryKey}s">
+			<img fieldid="${'$'}{${className}.${table.javaPrimaryKey}}" class="img_btn" rowid="${'$'}{${table.javaPrimaryKey}}${'$'}{${className}.${table.javaPrimaryKey}}" status="close" loadUrl="${'$'}{base}/${className}/loadChildList?&${table.javaPrimaryKey}=${'$'}{${className}.${table.javaPrimaryKey}}" nc_type="flex" src="${'$'}{base}/res/images/<${'#'}if ${className}.${className}List?exists && ${className}.${className}List?size gt 0>tv-collapsable.gif<${'#'}else>tv-item.gif</${'#'}if>">
+        </td>
+        <td class="name">
+        	
+        	<${'#'}if ${className}.levels == 2>
+        	<img src="${'$'}{base}/res/images/tv-item1.gif" />
+        	</${'#'}if>
+        	<${'#'}if ${className}.levels gt 2>
+        	<${'#'}assign size=${className}.levels-2>
+        	<${'#'}list 1..size as ss>
+        	<img class="preimg" src="${'$'}{base}/res/images/vertline.gif"/>
+        	</${'#'}list>
+        	<img src="${'$'}{base}/res/images/tv-expandable1.gif" />
+        	</${'#'}if>
+        	<span class="editable" nc_type="inline_edit" fieldname="name" modUrl="${'$'}{base}/${className}/modifyName" fieldid="${'$'}{${className}.${table.javaPrimaryKey}}" required="1" title="可编辑">${'$'}{${className}.name}</span>
+        	<a class="btn-add-nofloat marginleft" style="vertical-align: top;" href="${'$'}{base}/${className}/forward?&pid=${'$'}{${className}.${table.javaPrimaryKey}}"><span> 新增下级</span>
+        </td>
+        <td class="sort">
+            <span class=" editable"  nc_type="inline_edit" fieldname="sort" fieldid="${'$'}{${className}.${table.javaPrimaryKey}}" datatype="pint" modUrl="${'$'}{base}/${className}/modifySort"maxvalue="255" title="可编辑">
+                  ${'$'}{${className}.sort!'1'}
+            </span>
+        </td>
+        <#list table.columnList as c>
+	        <#if c.isList?? && c.isList == 1 && c.javaFieldId != 'name' && c.javaFieldId != 'sort' && c.javaFieldId != 'pid' && c.javaFieldId != 'pids' && c.javaFieldId != 'levels'>
+	    <td>
+	        ${"$"}{${className}.${c.javaFieldId}}
+	    </td>
+	        </#if>
+	    </#list>
+        <td class="align-center">
+            <a href="${'$'}{base}/${className}/forward?${table.javaPrimaryKey}=${'$'}{${className}.${table.javaPrimaryKey}}">编辑</a>
+            &nbsp;|&nbsp;
+            <a href="javascript:;" onclick="delRow(this)" >删除</a>
+        </td>
+    </tr>
+    <${'#'}assign ${className}List=${className}.${className}List>
+    <${'#'}if ${className}List?exists && ${className}List?size gt 0>
+    <${'#'}assign test=${table.javaPrimaryKey}>
+	<${'#'}assign ${table.javaPrimaryKey}=${table.javaPrimaryKey}+${className}.${table.javaPrimaryKey}+"_">
+	<${'#'}include "/${moduleName}/${className}ChildList.ftl"/>
+	<${'#'}assign ${table.javaPrimaryKey}=test>
+	</${'#'}if>
+</${'#'}list>
+</${'#'}if>
+]]>
+	</content>
+</template>

@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<#include "/platform/common/meta.html">
+<div class="container-fluid layer-content-custom" id="hhe">
+   <form class="form-horizontal m-t" role="form" id="theForm" enctype="multipart/form-data">
+	   <c:if test="${entity.problemid??}">
+			<input type="hidden" name="problemid" value="${entity.problemid}"/>
+<!-- 			<input type="hidden" name="imagePath" value="${entity.imagePath}"/> -->
+	   </c:if>
+	   
+	   
+	   
+<!-- 		 <div> -->
+<!-- 			提问人:&nbsp;${entity.userNickName}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;问题类型：&nbsp;${entity.typeView}  -->
+<!-- 		 </div><br> -->
+<!-- 		 <div> -->
+<!-- 			提问时间：</br>&nbsp;${entity.releaseTime} -->
+<!-- 		 </div><br> -->
+<!-- 		 <div> -->
+<!-- 			结贴时间：&nbsp;${entity.OTime}  -->
+<!-- 		 </div><br> -->
+<!-- 		 <div> -->
+<!-- 			是否经典：${entity.ifClassicView}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;回答总数：&nbsp;${entity.answerNumber}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;点赞总数：&nbsp;${entity.clickUpNumber}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;关注总数：&nbsp;${entity.focusNumber}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;是否邀人：&nbsp;${entity.ifAnswerView}  -->
+<!-- 		 </div><br> -->
+        <#if entity.questionTitle != ''>
+		 <div class="form-group">
+           <label class="col-sm-3 control-label">问题标题</label>
+           <div class="col-sm-7">
+           		<p style="margin-top: 8px;">${entity.questionTitle}</p>
+           </div>
+		</div>
+		</#if>
+		 
+	   	<div class="form-group">
+           <label class="col-sm-3 control-label">具体问题</label>
+           <div class="col-sm-7">
+<!--            		<textarea rows="3" cols="70" style="resize: none; width:428px; height:50px;">${entity.contentLabel}</textarea> -->
+           		<p style="margin-top: 8px;">${entity.contentLabel}</p>
+<!--            		<marquee scrollAmount=8	 width=300>${entity.contentLabel}</marquee> -->
+           </div>
+		</div>
+        <div class="form-group">
+            <#if entity.ifClassicMap??>
+           <label class="col-sm-3 control-label">是否经典</label>
+           <div class="col-sm-7" style="margin-top: 6px;margin-left: 1px;"" >
+           <#list entity.ifClassicMap?keys as key> 
+           <input type="radio" name="ifClassic" value="${key}"<#if key==entity.ifClassic>checked="checked"</#if>>${entity.ifClassicMap[key]}
+           </#list>
+           </div>
+           </#if>
+        </div>
+           
+		
+        <div class="form-group">
+            <#if entity.ifVisibleMap??>
+           <label class="col-sm-3 control-label">是否可见</label>
+           <div class="col-sm-7" style="margin-top: 5px;">
+           <#list entity.ifVisibleMap?keys as key> 
+           <input type="radio" name="ifVisible" value="${key}"<#if key==entity.ifVisible>checked="checked"</#if>>${entity.ifVisibleMap[key]}
+           </#list>
+           </div>
+           </#if>
+        </div>
+           
+ 		
+        <div class="form-group">
+            <#if entity.ifOverMap??>
+           <label class="col-sm-3 control-label">是否结贴</label>
+           <div class="col-sm-7" style="margin-top: 5px;">
+           <#list entity.ifOverMap?keys as key> 
+           <input type="radio" name="ifOver" value="${key}"<#if key==entity.ifOver>checked="checked"</#if>>${entity.ifOverMap[key]}
+           </#list>
+           </div>
+           </#if>
+        </div>
+<!--         <div class="col-sm-7" style="margin-left: 98px;font-weight: 900;"> -->
+<!--                  <th>回答总数:&nbsp;&nbsp;${entity.answerNumber}</th>  -->
+<!--                  <th>&nbsp;&nbsp;&nbsp;&nbsp;参与人数:&nbsp;&nbsp;${entity.number}</th>  -->
+<!--                  <th>&nbsp;&nbsp;&nbsp;&nbsp;关注总数:&nbsp;&nbsp;${entity.focusNumber}</th>  -->
+<!--                  <th>&nbsp;&nbsp;&nbsp;&nbsp;点赞总数:&nbsp;&nbsp;${entity.clickUpNumber}</th> -->
+<!--         </div> -->
+        <div class="form-group">
+           <label class="col-sm-3 control-label">回答总数</label>
+           <div class="col-sm-7" style="margin-top: 7px;">
+          ${entity.number}
+           </div>
+        </div>
+           <div class="form-group">
+           <label class="col-sm-3 control-label">参与人数</label>
+           <div class="col-sm-7" style="margin-top: 7px;">
+          ${entity.number}
+           </div>
+        </div>
+           <div class="form-group">
+           <label class="col-sm-3 control-label">关注总数</label>
+           <div class="col-sm-7" style="margin-top: 7px;">
+          ${entity.focusNumber}
+           </div>
+        </div>
+           <div class="form-group">
+           <label class="col-sm-3 control-label">点赞总数</label>
+           <div class="col-sm-7" style="margin-top: 7px;">	
+          ${entity.clickUpNumber}
+           </div>
+        </div>
+        <br>
+        <br>
+           <!--  
+            <div class="form-group">
+           <label class="col-sm-3 control-label">图片路径</label>
+           <div class="col-sm-7">
+           		<input type="file" name="imagePath"/>
+           </div>
+           </div>-->
+	</form>
+	<div id="he">
+       <h4 style="margin-left: 8px;">回答</h4>
+       	<table class="table table-striped">
+       		<thead>
+       			<tr>
+       				<th>回答用户</th>
+       				<th>回答时间</th>
+       				<th>参与楼层</th>
+       				<th>是否可见</th>
+       				<th></th>
+       			</tr>
+       		</thead>
+       		<tbody>
+       			<#if entity.answerList??>
+	    	     <#list entity.answerList as entity>
+			        <tr>
+       						<td>${entity.answerName}</td>
+       						<td>${entity.problemTime}</td>
+       						<td>${entity.floor}</td>
+       						<td class="sb">${entity.visibleView}</td>
+       						
+       						
+					        
+       						<td class="text-navy"> 
+       						
+       						<a class="btn btn-outline btn-danger btn-sm yingcang" style="display: none;" problemId="${entity.problemId}" modelId="${entity.responseId}"><i class="fa fa-minus-circle"/>&nbsp;隐藏</a>
+       						
+       						<a class="btn btn-outline btn-warning btn-sm fabu" style="display: none;" problemId="${entity.problemId}" modelId="${entity.responseId}"><i class="fa fa-pencil"/>&nbsp;发布</a>
+       						
+       						<#if entity.visibleView = '可见'> 
+			            		<a class="btn btn-outline btn-danger btn-sm model-fabu" problemId="${entity.problemId}" modelId="${entity.responseId}"><i class="fa fa-minus-circle"/>&nbsp;隐藏</a>
+       						
+       						</#if>
+       						<#if entity.visibleView = '隐藏'> 
+								<a class="btn btn-outline btn-warning btn-sm case_cancel" problemId="${entity.problemId}" modelId="${entity.responseId}"><i class="fa fa-pencil"/>&nbsp;发布</a>
+       						
+       						</#if>
+			            	</td>
+       					</tr>
+       					<tr >
+       						<td colspan="4">${entity.answerDescription}</td>
+       					</tr>
+       				</#list>
+       			</#if>
+       		
+       		</tbody>
+       	</table>
+       </div>
+
+</div>
+<div class="layer-footer-custom">
+	<div class="col-sm-12">
+		<button class="btn btn-primary m-r-xs" id="submitBtn">提交</button>
+		<button class="btn btn-white m-l-xs" id="cancelBtn">取消</button>
+	</div>
+</div>
+<script type="text/javascript">
+require(["jquery","/demo/module/houtai/js/wenda-input.js"],function($,page){
+	page.init();
+});
+</script>

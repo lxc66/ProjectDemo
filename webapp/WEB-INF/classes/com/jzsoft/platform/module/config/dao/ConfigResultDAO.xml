@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jzsoft.platform.module.config.dao.ConfigResultDAO">
+    
+    <resultMap type="ConfigResult" id="resultModelMap">  
+        <id column="id" property="id" />  
+        <result column="id_config" property="configId"/>  
+        <result column="id_user" property="userId"/>  
+        <result column="customValue" property="customValue"/>  
+        <result column="ft" property="ft"/>  
+        <result column="lt" property="lt"/>  
+        <result column="fu" property="fu"/>  
+        <result column="lu" property="lu"/>  
+    </resultMap>  
+    
+    <resultMap type="ConfigResult" id="resultModelWithJoinMap">  
+        <id column="id" property="id" />  
+        <result column="id_config" property="configId"/>  
+        <result column="id_user" property="userId"/>  
+        <result column="customValue" property="customValue"/>  
+        <result column="ft" property="ft"/>  
+        <result column="lt" property="lt"/>  
+        <result column="fu" property="fu"/>  
+        <result column="lu" property="lu"/>  
+        <association property="config" javaType="Config">
+        	<id column="cfg_id" property="id" />  
+        	<result column="kind" property="kind"/>
+        	<result column="mode" property="mode"/>
+        </association>
+		<collection property="configResultItems" ofType="ConfigResultItem">
+			<id column="cri_id" property="id"/>
+			<result column="id_configresult" property="configResultId"/>
+			<result column="id_configitem" property="configItemId"/>
+		</collection>
+    </resultMap>  
+    
+    <resultMap type="com.jzsoft.platform.module.config.vo.ConfigResultValueVO" id="resultConfigResultVoMap">  
+        <result column="id_config" property="configId"/>  
+        <result column="id_module" property="moduleId"/>  
+        <result column="value" property="value"/>  
+    </resultMap>  
+    
+    
+    <!-- 添加一条数据 -->
+    <insert id="save" keyProperty="id" useGeneratedKeys="false" parameterType="ConfigResult">
+        insert into sys_configresult(id,id_config,id_user,customValue,ft,fu) 
+        values(#{id},#{configId},#{userId},#{customValue},#{ft},#{fu})
+    </insert>
+    
+    <update id="update" parameterType="ConfigResult">
+        update sys_configresult 
+        <set>
+         <if test="configId != null and configId != '' ">  
+            id_config=#{configId},  
+         </if>  
+         <if test="userId != null and userId != '' ">  
+            id_user=#{userId},  
+         </if>  
+         <if test="customValue != null and customValue != '' ">  
+            customValue=#{customValue},  
+         </if>  
+         <if test="'lt' != null and 'lt' != ''">  
+            lt=#{lt}, 
+         </if>  
+         <if test="lu != null and lu != '' ">  
+            lu=#{lu} 
+         </if>  
+        </set>
+         WHERE id=#{id}  
+    </update> 
+    
+    <!-- 删除一条数据 -->
+    <delete id="delete">
+        delete from sys_configresult where id=#{id}
+    </delete>
+    
+    <delete id="deleteWithConfigId">
+        delete from sys_configresult where id_config=#{configId}
+    </delete>
+    
+    <sql id="selectSql">
+		select * from sys_configresult
+	</sql>
+    
+    <!-- 获取一条数据 -->
+    <select id="get"  resultMap="resultModelMap">
+        <include refid="selectSql" /> where id=#{id}
+    </select>
+    
+    <select id="getWithConfigId" resultMap="resultModelWithJoinMap">  
+        select cr.*,cri.id cri_id,cri.id_configresult,cri.id_configitem,cfg.id cfg_id,cfg.kind,cfg.mode 
+		 from sys_configresult cr left join sys_configresultitem cri on cri.id_configresult=cr.id join sys_config cfg on cr.id_config=cfg.id where cr.id_config=#{configId}
+    </select> 
+    
+    <select id="getWithConfigIdAndUserId" resultMap="resultModelWithJoinMap">  
+    	select cr.*,cri.id cri_id,cri.id_configresult,cri.id_configitem,cfg.id cfg_id,cfg.kind,cfg.mode 
+		 from sys_configresult cr left join sys_configresultitem cri on cri.id_configresult=cr.id join sys_config cfg on cr.id_config=cfg.id where cr.id_config=#{configId} and cr.id_user=#{userId}
+    </select> 
+    
+    <select id="getResultValueListWithConfigCode" resultType="String">  
+		select cm.value from sys_configitem cm join sys_config cfg on cm.id_config = cfg.id where cfg.code=#{code}
+		and(
+			cfg.mode!='3' and cm.defaultFlag='1' and not exists(
+				select 1 from sys_configresult cr where cr.id_config=cfg.id and exists(select 1 from sys_configresultitem cri where cri.id_configresult=cr.id)
+			)
+			or (cfg.mode='3' and cm.defaultFlag='1' and not exists(
+				select 1 from sys_configresult cr where cr.id_config=cfg.id
+			))
+			or (exists(
+				select 1 from sys_configresult cr join sys_configresultitem cri on cr.id=cri.id_configresult where cr.id_config=cfg.id and cri.id_configitem=cm.id
+			))
+		)
+		 union
+		select cr.customValue as value from sys_configresult cr join sys_config cfg on cr.id_config = cfg.id where cfg.code=#{code} and cfg.mode='3' and customValue is not null
+    </select> 
+    
+    <select id="getResultValueListWithConfigCodeAndUser" resultType="String">  
+		select cm.value from sys_configitem cm join sys_config cfg on cm.id_config = cfg.id where cfg.code=#{code}
+		and(
+			cfg.mode!='3' and cm.defaultFlag='1' and not exists(
+				select 1 from sys_configresult cr where cr.id_config=cfg.id and exists(select 1 from sys_configresultitem cri where cri.id_configresult=cr.id) and cr.id_user=#{userId} 
+			)
+			or (cfg.mode='3' and cm.defaultFlag='1' and not exists(
+				select 1 from sys_configresult cr where cr.id_config=cfg.id and cr.id_user=#{userId} 
+			))
+			or (exists(
+				select 1 from sys_configresult cr join sys_configresultitem cri on cr.id=cri.id_configresult where cr.id_config=cfg.id and cri.id_configitem=cm.id and cr.id_user=#{userId} 
+			))
+		)
+		 union
+		select cr.customValue as value from sys_configresult cr join sys_config cfg on cr.id_config = cfg.id where cfg.code=#{code} and cfg.mode='3' and customValue is not null and cr.id_user=#{userId} 
+    </select> 
+    
+    <select id="getResultValueVOsWithConfigKind" resultMap="resultConfigResultVoMap">  
+		select cfg.id id_config, cfg.id_module, cm.value from sys_configitem cm join sys_config cfg on cm.id_config = cfg.id where cfg.kind=#{kind} 
+		and(
+			cfg.mode!='3' and cm.defaultFlag='1' and not exists(
+				select 1 from sys_configresult cr where cr.id_config=cfg.id and exists(select 1 from sys_configresultitem cri where cri.id_configresult=cr.id)
+			)
+			or (cfg.mode='3' and cm.defaultFlag='1' and not exists(
+				select 1 from sys_configresult cr where cr.id_config=cfg.id
+			))
+			or (exists(
+				select 1 from sys_configresult cr join sys_configresultitem cri on cr.id=cri.id_configresult where cr.id_config=cfg.id and cri.id_configitem=cm.id
+			))
+		)
+		 union
+		select cfg.id id_config, cfg.id_module, cr.customValue as value from sys_configresult cr join sys_config cfg on cr.id_config = cfg.id where cfg.kind=#{kind} and cfg.mode='3' and customValue is not null
+    </select> 
+    <select id="getResultValueVOsWithUserId" resultMap="resultConfigResultVoMap">  
+		select cfg.id id_config, cfg.id_module, cm.value from sys_configitem cm join sys_config cfg on cm.id_config = cfg.id where cfg.kind='3' 
+		and(
+			cfg.mode!='3' and cm.defaultFlag='1' and not exists(
+				select 1 from sys_configresult cr where cr.id_config=cfg.id and exists(select 1 from sys_configresultitem cri where cri.id_configresult=cr.id) and cr.id_user=#{userId}
+			)
+			or (cfg.mode='3' and cm.defaultFlag='1' and not exists(
+				select 1 from sys_configresult cr where cr.id_config=cfg.id and cr.id_user=#{userId} 
+			))
+			or (exists(
+				select 1 from sys_configresult cr join sys_configresultitem cri on cr.id=cri.id_configresult where cr.id_config=cfg.id and cri.id_configitem=cm.id and cr.id_user=#{userId}
+			))
+		)
+		 union
+		select cfg.id id_config, cfg.id_module, cr.customValue as value from sys_configresult cr join sys_config cfg on cr.id_config = cfg.id where cfg.kind='3' and cfg.mode='3' and customValue is not null and cr.id_user=#{userId}
+    </select> 
+    
+    <select id="getListWithConfigKind" resultMap="resultModelWithJoinMap">  
+		select cr.*,cri.id cri_id,cri.id_configresult,cri.id_configitem,cfg.id cfg_id,cfg.kind,cfg.mode 
+		 from sys_configresult cr left join sys_configresultitem cri on cri.id_configresult=cr.id join sys_config cfg on cr.id_config=cfg.id where cfg.kind=#{kind}
+    </select> 
+    
+    <select id="getListWithModuleId" resultMap="resultModelWithJoinMap">  
+		select cr.*,cri.id cri_id,cri.id_configresult,cri.id_configitem,cfg.id cfg_id,cfg.kind,cfg.mode 
+		 from sys_configresult cr left join sys_configresultitem cri on cri.id_configresult=cr.id join sys_config cfg on cr.id_config=cfg.id where cfg.id_module=#{moduleId}
+    </select> 
+    
+    <select id="getListWithUserId" resultMap="resultModelWithJoinMap">  
+		select cr.*,cri.id cri_id,cri.id_configresult,cri.id_configitem,cfg.id cfg_id,cfg.kind,cfg.mode 
+		 from sys_configresult cr left join sys_configresultitem cri on cri.id_configresult=cr.id join sys_config cfg on cr.id_config=cfg.id where cr.id_user=#{userId}
+    </select> 
+</mapper>

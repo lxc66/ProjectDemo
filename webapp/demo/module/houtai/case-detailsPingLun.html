@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<#include "/platform/common/meta.html">
+<!-- <div class="container-fluid layer-content-custom"> -->
+<link rel="stylesheet" href="/demo/module/app/AppCss/demo.css">
+<link rel="stylesheet" href="/demo/module/app/AppCss/font-awesome.css">
+<!-- </div> -->
+<div id="sss">
+
+<#if entity??>
+ 
+<input type="text" name="type" id="id" style="display: none;" value="${entity.id}">
+
+</#if>
+<#if list??>
+   <#list list as m> 
+            <li>
+				<p class="username"><img class="tx" src="${m.test2}" alt="">${m.userName}</p>
+				<p>${m.utype}</p>
+				<p class="time">
+					${m.tcomment}
+					
+					&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+				
+				<a class="btn btn-outline btn-danger btn-sm PingLun-del" modelId="${m.id}"><i class="fa fa-minus-circle"/>&nbsp;删除</a>
+				</p>
+				<p>
+				${m.substance}
+				
+				</p>
+				
+<!-- 				<input class="btn btn-outline btn-danger btn-sm PingLun-del" modelId="${m.id}" type="submit" value="删除"> -->
+			</li>
+			&nbsp;&nbsp;&nbsp;&nbsp;
+			
+   </#list>
+</#if>
+
+</div>		
+		
+<script type="text/javascript">
+require(["jquery","/demo/module/houtai/js/case-detailsPingLun.js"],function($,page){
+	page.init();
+});
+</script>

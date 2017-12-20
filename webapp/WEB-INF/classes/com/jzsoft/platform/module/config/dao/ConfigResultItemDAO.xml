@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jzsoft.platform.module.config.dao.ConfigResultItemDAO">
+    
+    <resultMap type="ConfigResultItem" id="resultModelMap">  
+        <id column="id" property="id" />  
+        <result column="id_configresult" property="configResultId"/>  
+        <result column="id_configitem" property="configItemId"/>  
+        <result column="ft" property="ft"/>  
+        <result column="lt" property="lt"/>  
+        <result column="fu" property="fu"/>  
+        <result column="lu" property="lu"/>  
+    </resultMap>  
+    
+    <!-- 添加一条数据 -->
+    <insert id="save" keyProperty="id" useGeneratedKeys="false" parameterType="ConfigResultItem">
+        insert into sys_configresultitem(id,id_configresult,id_configitem,ft,fu) 
+        values(#{id},#{configResultId},#{configItemId},#{ft},#{fu})
+    </insert>
+    
+    <update id="update" parameterType="ConfigResultItem">
+        update sys_configresultitem 
+        <set>
+         <if test="configItemId != null and configItemId != '' ">  
+            id_configitem=#{configItemId},  
+         </if>  
+         <if test="configResultId != null and configResultId != '' ">  
+            id_configresult=#{configResultId},  
+         </if>  
+         <if test="'lt' != null and 'lt' != ''">  
+            lt=#{lt}, 
+         </if>  
+         <if test="lu != null and lu != '' ">  
+            lu=#{lu} 
+         </if>  
+        </set>
+         WHERE id=#{id}  
+    </update> 
+    
+    <!-- 删除一条数据 -->
+    <delete id="delete">
+        delete from sys_configresultitem where id=#{id}
+    </delete>
+    
+    <delete id="deleteWithConfigId">
+		delete from sys_configresultitem where exists(
+			select 1 from sys_configitem ci where ci.id=id_configitem and ci.id_config=#{configId}
+		)
+    </delete>
+    
+    <delete id="deleteWithConfigResultId">
+        delete from sys_configresultitem where id_configresult=#{configResultId}
+    </delete>
+    
+    <delete id="deleteWithConfigItemIds">
+        delete from sys_configresultitem where id_configitem in 
+        <foreach collection="list" item="configItemIds" open="(" separator="," close=")">
+         #{configItemIds}
+        </foreach>
+    </delete>
+    
+    <sql id="selectSql">
+		select * from sys_configresultitem
+	</sql>
+    
+    <select id="getListWithConfigResultId" resultMap="resultModelMap">  
+        <include refid="selectSql" /> where id_configresult=#{configResultId}
+    </select> 
+    
+</mapper>

@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config>
+	<!-- 生成分类 -->
+	<category>
+		<category value="curd" label="增删改查（单表）">
+			<template>category-ref:dao</template>
+			<template>curd/service.xml</template>
+			<template>curd/controller.xml</template>
+			<template>curd/viewIndex.xml</template>
+			<template>curd/viewInput.xml</template>
+			<template>curd/viewList.xml</template>
+			<template>curd/viewIndexJS.xml</template>
+			<template>curd/viewListJS.xml</template>
+			<template>curd/viewInputJS.xml</template>
+		</category>
+		<category value="one2many" label="增删改查（一对多）">
+			<template>one2many/controllerMain.xml</template>
+			<template>one2many/serviceInterfaceMain.xml</template>
+			<template>one2many/serviceImplMain.xml</template>
+			<template>category-ref:dao</template>
+			<template>one2many/viewFormMain.xml</template>
+			<template>one2many/viewListMain.xml</template>
+			<childTable>
+				<template>one2many/controllerSub.xml</template>
+				<template>one2many/daoImplSub.xml</template>
+				<template>one2many/daoInterfaceSub.xml</template>
+				<template>one2many/mapperInterfaceSub.xml</template>
+				<template>dao/entity.xml</template>
+				<template>one2many/mapperxmlSub.xml</template>
+				<template>one2many/serviceInterfaceSub.xml</template>
+				<template>one2many/serviceImplSub.xml</template>
+				<template>one2many/viewFormSub.xml</template>
+				<template>one2many/viewListSub.xml</template>
+			</childTable>
+		</category>
+		<category value="dao" label="仅持久层（dao/entity/mapper）">
+			<template>dao/dao.xml</template>
+			<template>dao/entity.xml</template>
+			<template>dao/mapperInterface.xml</template>
+			<template>dao/mapperxml.xml</template>
+		</category>
+		<category value="service+dao" label="业务层+持久层（service/dao/entity/mapper）">
+			<template>dao/daoImpl.xml</template>
+			<template>dao/daoInterface.xml</template>
+			<template>dao/mapperInterface.xml</template>
+			<template>dao/entity.xml</template>
+			<template>dao/mapperxml.xml</template>
+			<template>curd/serviceInterface.xml</template>
+			<template>curd/serviceImpl.xml</template>
+		</category>
+		<category value="treeTable" label="树结构表（一体）">
+			<template>treetable/controller.xml</template>
+			<template>treetable/serviceInterface.xml</template>
+			<template>treetable/serviceImpl.xml</template>
+			<template>treetable/daoInterface.xml</template>
+			<template>treetable/daoImpl.xml</template>
+			<template>treetable/entity.xml</template>
+			<template>treetable/mapperInterface.xml</template>
+			<template>treetable/mapperxml.xml</template>
+			<template>treetable/viewForm.xml</template>
+			<template>treetable/viewList.xml</template>
+			<template>treetable/viewChildOption.xml</template>
+			<template>treetable/viewChildList.xml</template>
+		</category>
+	</category>
+	<!-- java类型 -->
+	<javaType>
+		<dict value="String" label="String"/>
+		<dict value="Long" label="Long"/>
+		<dict value="Integer" label="Integer"/>
+		<dict value="Double" label="Double"/>
+		<dict value="java.util.Date" label="Date"/>
+		<dict value="java.math.BigDecimal" label="BigDecimal"/>
+		<!--  
+		<dict value="This" label="ThisObj" description="生成当前对象"/>
+		-->
+	</javaType>
+	<!-- 查询类型 -->
+	<queryType>
+		<dict value="=" label="="/>
+		<dict value="!=" label="!="/>
+		<dict value="&gt;" label="&gt;"/>
+		<dict value="&gt;=" label="&gt;="/>
+		<dict value="&lt;" label="&lt;"/>
+		<dict value="&lt;=" label="&lt;="/>
+		<!--  
+		<dict value="between" label="Between"/>
+		-->
+		<dict value="like" label="Like"/>
+		<dict value="left_like" label="Left Like"/>
+		<dict value="right_like" label="Right Like"/>
+	</queryType>
+	<!-- 字段显示类型 -->
+	<showType>
+		<dict value="input" label="单行文本"/>
+		<dict value="textarea" label="多行文本"/>
+		<dict value="constantSelect" label="常量选择"/>
+		<!--
+		<dict value="select" label="下拉选项"/>
+		<dict value="radiobox" label="单选按钮"/>
+		<dict value="checkbox" label="复选框"/>
+		-->
+		<dict value="dateselect" label="日期选择"/>
+		<!-- 
+		<dict value="fileselect" label="文件上传选择"/>
+		-->
+	</showType>
+</config>

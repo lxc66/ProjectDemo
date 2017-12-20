@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<template>
+	<name>serviceInterface</name>
+	<filePath>src/main/java/${packageName}/service</filePath>
+	<filePath2>src/main/java/com/leimingtech/service/module/${moduleName}/service</filePath2>
+	<fileName>${ClassName}Service.java</fileName>
+	<content><![CDATA[
+<#if type==1>
+package ${packageName}.service;
+<#elseif type==2>
+package com.jzsoft.service.module.${moduleName}.service;
+</#if>
+
+import java.util.List;
+
+import com.jzsoft.service.utils.page.Pager;
+<#if type==1>
+import ${packageName}.entity.${ClassName};
+<#elseif type==2>
+import com.jzsoft.core.entity.base.${ClassName};
+</#if>
+
+/**
+ * ${functionName}Service接口
+ *
+ * @author ${functionAuthor}
+ * @version ${functionVersion}
+ */
+public interface ${ClassName}Service {
+
+	/**
+	 * 查询分页${functionName}数据
+	 * 
+	 * @param pager 分页对象
+	 * @return
+	 */
+	public List<${ClassName}> find${ClassName}PagerList(Pager pager);
+
+	/**
+	 * 通过${table.javaPrimaryKey}获取单条${functionName}数据
+	 * 
+	 * @param ${table.javaPrimaryKey}
+	 * @return
+	 */
+	public ${ClassName} find${ClassName}By${table.javaPrimaryKey?cap_first}(String ${table.javaPrimaryKey});
+
+	/**
+	 * 通过${table.javaPrimaryKey}删除${functionName}数据
+	 * 
+	 * @param ${table.javaPrimaryKey}
+	 */
+	public void delete${ClassName}By${table.javaPrimaryKey?cap_first}(String ${table.javaPrimaryKey});
+	
+	/**
+	 * 根据父${table.javaPrimaryKey}查询${functionName}列表
+	 * 
+	 * @param pid
+	 * @return
+	 */
+	public List<${ClassName}> find${ClassName}ListByPid(String pid);
+
+	/**
+	 * 修改${functionName}数据
+	 * 
+	 * @param ${className}
+	 */
+	public void update${ClassName}(${ClassName} ${className});
+
+	/**
+	 * 保存${functionName}数据
+	 * 
+	 * @param ${className}
+	 */
+	public void save${ClassName}(${ClassName} ${className});
+
+	/**
+	 * 获取所有${functionName}数据
+	 * 
+	 * @return
+	 */
+	public List<${ClassName}> find${ClassName}AllList();
+	
+}]]>
+	</content>
+</template>

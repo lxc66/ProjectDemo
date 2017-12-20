@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<template>
+    <name>controller</name>
+    <filePath>src/main/java/${packageName}/controller</filePath>
+    <filePath2>src/main/java/${packageName}/module/${moduleName}/controller</filePath2>
+    <fileName>${ClassName}Controller.java</fileName>
+    <content><![CDATA[
+<#if type==1>
+package ${packageName}.controller;
+<#elseif type==2>
+package ${packageName}.module.${moduleName}.controller;
+</#if>
+
+import java.util.List;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+
+import lombok.extern.slf4j.Slf4j;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.jzsoft.core.common.Constants;
+import com.jzsoft.core.base.BaseController;
+import com.jzsoft.core.common.CommonConstants;
+<#if type==1>
+import ${packageName}.entity.${ClassName};
+import ${packageName}.service.${ClassName}Service;
+<#elseif type==2>
+import com.jzsoft.core.entity.base.${ClassName};
+import com.jzsoft.service.module.${moduleName}.service.${ClassName}Service;
+</#if>
+
+/**
+ * ${functionName}Controller
+ *
+ * @author ${functionAuthor}
+ * @version ${functionVersion}
+ */
+@Slf4j
+@Controller
+@RequestMapping("/${className}")
+public class ${ClassName}Controller extends BaseController {
+
+	/** ${functionName}Service接口*/
+	@Resource
+	private ${ClassName}Service ${className}Service;
+	
+	/**
+	 * ${functionName}列表
+	 * 
+	 * @param pageNo
+	 * @return
+	 */
+	@RequestMapping("/list")
+	public String list(Model model) {
+	
+		List<${ClassName}> ${className}List = ${className}Service.find${ClassName}ListByPid("0");
+
+		model.addAttribute("${className}List", ${className}List);
+		return "/${moduleName}/${className}List";
+	}
+
+	/**
+	 * 跳转至${functionName}新增或修改页面
+	 * 
+	 * @param id
+	 * @return
+	 */
+	@RequestMapping("/forward")
+	public String add(
+			Model model ,
+			@RequestParam(required = false, value = "pid", defaultValue = "0") String pid,
+			@RequestParam(required = false, value = "${table.javaPrimaryKey}", defaultValue = "0") String ${table.javaPrimaryKey}) {
+
+		${ClassName} ${className} = ${className}Service.find${ClassName}By${table.javaPrimaryKey?cap_first}(${table.javaPrimaryKey});
+
+		if (${className} == null) {
+			${className} = new ${ClassName}();
+			${className}.setPid(pid);
+		}
+		
+		List<${ClassName}> ${className}List = ${className}Service.find${ClassName}ListByPid("0");
+
+		model.addAttribute("${className}", ${className});
+		model.addAttribute("${className}List", ${className}List);
+		return "/${moduleName}/${className}";
+	}
+
+	/**
+	 * ${functionName}修改或保存
+	 * 
+	 * @param ${className}
+	 * @param ${table.javaPrimaryKey}
+	 * @return
+	 */
+	@RequestMapping("/saveOrUpdate")
+	public String saveOrUpdate(
+			Model model, 
+			@ModelAttribute ${ClassName} ${className},
+			@RequestParam(required = false, value = "${table.javaPrimaryKey}", defaultValue = "0") String ${table.javaPrimaryKey},
+			HttpServletRequest request) {
+
+		if (!beanValidatorForModel(model, ${className})) {
+			String referer = request.getHeader("Referer");
+			model.addAttribute("referer", referer);
+			return Constants.MSG_URL;
+		}
+		
+		if (!${table.javaPrimaryKey} .equals("0")) {
+			${className}Service.update${ClassName}(${className});
+			model.addAttribute("msg", "修改${functionNameSimple}成功");
+		} else {
+			${className}Service.save${ClassName}(${className});
+			model.addAttribute("msg", "保存${functionNameSimple}成功");
+		}
+
+		model.addAttribute("referer", CommonConstants.ADMIN_SERVER + "/${className}/list");
+		return Constants.MSG_URL;
+	}
+
+	/**
+	 * ${functionName}删除
+	 * 
+	 * @param ${table.javaPrimaryKey}s
+	 * @return
+	 */
+	@RequestMapping("/delete")
+	public String delete(Model model,@RequestParam String[] ${table.javaPrimaryKey}s,
+			HttpServletRequest request) {
+
+		String referer = request.getHeader("Referer");
+		for (String ${table.javaPrimaryKey} : ${table.javaPrimaryKey}s) {
+			${className}Service.delete${ClassName}By${table.javaPrimaryKey?cap_first}(${table.javaPrimaryKey});
+		}
+
+		model.addAttribute("referer", referer);
+		return Constants.MSG_URL;
+	}
+	
+	/**
+	 * 修改排序
+	 * 
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping("/modifySort")
+	public Boolean modifySort(
+			@RequestParam(required = false, value = "${table.javaPrimaryKey}", defaultValue = "0") String ${table.javaPrimaryKey},
+			@RequestParam(required = false, value = "value", defaultValue = "1") int sort) {
+
+		${ClassName} ${className} = ${className}Service.find${ClassName}By${table.javaPrimaryKey?cap_first}(${table.javaPrimaryKey});
+		if (${className} == null) {
+			return false;
+		}
+		${className}.set${table.javaPrimaryKey?cap_first}(${table.javaPrimaryKey});
+		${className}.setSort(sort);
+
+		${className}Service.update${ClassName}(${className});
+		return true;
+	}
+
+	/**
+	 * 修改排序
+	 * 
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping("/modifyName")
+	public Boolean modifyName(
+			@RequestParam(required = false, value = "${table.javaPrimaryKey}", defaultValue = "0") String ${table.javaPrimaryKey},
+			@RequestParam(required = false, value = "value", defaultValue = "") String name) {
+
+		${ClassName} ${className} = ${className}Service.find${ClassName}By${table.javaPrimaryKey?cap_first}(${table.javaPrimaryKey});
+		if (${className} == null) {
+			return false;
+		}
+		${className}.set${table.javaPrimaryKey?cap_first}(${table.javaPrimaryKey});
+		${className}.setName(name);
+
+		${className}Service.update${ClassName}(${className});
+		return true;
+	}
+	
+	
+}]]>
+    </content>
+</template>

@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<template>
+	<name>viewList</name>
+	<filePath>src/main/webapp/WEB-INF/views/${viewPath}/js</filePath>
+	<filePath2>src/main/webapp/WEB-INF/views/${viewPath}/js</filePath2>
+	<fileName>${className}-input.js</fileName>
+	<content><![CDATA[
+define(["./${className}-index.js"],function(indexPage) {
+	var obj = {
+		layerIndex:-1,
+		init:function(){
+			this.layerIndex = $.layerIndex();
+			obj.event();
+			obj.formValidate();
+		},
+		event:function(){
+			var self = this;
+	        $("#submitBtn").click(function(){
+	    		if(!$("#theForm").valid()){
+	    			return;
+	    		}
+	    		var formData=$("#theForm").serialize();
+	    		 $.ajax({
+	    		 	type: "POST",
+	    		  	url: "/${moduleName}/${className}/save",
+	    		  	processData:true,
+	    		  	data:formData,
+	    		  	success: function(){
+	    		  		indexPage.refresh();
+	    		  		$.layerClose(self.layerIndex);
+	    		  		$.msg("操作成功",6)
+	    		  	}
+	    		 });
+	        });
+	        
+	        $("#cancelBtn").click(function(){
+	        	$.layerClose(self.layerIndex);
+	        });
+		},
+		formValidate:function(){
+	        var icon = "<i class='fa fa-times-circle'></i> ";
+	        $("#theForm").validate({
+	            rules: {
+        <#assign firstVerifyField = true>
+		<#list table.columnList as c>
+           	<#assign firstVerifyType = true>
+			<#if c.needVerify>
+            	<#if firstVerifyField><#assign firstVerifyField = false>
+		            "${c.javaFieldId}": {
+            	<#else>
+	            	,"${c.javaFieldId}": {
+           		</#if>
+                	<#if !c.allowNull>
+						<#if firstVerifyType><#assign firstVerifyType = false></#if><#t>
+	                    required: true
+                    </#if>
+                	<#if c.stringField>
+						<#if !firstVerifyType>,</#if><#if firstVerifyType><#assign firstVerifyType = false></#if><#rt>
+	                    maxlength: ${c.dataLength}<#if firstVerifyType><#lt></#if>
+                    </#if>
+                	<#if c.integerField>
+						<#if !firstVerifyType>,</#if><#if firstVerifyType><#assign firstVerifyType = false></#if><#rt>
+	                    digits: true<#if firstVerifyType><#lt></#if>
+                    </#if>
+	                }
+			</#if>
+		</#list>
+	            },
+	            messages: {
+	            <#assign firstVerifyField = true>
+		<#list table.columnList as c>
+           	<#assign firstVerifyType = true>
+           	<#if c.needVerify>
+            	<#if firstVerifyField><#assign firstVerifyField = false>
+		            "${c.javaFieldId}": {
+            	<#else>
+	            	,"${c.javaFieldId}": {
+           		</#if>
+            		<#if !c.allowNull>
+						<#if firstVerifyType><#assign firstVerifyType = false></#if><#t>
+	                    required: icon + "请输入${c.comments}"
+                    </#if>
+                	<#if c.stringField>
+						<#if !firstVerifyType>,</#if><#if firstVerifyType><#assign firstVerifyType = false></#if><#rt>
+	                    maxlength: icon + "${c.comments}字数限制为${c.dataLength}"<#if firstVerifyType><#lt></#if>
+                    </#if>
+                	<#if c.integerField>
+						<#if !firstVerifyType>,</#if><#if firstVerifyType><#assign firstVerifyType = false></#if><#rt>
+	                    digits: icon + "请输入数字"<#if firstVerifyType><#lt></#if>
+                    </#if>
+	                }
+			</#if>
+		</#list>
+	            }
+	        });
+		}
+	};
+	return obj;
+});
+]]>
+	</content>
+</template>

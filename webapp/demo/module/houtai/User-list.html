@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<#include "/platform/common/meta.html">
+	
+	
+	
+	<table style="min-width:1600px" class="table table-striped">
+	    <thead>
+	        <tr>
+	            <th>序号</th>
+                <th>用户名</th>
+                <th>用户ID</th>
+                <th>用户类型</th>
+                <th>专家类型</th>
+                <th>电话</th>
+                <th>账户额度</th>
+                <th>注册时间</th>
+                <th>是否认证专家</th>
+                <th>签名</th>
+	        </tr>
+	    </thead>
+	    <tbody>
+	    	<#if list??>
+	    		<#list list as entity>
+	    		
+	    		 
+			        <tr>
+			            <td>${entity_index+1}</td>
+			            
+			               
+						<td>${entity.userName}</td>
+						
+		                <td>${entity.userId}</td>
+                        <td>普通用户</td>
+		                <td>${entity.autograph}</td>
+		                <td>${entity.tel}</td>
+		                <td>${entity.account}</td>
+		                <td>${entity.time}</td>
+		                <#if entity.autograph != '' || entity.autograph != null>
+		                <td>是</td>
+		                </#if>
+		                <#if entity.autograph == '' || entity.autograph == null>
+		                <td>否</td>
+		                </#if>
+                        <td>${entity.userSignature}</td>
+		                
+			        </tr>
+
+			  
+		        </#list>
+	        </#if>
+	    </tbody>
+	    
+    
+	</table>
+	
+	<@c.pager pager/>
+<script type="text/javascript">
+require(["jquery","/demo/module/houtai/js/User-list.js"],function($,page){
+	page.init();
+});
+</script>

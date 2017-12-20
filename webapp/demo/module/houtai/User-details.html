@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<#include "/platform/common/meta.html">
+<div class="container-fluid layer-content-custom">
+用户ID:${entity.id}&nbsp;&nbsp;&nbsp;&nbsp;
+用户名：${entity.userName}&nbsp;&nbsp;&nbsp;&nbsp;
+用户类型：${entity.userType}&nbsp;&nbsp;&nbsp;&nbsp;
+ 
+ <div>
+ <img src="${entity.imagepath}"  alt="文章图" />
+ </div><br>
+</div>
+<div class="layer-footer-custom">
+
+</div>
+<script type="text/javascript">
+require(["jquery","/demo/module/houtai/js/User-details.js"],function($,page){
+	page.init();
+});
+</script>

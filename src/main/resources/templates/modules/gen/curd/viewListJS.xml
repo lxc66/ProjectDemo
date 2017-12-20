@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<template>
+	<name>viewList</name>
+	<filePath>src/main/webapp/WEB-INF/views/${viewPath}/js</filePath>
+	<filePath2>src/main/webapp/WEB-INF/views/${viewPath}/js</filePath2>
+	<fileName>${className}-list.js</fileName>
+	<content><![CDATA[
+define(["./${className}-index.js"],function(indexPage) {
+function toEdit(id){
+	var url = "/${moduleName}/${className}/input";
+	var title = "${functionName}";
+	if(id){
+		url+="?id="+id;
+		title+= "-编辑";
+	}else{
+		title+= "-添加";
+	}
+	$.loadPage({
+  		 url:url
+  	    ,title: title
+  	    ,fix: true
+  	    ,maxmin: false
+  	    ,shadeClose: false
+  	    ,resize:false
+  	    ,area: ['800px', '100%']
+  	});
+}
+var obj = {
+	init:function(){
+		obj.event();
+	},
+	event:function(){
+        $("#addBtn").click(function(){
+        	toEdit();
+        });
+        
+        $(".model-edit").click(function(){
+        	var id = $(this).attr("modelId");
+        	toEdit(id);
+        });
+        
+        $(".model-del").click(function(){
+        	var id = $(this).attr("modelId");
+			confirm('确认删除？', function(){
+				$.ajax({
+				 	type: "POST",
+				  	url: '/${moduleName}/${className}/delete?id='+id,
+				  	processData:true,
+				  	success: function(data){
+				  		indexPage.refresh();
+				  		layer.msg('删除成功', {icon: 1});
+				  	}
+				 });
+			});
+        });
+	}
+};
+	return obj;
+});
+]]>
+	</content>
+</template>

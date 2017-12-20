@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jzsoft.platform.module.userauth.dao.PrivilegeDAO">
+    <!-- sp namespace:映射StudentMapper的接口 -->
+    
+    <resultMap type="Privilege" id="resultModelMap">  
+        <id column="id" property="id" />  
+        <result column="id_parent" property="parentId"/>  
+        <result column="id_module" property="moduleId"/>  
+        <result column="name" property="name"/>  
+        <result column="code" property="code"/>  
+        <result column="type" property="type"/>  
+        <result column="url" property="url"/>  
+        <result column="description" property="description"/>  
+        <result column="num" property="num"/>  
+        <result column="ft" property="ft"/>  
+        <result column="lt" property="lt"/>  
+        <result column="fu" property="fu"/>  
+        <result column="lu" property="lu"/>  
+    </resultMap>  
+    
+    <resultMap type="Privilege" id="resultJoinModuleMap" extends="resultModelMap">   
+        <association property="module" javaType="Module">
+        	<id column="id_module" property="id" />  
+        	<result column="m_name" property="name"/>
+        </association>
+    </resultMap>  
+    
+    <!-- 添加一条数据 -->
+    <insert id="save" keyProperty="id" useGeneratedKeys="false" parameterType="Privilege">
+        insert into sys_privilege(id,id_parent,id_module,name,code,type,url,description,num,ft,fu) 
+        values(#{id},#{parentId},#{moduleId},#{name},#{code},#{type},#{url},#{description},#{num},#{ft},#{fu})
+    </insert>
+    
+    <update id="update" parameterType="Privilege">
+        update sys_privilege 
+        <set>
+         <if test="parentId != '' ">  
+            id_parent=#{parentId},  
+         </if>  
+         <if test="moduleId != null and moduleId != '' ">  
+            id_module=#{moduleId},  
+         </if>  
+         <if test="name != null and name != '' ">  
+            name=#{name},  
+         </if>  
+         <if test="code != null and code != '' ">  
+            code=#{code},  
+         </if>  
+         <if test="type != null and type != '' ">  
+            type=#{type},  
+         </if>  
+         <if test="url != null and url != '' ">  
+            url=#{url},  
+         </if>  
+         <if test="description != null and description != '' ">  
+            description=#{description},  
+         </if>  
+         <if test="num != null and num != '' ">  
+            num=#{num},  
+         </if>  
+         <if test="'lt' != null and 'lt' != ''">  
+            lt=#{lt}, 
+         </if>  
+         <if test="lu != null and lu != '' ">  
+            lu=#{lu} 
+         </if>  
+        </set>
+         WHERE id=#{id}  
+    </update> 
+    
+    <!-- 删除一条数据 -->
+    <delete id="delete">
+        delete from sys_privilege where id=#{id}
+    </delete>
+    
+    <sql id="selectSql">
+		select * from sys_privilege
+	</sql>
+	
+    <sql id="selectSqlJoinModule">
+		select p.*,m.name m_name from sys_privilege p join sys_module m on m.id=p.id_module 
+	</sql>
+    
+    <!-- 获取一条数据 -->
+    <select id="get"  resultMap="resultJoinModuleMap">
+        <include refid="selectSqlJoinModule" /> where p.id=#{id}
+    </select>
+    
+    <select id="getAll" resultMap="resultModelMap">  
+        <include refid="selectSql" /> order by num,code
+    </select> 
+    
+    <select id="getListWithExcludeId" resultMap="resultModelMap">  
+        <include refid="selectSql" /> where id!=#{excludeId} order by num,code
+    </select> 
+    
+    <select id="getListWithModuleIdAndExcludeId" resultMap="resultModelMap" parameterType="Map">  
+        <include refid="selectSql" /> where id_module=#{moduleId} and id!=#{excludeId} order by num,code
+    </select> 
+    
+    <select id="getWithCode" resultMap="resultModelMap">  
+        <include refid="selectSql" /> where code=#{code}
+    </select> 
+    
+    <select id="getWithCodeAndExclude" resultMap="resultModelMap" parameterType="Map">  
+        <include refid="selectSql" /> where code=#{code} 
+        <if test="excludeCode != null ">  
+         and code!=#{excludeCode}
+    	</if>
+    </select> 
+    
+    <select id="getWithNameAndExclude" resultMap="resultModelMap" parameterType="Map">  
+        <include refid="selectSql" /> where name=#{name} 
+        <if test="excludeName != null ">  
+         and name!=#{excludeName}
+    	</if>
+    </select> 
+    
+    <select id="getMaxOrderNumWithModule" resultType="Integer">  
+        select ifnull(max(num),0) num from sys_privilege  where id_module=#{moduleId} limit 1
+    </select> 
+    
+    <select id="getUserAllPrivileges" resultMap="resultModelMap">  
+		select * from sys_privilege p where exists(
+			select 1 from sys_roleprivilege rp join sys_userrole ur on rp.id_role=ur.id_role where p.id=rp.id_privilege and ur.id_user=#{userId}
+		) or exists(
+			select 1 from sys_userprivilege up where p.id=up.id_privilege and up.id_user=#{userId}
+		)
+    </select> 
+    
+    <select id="getUserRolePrivileges" resultMap="resultModelMap">  
+		select * from sys_privilege p where exists(
+			select 1 from sys_roleprivilege rp join sys_userrole ur on rp.id_role=ur.id_role where p.id=rp.id_privilege and ur.id_user=#{userId}
+		)
+    </select> 
+</mapper>

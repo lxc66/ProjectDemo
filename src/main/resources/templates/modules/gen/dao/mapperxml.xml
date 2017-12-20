@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<template>
+	<name>mapperxml</name>
+	<filePath>src/main/java/${packageName}/dao/mapper</filePath>
+	<filePath2>src/main/java/com/jzsoft/module/${moduleName}/dao/mapper</filePath2>
+	<fileName>${ClassName}Mapper.xml</fileName>
+	<content><![CDATA[
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="${packageName}.dao.mapper.${ClassName}Mapper">
+	
+	<resultMap id="BaseResultMap" type="${packageName}.entity.${ClassName}">
+	<#list table.columnList as c>
+		<result column="${c.name}" property="${c.javaFieldId}"/>
+	</#list>
+	</resultMap>
+    
+	<sql id="Base_Column_List">
+		<#assign columnField>
+			<#list table.columnList as c>
+		${c.name},
+			</#list>
+		</#assign>
+${columnField?substring(0, columnField?last_index_of(","))}
+	</sql>
+	
+	<sql id="whereStatementByPage">
+		<where>
+			1 = 1
+			<if test="condition !=null">
+			<#list table.columnList as c>
+				<#if (c.isQuery?? && c.isQuery == 1) || (table.parentExists && table.parentTableFk == c.name)>
+					<#if c.queryType ?? && c.queryType == 'between'>
+			<if test="begin${c.simpleJavaField?cap_first} != null and end${c.simpleJavaField?cap_first} != null <#if c.simpleJavaField != c.javaFieldId>and begin${c.javaFieldId?cap_first} != null and end${c.javaFieldId?cap_first} != null </#if>and begin${c.javaFieldId?cap_first} != '' and end${c.javaFieldId?cap_first} != ''">
+					<#else>
+			<if test="condition.${c.simpleJavaField} != null<#if c.simpleJavaField != c.javaFieldId> and ${c.javaFieldId} != null</#if> and condition.${c.javaFieldId} != ''">
+					</#if>
+					<#if c.queryType ?? && c.queryType == 'between'>
+				AND ${c.name} BETWEEN ${"#"}{begin${c.simpleJavaField?cap_first}} AND ${"#"}{end${c.simpleJavaField?cap_first}}
+					<#elseif c.queryType ?? && c.queryType == 'like'>
+				AND ${c.name} LIKE 
+					<if test="dbName == 'oracle'">'%'||${"#"}{condition.${c.javaFieldId}}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+${"#"}{condition.${c.javaFieldId}}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',${"#"}{condition.${c.javaFieldId}},'%')</if>
+					<#elseif c.queryType ?? && c.queryType == 'left_like'>
+				AND ${c.name} LIKE 
+					<if test="dbName == 'oracle'">'%'||${"#"}{condition.${c.javaFieldId}}</if>
+					<if test="dbName == 'mssql'">'%'+${"#"}{condition.${c.javaFieldId}}</if>
+					<if test="dbName == 'mysql'">concat('%',${"#"}{condition.${c.javaFieldId}})</if>
+					<#elseif c.queryType ?? && c.queryType == 'right_like'>
+				AND ${c.name} LIKE 
+					<if test="dbName == 'oracle'">${"#"}{condition.${c.javaFieldId}}||'%'</if>
+					<if test="dbName == 'mssql'">${"#"}{condition.${c.javaFieldId}}+'%'</if>
+					<if test="dbName == 'mysql'">concat(${"#"}{condition.${c.javaFieldId}},'%')</if>
+					<#else>
+				AND ${c.name} ${c.queryType} ${"#"}{condition.${c.javaFieldId}}
+					</#if>
+			</if>
+				</#if>
+			</#list>
+			</if>
+		</where>
+	</sql>
+	
+	<sql id="whereStatement">
+		<where>
+			1 = 1
+			<#list table.columnList as c>
+				<#if (c.isQuery?? && c.isQuery == 1) || (table.parentExists && table.parentTableFk == c.name)>
+					<#if c.queryType ?? && c.queryType == 'between'>
+			<if test="begin${c.simpleJavaField?cap_first} != null and end${c.simpleJavaField?cap_first} != null <#if c.simpleJavaField != c.javaFieldId>and begin${c.javaFieldId?cap_first} != null and end${c.javaFieldId?cap_first} != null </#if>and begin${c.javaFieldId?cap_first} != '' and end${c.javaFieldId?cap_first} != ''">
+					<#else>
+			<if test="${c.simpleJavaField} != null<#if c.simpleJavaField != c.javaFieldId> and ${c.javaFieldId} != null</#if> and ${c.javaFieldId} != ''">
+					</#if>
+					<#if c.queryType ?? && c.queryType == 'between'>
+				AND ${c.name} BETWEEN ${"#"}{begin${c.simpleJavaField?cap_first}} AND ${"#"}{end${c.simpleJavaField?cap_first}}
+					<#elseif c.queryType ?? && c.queryType == 'like'>
+				AND ${c.name} LIKE 
+					<if test="dbName == 'oracle'">'%'||${"#"}{${c.javaFieldId}}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+${"#"}{${c.javaFieldId}}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',${"#"}{${c.javaFieldId}},'%')</if>
+					<#elseif c.queryType ?? && c.queryType == 'left_like'>
+				AND ${c.name} LIKE 
+					<if test="dbName == 'oracle'">'%'||${"#"}{${c.javaFieldId}}</if>
+					<if test="dbName == 'mssql'">'%'+${"#"}{${c.javaFieldId}}</if>
+					<if test="dbName == 'mysql'">concat('%',${"#"}{${c.javaFieldId}})</if>
+					<#elseif c.queryType ?? && c.queryType == 'right_like'>
+				AND ${c.name} LIKE 
+					<if test="dbName == 'oracle'">${"#"}{${c.javaFieldId}}||'%'</if>
+					<if test="dbName == 'mssql'">${"#"}{${c.javaFieldId}}+'%'</if>
+					<if test="dbName == 'mysql'">concat(${"#"}{${c.javaFieldId}},'%')</if>
+					<#else>
+				AND ${c.name} ${c.queryType} ${"#"}{${c.javaFieldId}}
+					</#if>
+			</if>
+				</#if>
+			</#list>
+		</where>
+	</sql>
+	
+	<select id="getPage" resultMap="BaseResultMap" parameterType="com.jzsoft.platform.core.dao.Page">
+		select * from ${table.name} 
+		<include refid="whereStatementByPage" /> 
+		order by ${table.dbPrimaryKey} desc
+	</select>
+	
+	<select id="getList" resultMap="BaseResultMap" parameterType="com.jzsoft.demo2.entity.DmText">
+		SELECT 
+		<include refid="Base_Column_List" /> 
+		from ${table.name} 
+		<include refid="whereStatement" /> 
+		order by ${table.dbPrimaryKey} desc
+	</select>
+	
+	<select id="getAll" resultMap="BaseResultMap" parameterType="${packageName}.entity.${ClassName}">
+		SELECT 
+		<include refid="Base_Column_List" /> 
+		from ${table.name} 
+		order by ${table.dbPrimaryKey} desc
+	</select>
+	
+	<select id="get" resultMap="BaseResultMap" parameterType="java.lang.String">
+		select 
+		<include refid="Base_Column_List" /> 
+		from ${table.name} c where ${table.dbPrimaryKey} = ${"#"}{${table.javaPrimaryKey}}
+	</select>
+	
+	<delete id="delete" parameterType="java.lang.String">
+		delete from ${table.name} where ${table.dbPrimaryKey} = ${"#"}{${table.javaPrimaryKey}}
+	</delete>
+	
+	<insert id="save" parameterType="${packageName}.entity.${ClassName}">
+		insert into ${table.name} 
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+
+			<#list table.columnList as c>
+				<#if c.isInsert?? && c.isInsert == 1>
+			<if test="${c.javaFieldId} != null <#if c.javaType=='String'>and ${c.javaFieldId} != ''</#if>">
+			${c.name},
+			</if>
+				</#if>
+			</#list>
+		</trim>
+
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<#list table.columnList as c>
+				<#if c.isInsert?? && c.isInsert == 1>
+			<if test="${c.javaFieldId} != null <#if c.javaType=='String'>and ${c.javaFieldId} != ''</#if>">
+				${"#"}{${c.javaFieldId}},
+			</if>
+				</#if>
+			</#list>
+		</trim>
+	</insert>
+	
+	<update id="update" parameterType="${packageName}.entity.${ClassName}">
+		update ${table.name} 
+		<set>
+				<#list table.columnList as c>
+					<#if c.isEdit?? && c.isEdit == 1>
+			<if test="${c.javaFieldId} != null <#if c.javaType=='String'>and ${c.javaFieldId} != ''</#if>">
+				${c.name} = ${"#"}{${c.javaFieldId}},
+			</if>
+					</#if>
+				</#list>
+		</set>
+		WHERE ${table.dbPrimaryKey} = ${"#"}{${table.javaPrimaryKey}}
+	</update>
+	
+</mapper>]]>
+	</content>
+</template>

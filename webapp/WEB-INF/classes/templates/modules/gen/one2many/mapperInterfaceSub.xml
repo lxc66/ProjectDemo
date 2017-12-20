@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<template>
+	<name>mapperInterface</name>
+	<filePath>src/main/java/${packageName}/dao/${subModuleName}/mapper</filePath>
+	<filePath2>src/main/java/com/leimingtech/service/module/${moduleName}/dao/mapper</filePath2>
+	<fileName>${ClassName}Mapper.java</fileName>
+	<content><![CDATA[
+<#if type==1>
+package ${packageName}.dao.mapper;
+<#elseif type==2>
+package com.jzsoft.service.module.${moduleName}.dao.mapper;
+</#if>
+
+import java.util.List;
+
+import com.jzsoft.core.orm.mybatis.SqlMapper;
+import com.jzsoft.service.utils.page.Pager;
+<#if type==1>
+import ${packageName}.entity.${ClassName};
+<#elseif type==2>
+import com.jzsoft.core.entity.base.${ClassName};
+</#if>
+
+/**
+ * ${functionName}mapper接口
+ * 
+ * @author ${functionAuthor}
+ * @version ${functionVersion}
+ */
+@SqlMapper
+public interface ${ClassName}Mapper {
+
+	/**
+	 * 查询分页${functionName}数据
+	 * 
+	 * @param pager 分页对象
+	 * @return
+	 */
+	List<${ClassName}> find${ClassName}PagerList(Pager pager);
+
+	/**
+	 * 通过${table.javaPrimaryKey}获取单条${functionName}数据
+	 * 
+	 * @param ${table.javaPrimaryKey}
+	 * @return
+	 */
+	${ClassName} find${ClassName}By${table.javaPrimaryKey?cap_first}(String ${table.javaPrimaryKey});
+
+	/**
+	 * 通过${table.javaPrimaryKey}删除${functionName}数据
+	 * 
+	 * @param ${table.javaPrimaryKey}
+	 */
+	void delete${ClassName}By${table.javaPrimaryKey?cap_first}(String ${table.javaPrimaryKey});
+	
+	/**
+	 * 通过${table.parentTableFk}删除${functionName}数据
+	 * 
+	 * @param ${table.parentTableFk}
+	 */
+	void delete${ClassName}By${table.parentTableFk?cap_first}(String ${table.parentTableFk});
+
+	/**
+	 * 修改${functionName}数据
+	 * 
+	 * @param ${className}
+	 */
+	void update${ClassName}(${ClassName} ${className});
+
+	/**
+	 * 保存${functionName}数据
+	 * 
+	 * @param ${className}
+	 */
+	void save${ClassName}(${ClassName} ${className});
+
+	/**
+	 * 获取所有${functionName}数据
+	 * 
+	 * @return
+	 */
+	public List<${ClassName}> find${ClassName}AllList();
+
+}]]>
+	</content>
+</template>

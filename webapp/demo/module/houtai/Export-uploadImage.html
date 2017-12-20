@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<#include "/platform/common/meta.html">
+<div class="container-fluid layer-content-custom">
+   <form class="form-horizontal m-t" role="form" id="theForm11" enctype="multipart/form-data">
+           <input type="hidden" name="id" id="id" value="10">
+           <input type="hidden" name="attachment" value="注会">
+           <input type="hidden" name="attachment" value="金融">
+           <input type="hidden" name="attachment" value="其他">
+		<div class="form-group">
+           <label class="col-sm-3 control-label">图片路径</label>
+           <div class="col-sm-7">
+           		<input type="file" name="upFiles" multiple="multiple" accept="image/png,image/gif,image/jpeg"/>
+           </div>
+		</div>
+       </div>
+
+	</form>
+</div>
+<div class="layer-footer-custom">
+	<div class="col-sm-12">
+		<button class="btn btn-primary m-r-xs" id="submitBtn11">提交</button>
+		<button class="btn btn-white m-l-xs" id="cancelBtn">取消</button>
+	</div>
+</div>
+<script type="text/javascript">
+require(["jquery","/demo/module/houtai/js/Export-uploadImage.js"],function($,page){
+	page.init();
+});
+</script>

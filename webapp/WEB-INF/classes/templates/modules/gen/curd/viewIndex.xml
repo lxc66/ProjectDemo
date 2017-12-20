@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<template>
+	<name>viewList</name>
+	<filePath>src/main/webapp/WEB-INF/views/${viewPath}</filePath>
+	<filePath2>src/main/webapp/WEB-INF/views/${viewPath}</filePath2>
+	<fileName>${className}-index.html</fileName>
+	<content><![CDATA[
+<!DOCTYPE html>
+<${'#'}include "/platform/common/meta.html">
+   <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+						<form class="form-inline" role="form" id="queryForm" name="queryForm">
+						<input type="hidden" name="pageNo" value="1">
+						<#list table.columnList as c>
+							<#if c.isQuery?? && c.isQuery == 1>
+							<div class="form-group">
+								<#if c.showType == "input" || c.showType == "textarea">
+					    		<input type="text" name="${c.javaFieldId}" class="form-control" placeholder="${c.comments}"/>
+						    	<#elseif c.showType == "select">
+						    	
+								<#elseif c.showType == "dateselect" && c.queryType == "between">
+								
+								<#elseif c.showType == "dateselect">
+								
+						    	</#if>
+							</div>
+							</#if>
+						</#list>
+							<a class="btn btn-outline btn-primary" id="queryBtn"><i class="fa fa-search"/>&nbsp;查询</a>
+						</form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="panel panel-default">
+                    <div class="panel-body" id="listContent">
+                    
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<script type="text/javascript">
+require(["jquery","${viewPath}/js/${className}-index.js"],function($,page){
+	page.init();
+});
+</script>
+]]>
+	</content>
+</template>

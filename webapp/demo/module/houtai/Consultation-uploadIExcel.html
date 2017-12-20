@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<#include "/platform/common/meta.html">
+<div class="container-fluid layer-content-custom">
+   <form class="form-horizontal m-t" role="form" id="toForm" enctype="multipart/form-data">
+           
+		<div class="form-group">
+           <label class="col-sm-3 control-label">Excel路径</label>
+           <div class="col-sm-7">
+           		<input type="file" name="upExcel" id="ben"/>
+           </div>
+		</div>
+       </div>
+
+	</form>
+
+	
+	
+	
+</div>
+<div class="layer-footer-custom">
+	<div class="col-sm-12">
+		<button class="btn btn-primary m-r-xs" id="submitBtnExcel">提交</button>
+		<button class="btn btn-white m-l-xs" id="cancelBtn">取消</button>
+	</div>
+</div>
+<script type="text/javascript">
+require(["jquery","/demo/module/houtai/js/Consultation-uploadExcel.js"],function($,page){
+	page.init();
+});
+</script>

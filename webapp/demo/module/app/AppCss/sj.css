@@ -1,0 +1,144 @@
+*{
+    margin: 0;
+    padding: 0; }
+body{
+    padding: 15px;
+    padding-bottom:60px;
+}
+h1{
+    font-size: 18px;
+}
+.title div{
+    padding: 2px 15px;
+    color:#999;
+    font-size: 12px;
+    text-align: left;
+}
+.title img{
+    width: 20px;
+    height: 20px;
+    vertical-align: middle;
+}
+.body{
+    border-top: 1px solid #eee;
+}
+.body .images{
+/*     height: 170px; */
+    text-align: center;
+}
+.body .images img{
+    width: 100%;
+    height: 160px;
+}
+.body .cont p{
+    text-indent: 2em;
+    font-size: 14px;
+}
+.body .money{
+    text-align: center;
+}
+.fa-thumbs-up {
+    color: #C30;
+}
+.dashang {
+    border: 1px solid #ccc;
+    text-align: center;
+    padding: 2em;
+    font-size: 12px;
+}
+
+.btn {
+    display: inline-block;
+    padding: 6px 12px;
+    margin-bottom: 0;
+    font-size: 14px;
+    font-weight: normal;
+    line-height: 1.428571429;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    cursor: pointer;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+}
+.btn-warning {
+    color: #fff;
+    background-color: #f0ad4e;
+    border-color: #eea236;
+}
+.btn-danger {
+    color: #fff;
+    background-color: #d9534f;
+    border-color: #d43f3a;
+}
+.btn-success {
+    color: #fff;
+    background-color: #5cb85c;
+    border-color: #4cae4c;
+}
+.btn-xs {
+    padding: 1px 5px;
+}
+#dsIpt{
+    border:1px solid #eee;
+    border-radius: 5px;
+    padding-left: 5px;
+    outline: none;
+    padding: 1px 5px;
+    position: relative;
+    top: 2px;
+}
+.footer{
+    text-align: center;
+}
+.footpl{
+    font-size: 12px;
+    text-align: left;
+    list-style-type: none;
+}
+.footerMsgCon {
+    width: 100%;
+    height: 120px;
+    margin: 0 auto;
+    /*display: none;*/
+}
+#sub{
+    margin-top: 10px;
+}
+#msg{
+    text-align: right;
+    font-size: 12px;
+}
+.footerTitle{
+    font-size: 16px;
+}
+ul li .username {
+    color: #339cc5;
+    font-size: 16px;
+    text-align: left;
+}
+ul li .time {
+    font-size: 12px;
+    color: #ccc;
+    text-align: left;
+}
+.tx {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    vertical-align: middle;
+    margin-right: 5px;
+}
+.pldj{
+    float: right;
+}
+.header,.body,.footer{
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    border-bottom:1px solid #ddd;
+}

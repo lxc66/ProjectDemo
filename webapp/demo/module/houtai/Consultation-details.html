@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<#include "/platform/common/meta.html">
+<div class="container-fluid layer-content-custom">
+
+	<div>资讯标题：&nbsp;${entity.titleLabel}</div>
+	<br>
+
+	<div>资源来源：&nbsp;${entity.csource}</div>
+	<br>
+
+	<div>资讯类别：&nbsp;${entity.typeView}</div>
+	<br>
+	
+	<div>
+	             <th>回答总数:&nbsp;&nbsp;${entity.answerNumber}</th> 
+                 <th>&nbsp;&nbsp;&nbsp;&nbsp;是否经典:&nbsp;&nbsp;${entity.ifclassicView?default('否')}</th> 
+                 <th>&nbsp;&nbsp;&nbsp;&nbsp;关注总数:&nbsp;&nbsp;${entity.focusNumber}</th> 
+                 <th>&nbsp;&nbsp;&nbsp;&nbsp;点赞总数:&nbsp;&nbsp;${entity.clickUpNumber}</th> 
+	</div>
+    <br>
+	<div>
+		具体内容：</br>&nbsp;
+		
+		<P>
+		${entity.contentLabel}
+		</P>
+	</div>
+	<br>
+
+	<div>发布时间：&nbsp;${entity.releaseTime}</div>
+	<br>
+
+	<!--  <div> -->
+	<!--  结贴时间：&nbsp;${entity.otime} -->
+	<!--  </div><br> -->
+<#if split??>
+   <#list split as split>
+ 
+			 <div>
+			 <img src="${split}" />
+			 </div><br>
+ 
+   </#list>
+</#if>
+</div>
+<div class="layer-footer-custom">
+	<!-- 	<div class="col-sm-12"> -->
+	<!-- 		<button class="btn btn-white m-l-xs" id="guanbi">关闭</button> -->
+	<!-- 	</div> -->
+</div>
+<script type="text/javascript">
+	require([ "jquery", "/demo/module/houtai/js/Consultation-details.js" ],
+			function($, page) {
+				page.init();
+			});
+</script>

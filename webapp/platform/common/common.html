@@ -1,0 +1,93 @@
+<#macro pager pager>
+<#-- 定义局部变量pageCount保存总页数 -->
+    <#assign pageNo=pager.pageNo?int>
+    <#assign pageSize=pager.pageSize?int>
+    <#assign recordCount=pager.totalRecord?int>
+
+    <#assign pageCount=pager.totalPage?int>
+    <#if pager.totalRows==0><#return/></#if>
+<#-- 输出分页样式 -->
+
+<#-- 页号越界处理 -->
+    <#if (pageNo > pageCount)>
+        <#assign pageNo=pageCount>
+    </#if>
+    <#if (pageNo < 1)>
+        <#assign pageNo=1>
+    </#if>
+<#-- 输出分页表单 -->
+<#--共${recordCount}条数据,分${((recordCount+pageSize -1)/pageSize)?int}页,每页显示${pageSize}条-->
+
+<div class="row">
+	<div class="col-sm-3">
+		<div class="paging_info" id="editable_info" role="alert" aria-live="polite" aria-relevant="all">共 ${recordCount} 条，第${pageNo}/${pageCount}页</div>
+	</div>
+	<div class="col-sm-9">
+		<div class="paging_paginate paging_simple_numbers" id="editable_paginate">
+			<ul class="pagination">
+		<#-- 上一页处理 -->
+            <#if (pageNo == 1)>
+                <li class="disabled"><a href="javascript:void(0);"><i class="fa fa-step-backward" title="首页"></i></a></li>
+                <li class="disabled"><a href="javascript:void(0);"><i class="fa fa-chevron-left" title="上一页"></i></a></li>
+            <#else>
+                <li><a href="javascript:void(0);" onclick="jumpToPage(1)"><i class="fa fa-step-backward" title="首页"></i></a></li>
+                <li><a href="javascript:void(0);" onclick="jumpToPage(${pageNo - 1})"><i class="fa fa-chevron-left" title="上一页"></i></a></li>
+            </#if>
+        <#-- 如果前面页数过多,显示... -->
+            <#assign start=1>
+            <#if (pageNo > 4)>
+                <#assign start=(pageNo - 1)>
+                <li><a href="javascript:void(0);" onclick="jumpToPage(1)"><span>1</span></a></li>
+                <li><a href="javascript:void(0);" onclick="jumpToPage(2)"><span>2</span></a></li>
+                <li><span>...</span></li>
+            </#if>
+        <#-- 显示当前页号和它附近的页号 -->
+            <#assign end=(pageNo + 1)>
+            <#if (end > pageCount)>
+                <#assign end=pageCount>
+            </#if>
+            <#list start..end as i>
+                <#if (pageNo==i)>
+                    <li class="active"><span>${i}</span></li>
+                <#else>
+                	<li><a href="javascript:void(0);" onclick="jumpToPage(${i})"><span>${i}</span></a></li>
+                </#if>
+            </#list>
+        <#-- 如果后面页数过多,显示... -->
+            <#if (end < pageCount - 2)>
+                <li><span>...</span></li>
+            </#if>
+            <#if (end < pageCount - 1)>
+                <li><a href="javascript:void(0);" onclick="jumpToPage(${pageCount - 1})"><span>${pageCount - 1}</span></a></li>
+            </#if>
+            <#if (end < pageCount)>
+                <li><a href="javascript:void(0);" onclick="jumpToPage(${pageCount})"><span>${pageCount}</span></a></li>
+            </#if>
+        <#-- 下一页处理 -->
+            <#if (pageNo == pageCount)>
+                <li class="disabled"><a href="javascript:void(0);"><i class="fa fa-chevron-right" title="下一页"></i></a></li>
+                <li class="disabled"><a href="javascript:void(0);"><i class="fa fa-step-forward" title="末页"></i></a></li>
+            <#else>
+                <li><a href="javascript:void(0);" onclick="jumpToPage(${pageNo + 1})"><i class="fa fa-chevron-right" title="下一页"></i></a></li>
+                <li><a href="javascript:void(0);" onclick="jumpToPage(${((recordCount+pageSize -1)/pageSize)?int})"><i class="fa fa-step-forward" title="末页"></i></a></li>
+            </#if>
+			</ul>
+		</div>
+	</div>
+</div>
+<script language="javascript">
+    function jumpToPage(no) {
+        var queryForm = document.queryForm;
+        if (no >${pageCount}) {
+            no =${pageCount};
+        }
+        if (no < 1) {
+            no = 1;
+        }
+        $queryForm = $(queryForm);
+        queryForm.pageNo.value=no;
+        $queryForm.find("#queryBtn").click();
+        //queryForm.submit();
+    }
+</script>
+</#macro>

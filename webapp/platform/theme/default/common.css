@@ -1,0 +1,458 @@
+/*框架布局样式*/ /*换肤按钮样式*/
+.themeList {
+	float: left;
+	margin: 2px 10px;
+	padding: auto 5px;
+	padding-right: 0px;
+	list-style: none;
+	overflow: hidden;
+	list-style: none;
+}
+
+.themeList li {
+	float: left;
+	padding: 0 3px;
+}
+
+.themeList li div {
+	cursor: pointer;
+	display: block;
+	overflow: hidden;
+	text-indent: -100px;
+	width: 15px;
+	height: 15px;
+}
+
+.themeList li div {
+	background: url("http://192.168.1.228:8180/UI3.0/images/theme.gif")
+		no-repeat scroll 0 0 transparent;
+}
+
+.themeList li.default div {
+	background-position: 0 0;
+}
+
+.themeList li.default .selected {
+	background-position: 0 -15px;
+}
+
+.themeList li.green div {
+	background-position: -20px 0;
+}
+
+.themeList li.green .selected {
+	background-position: -20px -15px;
+}
+
+.themeList li.orange div {
+	background-position: -40px 0;
+}
+
+.themeList li.orange .selected {
+	background-position: -40px -15px;
+}
+
+.themeList li.blue div {
+	background-position: -60px 0;
+}
+
+.themeList li.blue .selected {
+	background-position: -60px -15px;
+}
+
+.themeList li.red div {
+	background-position: -80px 0;
+}
+
+.themeList li.red .selected {
+	background-position: -80px -15px;
+}
+
+.themeList li.purple div {
+	background-position: -100px 0;
+}
+
+.themeList li.purple .selected {
+	background-position: -100px -15px;
+}
+
+/*抽屉菜单*/
+ul.accordion,ul.accordion ul {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+}
+ul.accordion a {
+	outline:0;
+	*noFocusLine:expression(this.onFocus=this.blur());
+	display: block;
+	text-decoration: none;
+}
+.accordionHeader {
+	zoom: 1;
+	position:relative;
+	background: #fff;
+	background: -webkit-gradient(linear, left top, left bottom, from(#fff), to(#ededed));
+	background: -moz-linear-gradient(top,  #fff,  #ededed);
+	filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#ededed');	
+	border-bottom:#BEBEBE 1px solid;
+	text-indent: 5px;
+}
+.accordionContent {
+	background: #fff;
+	border-bottom:#BEBEBE 1px solid; /*待调试*/
+}
+
+ul.accordion li a,ul.accordion li h2 {
+	color: #000;
+	cursor: pointer;
+    display: block;
+    padding: 0.5em 2em 0.5em 1em;
+}
+ul.accordion li span{
+	position:absolute;
+	right:0px;
+	margin-top:-20px;
+	width:25px;
+	height:15px;
+    background: url("http://58.211.230.12/dwz-demo/themes/default/images/accordion/accordion.png") repeat scroll 0 0 transparent;
+    background-position: 100% -105px;
+    background-repeat: no-repeat;
+    cursor: pointer;	
+}
+ul.accordion li span.collapsable{
+	position:absolute;
+	right:0px;
+	margin-top:-20px;
+	width:25px;
+	height:15px;
+    background: url("http://58.211.230.12/dwz-demo/themes/default/images/accordion/accordion.png") repeat scroll 0 0 transparent;
+    background-position: 100% -55px;
+    background-repeat: no-repeat;
+    cursor: pointer;	
+}
+ul.accordion li a.accordionHeader:hover {
+	background: -moz-linear-gradient(top, #ededed, #fff);
+}
+
+ul.accordion .accordionContent a {
+	background: #fff;
+	color: #000;
+	padding-left: 20px;
+}
+
+ul.accordion .accordionContent a:hover {
+	background: #E8EDF3;
+	border-left: 5px #999 solid;
+	padding-left: 15px;
+}
+
+/*图标库*/
+.iconWrapper {
+	border: 1px solid transparent;
+	display: inline-block;
+	min-width: 16px;
+	overflow: hidden;
+	padding: 3px;
+}
+
+* html .iconWrapper {
+	border: 0 none;
+	padding: 1px;
+}
+
+.iconWrapper img {
+	cursor: pointer;
+	margin: 0;
+	display: block;
+}
+
+.iconWrapper a,.iconWrapper a:hover {
+	cursor: pointer;
+	margin: 0;
+	text-decoration: none;
+	color: #000;
+}
+
+.iconWrapper:hover {
+	border: 1px solid #A0A0A0;
+	border-radius: 3px 3px 3px 3px;
+	cursor: pointer;
+}
+
+/*带图片文字按钮*/
+.icon_text {
+	background-position: 0 40%;
+	padding: 0 5px 0 20px;
+	line-height: 16px;
+	word-break: keep-all;
+	word-wrap: normal;
+	width: auto !important;
+	height: auto !important;
+}
+
+/*文本截断*/
+.text_slice {
+	display: block;
+	overflow: hidden;
+	white-space: nowrap;
+}
+
+/*边框样式、颜色、大小*/
+div.borderStyle_dashed{
+	border-style: dashed!important;
+}
+div.borderStyle_solid{
+	border-style: solid!important;
+}
+div.borderColor_grad{
+	border-color: #CCCCCC!important;
+}
+div.borderColor_red{
+	border-color: #F74C4C!important;
+}
+div.borderColor_blue{
+	border-color: #3E9BFC!important;
+}
+div.borderColor_green{
+	border-color: #51BE21!important;
+}
+div.borderColor_yellow{
+	border-color: #D5C913!important;
+}
+div.borderColor_pink{
+	border-color: #FF9A9A!important;
+}
+div.borderWidth_1px{
+	border-width: 1px!important;
+}
+div.borderWidth_2px{
+	border-width: 2px!important;
+}
+div.borderWidth_5px{
+	border-width: 5px!important;
+}
+
+/*信息提示盒子样式*/
+div.succes-small {
+    background: url("../images/icons/16x16/accept.png") no-repeat scroll 14px 50% #C3FBAA;
+    border: 1px solid #51BE21;
+    min-height:30px;
+    margin-bottom: 10px;
+    position: relative;
+}
+div.info-small {
+    background: url("../images/icons/16x16/help.png") no-repeat scroll 14px 50% #AEE6FD;
+    border: 1px solid #3E9BFC;
+    min-height:30px;
+    margin-bottom: 10px;
+    position: relative;
+}
+div.error-small {
+    background: url("../images/icons/16x16/delete.png") no-repeat scroll 14px 50% #FEBFBF;
+    border: 1px solid #F74C4C;
+    min-height:30px;
+    margin-bottom: 10px;
+    position: relative;
+}
+div.warning-small {
+    background: url("../images/icons/16x16/error.png") no-repeat scroll 14px 50% #FFFAB2;
+    border: 1px solid #D5C913;
+    min-height:30px;
+    margin-bottom: 10px;
+    position: relative;
+}
+div.msg-small {
+    background: url("../images/icons/16x16/light_1.gif") no-repeat scroll 14px 50% #FFFFFF;
+    border: 1px solid #CCCCCC;
+    min-height:30px;
+    margin-bottom: 10px;
+    position: relative;
+}
+div.succes-small p, div.info-small p, div.error-small p, div.warning-small p, div.msg-small p {
+    font-size: 12px;
+    line-height:20px;
+    margin: 5px 25px 5px 40px;
+    width: auto!important;
+}
+div.succes-small .delx-box, div.info-small .delx-box, div.error-small .delx-box, div.warning-small .delx-box, div.msg-small .delx-box {
+    background: url("../images/close-x.png") no-repeat scroll 0 0 transparent;
+    cursor: pointer;
+    height: 12px;
+    position: absolute;
+    right: 10px;
+    top: 9px;
+    width: 12px;
+}
+div.succes-in {
+    background: url("../images/icons/32x32/dialog-apply-32.png") no-repeat scroll 14px 50% #C3FBAA;
+    border: 1px solid #51BE21;
+    cursor: pointer;
+    min-height: 40px;
+    margin-bottom: 10px;
+    position: relative;
+}
+div.info-in {
+    background: url("../images/icons/32x32/gnome-dialog-question-32.png") no-repeat scroll 14px 50% #AEE6FD;
+    border: 1px solid #3E9BFC;
+    cursor: pointer;
+    min-height: 40px;
+    margin-bottom: 10px;
+    position: relative;
+}
+div.error-in {
+    background: url("../images/icons/32x32/gnome-emblem-important-32.png") no-repeat scroll 14px 50% #FEBFBF;
+    border: 1px solid #F74C4C;
+    cursor: pointer;
+    min-height: 40px;
+    margin-bottom: 10px;
+    position: relative;
+}
+div.warning-in {
+    background: url("../images/icons/32x32/gnome-dialog-warning-32.png") no-repeat scroll 14px 50% #FFFAB2;
+    border: 1px solid #D5C913;
+    cursor: pointer;
+    min-height: 40px;
+    margin-bottom: 10px;
+    position: relative;
+}
+div.msg-in {
+    background: url("../images/icons/32x32/gnome-dialog-information-32.png") no-repeat scroll 14px 50% #FFFFFF;
+    border: 1px solid #CCCCCC;
+    cursor: pointer;
+    min-height: 40px;
+    margin-bottom: 10px;
+    position: relative;
+}
+div.succes-in p, div.info-in p, div.error-in p, div.warning-in p, div.msg-in p {
+    float: left;
+    font-size: 12px;
+    line-height:20px;
+    margin: 10px 10px 10px 60px;
+    width: auto!important;
+}
+div.succes-in .delx, div.info-in .delx, div.error-in .delx, div.warning-in .delx, div.msg-in .delx {
+    color: #666666;
+    display: none;
+    font-size: 12px;
+    position: absolute;
+    right: 8px;
+    top: 5px;
+}
+div.succes-big {
+    background: url("../images/icons/64x64/dialog-apply-64.png") no-repeat scroll 14px 50% #C3FBAA;
+    border: 1px solid #51BE21;
+    cursor: pointer;
+    min-height: 84px;
+    margin-bottom: 10px;
+    position: relative;
+}
+div.info-big {
+    background: url("../images/icons/64x64/gnome-dialog-question-64.png") no-repeat scroll 14px 50% #AEE6FD;
+    border: 1px solid #3E9BFC;
+    cursor: pointer;
+    min-height: 84px;
+    margin-bottom: 10px;
+    position: relative;
+}
+div.error-big {
+    background: url("../images/icons/64x64/gnome-emblem-important-64.png") no-repeat scroll 14px 50% #FEBFBF;
+    border: 1px solid #F74C4C;
+    cursor: pointer;
+    min-height: 84px;
+    margin-bottom: 10px;
+    position: relative;
+}
+div.warning-big {
+    background: url("../images/icons/64x64/gnome-dialog-warning-64.png") no-repeat scroll 14px 50% #FFFAB2;
+    border: 1px solid #D5C913;
+    cursor: pointer;
+    min-height: 84px;
+    margin-bottom: 10px;
+    position: relative;
+}
+div.msg-big {
+    background: url("../images/icons/64x64/gnome-dialog-information-64.png") no-repeat scroll 14px 50% #FFFFFF;
+    border: 1px solid #CCCCCC;
+    cursor: pointer;
+    min-height: 84px;
+    margin-bottom: 10px;
+    position: relative;
+}
+div.succes-big h2, div.info-big h2, div.error-big h2, div.warning-big h2, div.msg-big h2 {
+    float: left;
+    font-size: 16px;
+    font-weight: normal;
+    margin: 10px 0 0 94px;
+    width: auto;
+}
+div.succes-big p, div.info-big p, div.error-big p, div.warning-big p, div.msg-big p {
+    color: #666666;
+    float: left;
+    font-size: 14px;
+    margin: 5px 10px 14px 94px;
+    width: auto!important;
+}
+div.succes-big .delx, div.info-big .delx, div.error-big .delx, div.warning-big .delx, div.msg-big .delx {
+    color: #666666;
+    display: none;
+    font-size: 12px;
+    position: absolute;
+    right: 8px;
+    top: 5px;
+}
+
+/*表单提示*/
+div.form-msg-error-advanced {
+    background: url("../images/icons/16x16/delete.png") no-repeat scroll 10px 50% #FEBFBF;
+    border: 1px solid #F74C4C;
+    border-radius: 5px 5px 5px 5px;
+    float: left;
+    height: 26px;
+    line-height:20px;
+    margin: 0 0 0 20px;
+    padding: 6px 10px 0 34px;
+    width: 200px;
+}
+div.form-msg-good-advanced {
+    background: url("../images/icons/16x16/accept.png") no-repeat scroll 10px 50% #C3FBAA;
+    border: 1px solid #51BE21;
+    border-radius: 5px 5px 5px 5px;
+    float: left;
+    height: 26px;
+    line-height:20px;
+    margin: 0 0 0 20px;
+    padding: 6px 10px 0 34px;
+    width: 200px;
+}
+div.form-msg-info-advanced {
+    background: url("../images/icons/16x16/help.png") no-repeat scroll 10px 50% #AEE6FD;
+    border: 1px solid #3E9BFC;
+    border-radius: 5px 5px 5px 5px;
+    float: left;
+    height: 26px;
+    line-height:20px;
+    margin: 0 0 0 20px;
+    padding: 6px 10px 0 34px;
+    width: 200px;
+}
+div.form-msg-warning-advanced {
+    background: url("../images/icons/16x16/error.png") no-repeat scroll 10px 50% #FFFAB2;
+    border: 1px solid #D5C913;
+    border-radius: 5px 5px 5px 5px;
+    float: left;
+    height: 26px;
+    line-height:20px;
+    margin: 0 0 0 20px;
+    padding: 6px 10px 0 34px;
+    width: 200px;
+}
+div.form-msg-advanced {
+    background: url("../images/icons/16x16/light_on.gif") no-repeat 10px 8px #FFFAB2;
+    border: 1px solid #D5C913;
+    border-radius: 5px 5px 5px 5px;
+    float: left;
+    line-height:20px;
+    margin: 0 0 0 20px;
+    padding: 6px 10px 6px 34px;
+}

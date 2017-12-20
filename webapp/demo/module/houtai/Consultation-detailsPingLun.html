@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<#include "/platform/common/meta.html"> <!-- <div class="container-fluid layer-content-custom"> -->
+<!-- </div> -->
+<link rel="stylesheet" href="/demo/module/app/AppCss/demo.css">
+<link rel="stylesheet" href="/demo/module/app/AppCss/font-awesome.css">
+<div id="sss">
+
+<#if entity??>
+ 
+<input type="text" name="type" id="id" style="display: none;" value="${entity.id}">
+
+</#if>
+<#if list??>
+   <#list list as m> 
+            <li>
+				<p class="username" ><img class="tx" src="${m.test2}" alt="">${m.userName}</p>
+				<p>${m.utype}</p>
+				<p class="time" id='cnt_P'>
+					${m.tcomment}
+					&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+					
+					<a class="btn btn-outline btn-danger btn-sm PingLun-del" modelId="${m.id}"><i class="fa fa-minus-circle"/>&nbsp;删除</a>
+<!-- 					<span class="fa fa-thumbs-o-up" value="${m.id}"> -->
+<!-- 					</span><span class="add">${m.dianzan}</span> -->
+				</p>
+				<p>${m.substance}
+				
+<!-- 				<input class="btn btn-outline btn-danger btn-sm PingLun-del" modelId="${m.id}" type="submit" value="删除"> -->
+                </p>
+			</li>
+			&nbsp;&nbsp;&nbsp;&nbsp;
+<!-- 			<#if m == null> -->
+<!-- 			    对不起，该资讯暂时没有评论 -->
+<!-- 			</#if> -->
+   </#list>
+
+
+
+
+</#if>
+
+
+</div>
+
+<script type="text/javascript">
+	require(
+			[ "jquery", "/demo/module/houtai/js/Consultation-detailsPingLun.js" ],
+			function($, page) {
+				page.init();
+			});
+	
+	
+</script>

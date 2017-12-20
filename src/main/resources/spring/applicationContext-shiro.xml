@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+    <!-- 缓存管理器 使用Ehcache实现 -->
+    <bean id="cacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager">
+        <property name="cacheManagerConfigFile" value="classpath:ehcache.xml"/>
+    </bean>
+
+    <!-- 凭证匹配器 -->
+    <bean id="credentialsMatcher" class="com.jzsoft.platform.core.shiro.RetryLimitHashedCredentialsMatcher">
+        <constructor-arg ref="cacheManager"/>
+        <property name="hashAlgorithmName" value="md5"/>
+        <property name="hashIterations" value="1"/>
+        <property name="storedCredentialsHexEncoded" value="true"/>
+    </bean>
+
+    <!-- Realm实现 -->
+    <bean id="userRealm" class="com.jzsoft.platform.core.shiro.MyUserRealm">
+        <property name="credentialsMatcher" ref="credentialsMatcher"/>
+        <property name="cachingEnabled" value="true"/>
+        <property name="authenticationCachingEnabled" value="true"/>
+        <property name="authenticationCacheName" value="authenticationCache"/>
+        <property name="authorizationCachingEnabled" value="true"/>
+        <property name="authorizationCacheName" value="authorizationCache"/>
+    </bean>
+
+    <!-- 会话ID生成器 -->
+    <bean id="sessionIdGenerator" class="org.apache.shiro.session.mgt.eis.JavaUuidSessionIdGenerator"/>
+
+    <!-- 会话Cookie模板 -->
+    <bean id="sessionIdCookie" class="org.apache.shiro.web.servlet.SimpleCookie">
+        <constructor-arg value="sid"/>
+        <property name="httpOnly" value="true"/>
+        <property name="maxAge" value="180000"/>
+    </bean>
+    
+    <!-- 安全管理器 -->
+    <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+        <property name="realm" ref="userRealm"/>
+			<!-- 此处注释掉Shiro的会话管理器代表默认使用容器（如：Tomcat）的会话管理  -->
+<!--         <property name="sessionManager" ref="sessionManager"/> -->
+<!--         <property name="cacheManager" ref="cacheManager"/> -->
+    </bean>
+
+    <!-- 相当于调用SecurityUtils.setSecurityManager(securityManager) -->
+    <bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+        <property name="staticMethod" value="org.apache.shiro.SecurityUtils.setSecurityManager"/>
+        <property name="arguments" ref="securityManager"/>
+    </bean>
+
+    <!-- 基于Form表单的身份验证过滤器 -->
+    <bean id="formAuthenticationFilter" class="com.jzsoft.platform.core.shiro.CustomFormAuthenticationFilter">
+        <property name="usernameParam" value="username"/>
+        <property name="passwordParam" value="password"/>
+        <property name="loginUrl" value="/login.jsp"/>
+    </bean>
+    
+	<bean id="userFilter" class="com.jzsoft.platform.core.shiro.CustomUserFilter"/>
+	
+	<bean id="filterChainManager" class="com.jzsoft.platform.core.shiro.CustomDefaultFilterChainManager">
+	    <property name="loginUrl" value="/login.jsp"/>
+        <property name="unauthorizedUrl" value="/platform/common/jsp/shiro/unauthorized.jsp"/>
+	    <property name="customFilters">
+	       <util:map>
+                <entry key="authc" value-ref="formAuthenticationFilter"/>
+                <entry key="user" value-ref="userFilter" />
+            </util:map>
+	    </property>
+	    <property name="defaultFilterChainDefinitions">
+	        <value>
+	        	/sys/attachmentConfig/** = anon
+	        	/sys/attachment/** = anon
+	        	/sys/ueditor/exec* = anon
+		        /sys/i18n/ajaxGetI18nValues* = anon
+		        /yixin/joint* = anon
+		        /yixin/test* = anon
+		        /ddos/yixin/** = anon
+		        /yixin/report/** = anon
+		        /ddos/module/yixin/** = anon
+				/demo/** = anon
+				/css/** = anon
+				/js/** = anon
+				/dm/** = anon
+				
+				/sys/user/ajaxCheckLoginName/** = anon
+				
+				/fonts/** = anon
+				/images/** = anon
+				/favicon.ico = anon
+				/platform/component/** = anon
+				/platform/common/** = anon
+				/platform/theme/** = anon
+				/upload/** = anon
+                /app/webappController/** = anon               
+				/app/appController/** = anon
+				/demo/module/app/** = anon
+				/notoken/**=anon
+				/api/**=anon
+				/houtai/tconsultation/** = anon
+				/houtai/Tcase/** = anon
+                /login.jsp = authc
+                /logout = logout
+                /** = user
+            </value>
+	    </property>
+	</bean>
+	
+	<bean id="filterChainResolver" class="com.jzsoft.platform.core.shiro.CustomPathMatchingFilterChainResolver">
+	    <property name="customDefaultFilterChainManager" ref="filterChainManager"/>
+	</bean>
+	
+    <!-- Shiro的Web过滤器 -->
+    <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+        <property name="securityManager" ref="securityManager"/>
+<!--         <property name="filterChainResolver" ref="filterChainResolver"/> -->
+    </bean>
+
+	<bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+	    <property name="targetObject" ref="shiroFilter"/>
+	    <property name="targetMethod" value="setFilterChainResolver"/>
+	    <property name="arguments" ref="filterChainResolver"/>
+	</bean>
+
+    <!-- Shiro生命周期处理器-->
+    <bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>
+
+</beans>

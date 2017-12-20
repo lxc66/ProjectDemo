@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jzsoft.platform.module.userauth.dao.UserPrivilegeDAO">
+    <!-- sp namespace:映射StudentMapper的接口 -->
+    
+    <resultMap type="UserPrivilege" id="resultModelMap">  
+        <id column="id" property="id" />  
+        <result column="id_user" property="userId"/>  
+        <result column="id_privilege" property="privilegeId"/>  
+        <result column="ft" property="ft"/>  
+        <result column="lt" property="lt"/>  
+        <result column="fu" property="fu"/>  
+        <result column="lu" property="lu"/>  
+    </resultMap>  
+    
+    <!-- 添加一条数据 -->
+    <insert id="save" keyProperty="id" useGeneratedKeys="false" parameterType="UserPrivilege">
+        insert into sys_userprivilege(id,id_user,id_privilege,ft,fu) 
+        values(#{id},#{userId},#{privilegeId},#{ft},#{fu})
+    </insert>
+    <!-- 批量添加数据 -->
+    <insert id="saveBatch" keyProperty="id" useGeneratedKeys="false" parameterType="list">
+        insert into sys_userprivilege(id,id_user,id_privilege,ft,fu) values
+        <foreach collection="list" item="m" index="index" separator="," >  
+        	(#{m.id},#{m.userId},#{m.privilegeId},#{m.ft},#{m.fu})
+    	</foreach>
+    </insert>
+    
+    <update id="update" parameterType="UserPrivilege">
+        update sys_userprivilege 
+        <set>
+         <if test="userId != null and userId != '' ">  
+            id_user=#{userId},  
+         </if>  
+         <if test="privilegeId != null and privilegeId != '' ">  
+            id_privilege=#{privilegeId},  
+         </if>  
+         <if test="'lt' != null and 'lt' != ''">  
+            lt=#{lt}, 
+         </if>  
+         <if test="lu != null and lu != '' ">  
+            lu=#{lu} 
+         </if>  
+        </set>
+         WHERE id=#{id}  
+    </update> 
+    
+    <!-- 删除一条数据 -->
+    <delete id="delete">
+        delete from sys_userprivilege where id=#{id}
+    </delete>
+    
+    <delete id="deleteWithUserId">
+        delete from sys_userprivilege where id_user=#{userId}
+    </delete>
+    
+    <delete id="deleteWithPrivilegeId">
+        delete from sys_userprivilege where id_privilege=#{privilegeId}
+    </delete>
+    
+    <sql id="selectSql">
+		select * from sys_userprivilege
+	</sql>
+    
+    <select id="getListWithUserId" resultMap="resultModelMap">  
+        <include refid="selectSql" /> where id_user=#{userId}
+    </select> 
+    
+    <select id="getListWithPrivilegeId" resultMap="resultModelMap">  
+        <include refid="selectSql" /> where id_privilege=#{privilegeId}
+    </select> 
+    
+    <select id="getPrivilegesWithUserId" resultMap="com.jzsoft.platform.module.userauth.dao.PrivilegeDAO.resultJoinModuleMap">  
+        select p.*,m.name m_name from sys_privilege p join sys_module m on p.id_module = m.id join sys_userprivilege up on p.id=up.id_privilege 
+         where up.id_user=#{userId} order by m.num,m.code,p.num,p.code
+    </select> 
+    
+    <select id="getUsersWithPrivilegeId" resultMap="com.jzsoft.platform.module.user.dao.SysUserDAO.resultModelMap">  
+        select u.* from sys_user u join sys_userprivilege up on u.id=up.id_user where up.id_privilege=#{privilegeId} order by u.num
+    </select> 
+    
+</mapper>

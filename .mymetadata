@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-module
+  type="WEB"
+  name="dc-sp-example"
+  id="myeclipse.1328598835484"
+  context-root="/dc-sp-example"
+  j2ee-spec="5.0"
+  archive="dc-sp-example.war">
+  <attributes>
+    <attribute name="webrootdir" value="/webapp" />
+  </attributes>
+</project-module>
+

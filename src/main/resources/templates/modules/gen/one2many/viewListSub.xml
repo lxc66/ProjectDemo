@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<template>
+	<name>viewListSub</name>
+	<filePath>src/main/webapp/WEB-INF/views/${moduleName}</filePath>
+	<filePath2>src/main/webapp/WEB-INF/views/${moduleName}</filePath2>
+	<fileName>${className}List.ftl</fileName>
+	<content><![CDATA[
+${'<@layout.head>'}
+<script type="text/javascript" src="${'$'}{base}/res/js/jquery-ui/jquery.ui.js"></script>
+<script type="text/javascript" src="${'$'}{base}/res/js/jquery-ui/i18n/zh-CN.js" charset="utf-8"></script>
+<link rel="stylesheet" type="text/css" href="${'$'}{base}/res/js/jquery-ui/themes/ui-lightness/jquery.ui.css"  />
+<script type="text/javascript" src="${'$'}{base}/res/js/jquery.edit.js"></script>
+<script type="text/javascript">
+    $(function(){
+        $('#${className}Submit').click(function(){
+           $('#formSearch').submit();
+        });
+    });
+    function delBrand(){
+        var items = $("input[name='${table.javaPrimaryKey}s']:checked").length;
+        if (items==0) {
+            alert("请至少选择一个要删除的项目");
+        }else{
+            if(confirm('您确定要删除吗?')){
+                $('#form_list').submit();
+            }
+        }
+    }
+    function delRow(obj){
+        if(confirm('您确定要删除吗?')) {
+            $(obj).parents("tr").find("td:eq(0)>input").attr("checked", true);
+            $('#form_list').submit();
+        }
+    }
+</script>
+${'</@layout.head>'}
+${'<@layout.body>'}
+<div class="page">
+    <div class="fixed-bar">
+        <div class="item-title">
+            <h3>${functionNameSimple}管理</h3>
+            <ul class="tab-base">
+                <li><a href="${'$'}{base}/${table.parent.className?uncap_first}/list"><span>列表</span></a></li>
+                <li><a href="JavaScript:void(0);" class="current"><span>管理</span></a></li>
+                <li><a href="${'$'}{base}/${className}/forward?${table.parentTableFk}=${'$'}{pager.condition.${table.parentTableFk}}"><span>新增</span></a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="fixed-empty"></div>
+    <form method="post" name="formSearch" id="formSearch" action="${'$'}{base}/${className}/list?${table.parentTableFk}=${'$'}{pager.condition.${table.parentTableFk}}">
+        <input type="hidden" name="pageNo" value="${'$'}{pager.pageNo}">
+        <table class="tb-type1 noborder search">
+            <tbody>
+            <tr>
+       	<#list table.columnList as c>
+			<#if c.isQuery?? && c.isQuery == 1>
+                <th><label for="${c.javaFieldId}">${c.comments}:</label></th>
+           	<#if c.showType == "input" || c.showType == "textarea">
+				<td><input class="txt" name="${c.javaFieldId}" id="${c.javaFieldId}" value="${'$'}{pager.condition.${c.javaFieldId}}" type="text"></td>
+			<#elseif c.showType == "select">
+				<form:select path="${c.javaFieldId}" class="input-medium">
+					<form:option value="" label=""/>
+					<form:options items="${"$"}{fns:getDictList('${c.dictType}')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
+				</form:select>
+			<#elseif c.showType == "checkbox">
+				<form:checkboxes path="${c.javaFieldId}" items="${"$"}{fns:getDictList('${c.dictType}')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
+			<#elseif c.showType == "radiobox">
+				<form:radiobuttons path="${c.javaFieldId}" items="${"$"}{fns:getDictList('${c.dictType}')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
+			<#elseif c.showType == "dateselect" && c.queryType == "between">
+				<input name="begin${c.simpleJavaField?cap_first}" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate"
+					value="<fmt:formatDate value="${"$"}{${className}.begin${c.simpleJavaField?cap_first}}" pattern="yyyy-MM-dd HH:mm:ss"/>"
+					onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:false});"/> - 
+				<input name="end${c.simpleJavaField?cap_first}" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate"
+					value="<fmt:formatDate value="${"$"}{${className}.end${c.simpleJavaField?cap_first}}" pattern="yyyy-MM-dd HH:mm:ss"/>"
+					onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:false});"/>
+			<#elseif c.showType == "dateselect">
+				<input type="text" readonly="readonly" class="txt Wdate" value="${'$'}{${className}.${c.javaFieldId}Str}" name="${c.javaFieldId}Str" id="${c.javaFieldId}Str" onClick="WdatePicker({skin:'twoer',dateFmt:'yyyy-MM-dd HH:mm:ss'});">
+			</#if>
+			</#if>
+		</#list>
+                <td><a href="javascript:void(0);" id="${className}Submit" class="btn-search " title="查询">&nbsp;</a>
+                    <a href="${'$'}{base}/${className}/list?${table.parentTableFk}=${'$'}{pager.condition.${table.parentTableFk}}" class="btns "><span>撤销检索</span></a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </form>
+   	${'<#--'}
+    <table class="table tb-type2" id="prompt">
+        <tbody>
+        <tr class="space odd">
+            <th colspan="12"><div class="title"><h5>操作提示</h5><span class="arrow"></span></div></th>
+        </tr>
+        <tr>
+            <td>
+                <ul>
+                    <li></li>
+                </ul>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    ${'-->'}
+    <form method="post" id='form_list' action="${'$'}{base}/${className}/delete">
+        <input type="hidden" name="form_submit" value="ok" />
+        <table class="table tb-type2">
+            <thead>
+            <tr class="thead">
+                <th class="w24"></th>
+                <#list table.columnList as c>
+					<#if c.isList?? && c.isList == 1>
+                <th class="">${c.comments}</th>
+					</#if>
+				</#list>
+                <th class="w72 align-center">操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <${'#'}list pager.result as ${className}>
+	            <tr class="hover edit">
+	                <td>
+	                	<input value="${'$'}{${className}.${table.javaPrimaryKey}}" class="checkitem" type="checkbox" name="${table.javaPrimaryKey}s">
+	                </td>
+	            <#assign firstListField = true>
+	            <#assign count = -1>
+				<#list table.columnList as c>
+					<#if c.isList?? && c.isList == 1>
+					<#assign count = count+1>
+				<td><#if firstListField><a href="${'$'}{base}/${className}/forward?id=${'$'}{${className}.id}"></#if>
+				<#if c.simpleJavaType == "Date">
+					<fmt:formatDate value="${"$"}{${className}.${c.javaFieldId}}" pattern="yyyy-MM-dd HH:mm:ss"/>
+					${$}{${className}.${c.javaFieldId}?string("yyyy-MM-dd HH:mm:ss")}
+				<#elseif c.showType == "select" || c.showType == "checkbox" || c.showType == "radiobox">
+					${"$"}{${className}.${c.javaFieldId}}
+				<#elseif  c.showType == "dateselect">
+					${"$"}{${className}.${c.javaFieldId}Str}
+				<#else>
+					${"$"}{${className}.${c.javaFieldId}}
+				</#if>
+				<#if firstListField></a></#if></td>
+						<#assign firstListField = false>
+					</#if>
+				</#list>
+	                
+	                <td class="align-center">
+	                    <a href="${'$'}{base}/${className}/forward?${table.javaPrimaryKey}=${'$'}{${className}.${table.javaPrimaryKey}}">编辑</a>
+	                    &nbsp;|&nbsp;
+	                    <a href="javascript:;" onclick="delRow(this)" >删除</a>
+	                </td>
+	            </tr>
+	        </${'#'}list>
+            </tbody>
+            <tfoot>
+	            <tr class="tfoot">
+		            <td><input type="checkbox" class="checkall" id="checkallBottom"></td>
+		            <td colspan="2">
+		            	<label for="checkallBottom">全选</label>
+		                &nbsp;&nbsp;
+		                <a href="JavaScript:void(0);" class="btn" onclick="delBrand()"><span>删除</span></a>
+		             </td>
+		             <td colspan="${count}">
+		                ${'<@layout.pager pager/>'}
+		              </td>
+	            </tr>
+            </tfoot>
+        </table>
+    </form>
+</div>
+${'</@layout.body>'}
+]]>
+	</content>
+</template>

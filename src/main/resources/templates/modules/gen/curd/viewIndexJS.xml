@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<template>
+	<name>viewList</name>
+	<filePath>src/main/webapp/WEB-INF/views/${viewPath}/js</filePath>
+	<filePath2>src/main/webapp/WEB-INF/views/${viewPath}/js</filePath2>
+	<fileName>${className}-index.js</fileName>
+	<content><![CDATA[
+define(["jquery"],function($) {
+//bootstrap_table
+var listUrl = "/${moduleName}/${className}/list";
+var obj = {
+	init:function(){
+		this.event();
+		this.refresh();
+	},
+	refresh:function(){
+		var params=$("#queryForm").serialize();
+		$("#listContent").load(listUrl+"?"+params)
+	},
+	query:function(){
+		$.loading();
+		var params=$("#queryForm").serialize();
+		$("#listContent").load(listUrl+"?"+params,function(){
+			$.loadingClose();
+		});
+	},
+	event:function(){
+		var self = this;
+        $("#queryBtn").click(function(){
+        	self.query();
+        });
+	}
+};
+	return obj;
+});
+]]>
+	</content>
+</template>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<#include "/platform/common/meta.html">
+<div class="container-fluid layer-content-custom">
+ 
+ <div>
+案例标题：&nbsp;${entity.titleLabel}
+ </div><br>
+ 
+ <div>
+案例类型：&nbsp;${entity.typeView}
+ </div><br>
+ 
+ <div>
+发布时间：&nbsp;${entity.releaseTime}
+ </div><br>
+ 
+ 
+ <div>
+                        <th>是否经典:&nbsp;&nbsp;${entity.ifclassicView?default('否')}</th> 
+		                <th>&nbsp;&nbsp;&nbsp;&nbsp;参与人数:&nbsp;&nbsp;${entity.participant?default('0')}</th>
+		                <th>&nbsp;&nbsp;&nbsp;&nbsp;关注总数:&nbsp;&nbsp;${entity.focusNumber}</th>
+		                <th>&nbsp;&nbsp;&nbsp;&nbsp;点赞总数:&nbsp;&nbsp;${entity.clickUpNumber}</th>
+		                <th>&nbsp;&nbsp;&nbsp;&nbsp;回答总数:&nbsp;&nbsp;${entity.answerNumber}</th>
+ </div>
+ <br>
+ 
+ <div>
+案例内容：</br>&nbsp;
+<p>
+${entity.contentLabel}
+</p>
+ </div><br>
+ <#if split??>
+   <#list split as split>
+ <div>
+ <img src="${split}"/>
+ </div><br>
+  </#list>
+ </#if>
+ 
+</div>
+
+<script type="text/javascript">
+require(["jquery","/demo/module/houtai/js/case-details.js"],function($,page){
+	page.init();
+});
+</script>

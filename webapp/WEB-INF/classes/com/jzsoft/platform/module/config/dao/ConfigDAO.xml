@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jzsoft.platform.module.config.dao.ConfigDAO">
+    
+    <resultMap type="Config" id="resultModelMap">  
+        <id column="id" property="id" />  
+        <result column="id_module" property="moduleId"/>  
+        <result column="kind" property="kind"/>  
+        <result column="mode" property="mode"/>  
+        <result column="name" property="name"/>  
+        <result column="code" property="code"/>  
+        <result column="description" property="description"/>  
+        <result column="visibleFlag" property="visibleFlag"/>  
+        <result column="ft" property="ft"/>  
+        <result column="lt" property="lt"/>  
+        <result column="fu" property="fu"/>  
+        <result column="lu" property="lu"/>  
+    </resultMap>  
+    
+    
+    <!-- 添加一条数据 -->
+    <insert id="save" keyProperty="id" useGeneratedKeys="false" parameterType="Config">
+        insert into sys_config(id,id_module,kind,mode,name,code,description,visibleFlag,ft,fu) 
+        values(#{id},#{moduleId},#{kind},#{mode},#{name},#{code},#{description},#{visibleFlag},#{ft},#{fu})
+    </insert>
+    
+    <update id="update" parameterType="Config">
+        update sys_config 
+        <set>
+         <if test="moduleId != '' ">  
+            id_module=#{moduleId},  
+         </if>  
+         <if test="kind != null and kind != '' ">  
+            kind=#{kind},  
+         </if>  
+         <if test="mode != null and mode != '' ">  
+            mode=#{mode},  
+         </if>  
+         <if test="name != null and name != '' ">  
+            name=#{name},  
+         </if>  
+         <if test="code != null and code != '' ">  
+            code=#{code},  
+         </if>  
+         <if test="description != null and description != '' ">  
+            description=#{description},  
+         </if>  
+         <if test="visibleFlag != '' ">  
+            visibleFlag=#{visibleFlag},  
+         </if>  
+         <if test="'lt' != null and 'lt' != ''">  
+            lt=#{lt}, 
+         </if>  
+         <if test="lu != null and lu != '' ">  
+            lu=#{lu} 
+         </if>  
+        </set>
+         WHERE id=#{id}  
+    </update> 
+    
+    <!-- 删除一条数据 -->
+    <delete id="delete">
+        delete from sys_config where id=#{id}
+    </delete>
+    
+    <sql id="selectSql">
+		select * from sys_config
+	</sql>
+    
+    <!-- 获取一条数据 -->
+    <select id="get"  resultMap="resultModelMap">
+        <include refid="selectSql" /> where id=#{id}
+    </select>
+    
+    <select id="getWithCode" resultMap="resultModelMap">  
+        <include refid="selectSql" /> where code=#{code}
+    </select>
+    
+    <select id="getWithCodeAndExclude" resultMap="resultModelMap" parameterType="Map">  
+        <include refid="selectSql" /> where code=#{code} 
+        <if test="excludeCode != null ">  
+         and code!=#{excludeCode}
+    	</if>
+    </select> 
+    
+    <select id="getAll" resultMap="resultModelMap">  
+        <include refid="selectSql" /> order by code
+    </select> 
+    
+    <select id="getPage" resultMap="resultModelMap" parameterType="page">  
+        <include refid="selectSql" />  order by code
+    </select>   
+    
+    <select id="getListWithKind" resultMap="resultModelMap">  
+        <include refid="selectSql" /> where kind=#{kind} order by code
+    </select> 
+</mapper>

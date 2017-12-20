@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<template>
+	<name>viewForm</name>
+	<filePath>src/main/webapp/WEB-INF/views/${viewPath}</filePath>
+	<filePath2>src/main/webapp/WEB-INF/views/${viewPath}</filePath2>
+	<fileName>${className}-input.html</fileName>
+	<content><![CDATA[
+<!DOCTYPE html>
+<${'#'}include "/platform/common/meta.html">
+<div class="container-fluid layer-content-custom">
+   <form class="form-horizontal m-t" role="form" id="theForm">
+	   <c:if test="${'$'}{entity.id??}">
+			<input type="hidden" name="id" value="${'$'}{entity.id}"/>
+	   </c:if>
+	<#list table.columnList as c>
+	   <#if c.javaFieldId !=table.javaPrimaryKey &&  c.isEdit?? && c.isEdit == 1 && (c.isNotBaseField || c.simpleJavaField == 'remarks')>
+       <div class="form-group">
+           <label class="col-sm-3 control-label">${c.comments}:</label>
+           <div class="col-sm-7">
+				<#if c.showType == "input">
+				<input type="text" class="form-control" name="${c.javaFieldId}" value="${'$'}{entity.${c.javaFieldId}}">
+				<#elseif c.showType == "textarea">
+				<textarea class="form-control" name="${c.javaFieldId}" rows="3">${'$'}{entity.${c.javaFieldId}}</textarea>
+				<#elseif c.showType == "constantSelect">
+            	<select class="form-control"  name="${c.javaFieldId}">
+           		<${'#'}if entity.${c.javaFieldId}Map??>
+           			<option value="">请选择${c.comments}</option>
+            		<${'#'}list entity.${c.javaFieldId}Map?keys as key>
+            		<option value="${'$'}{key}" <${'#'}if key==entity.${c.javaFieldId}>selected="selected"</${'#'}if>>${'$'}{entity.${c.javaFieldId}Map[key]}</option>
+            		</${'#'}list>
+           		</${'#'}if>
+            	</select>
+				<#elseif c.showType == "select">
+				
+				<#elseif c.showType == "checkbox">
+				
+				<#elseif c.showType == "radiobox">
+				
+				<#elseif c.showType == "dateselect">
+				
+				<#elseif c.showType == "fileselect">
+				
+				</#if>
+           </div>
+       </div>
+       </#if>
+	</#list>
+	</form>
+</div>
+<div class="layer-footer-custom">
+	<div class="col-sm-12">
+		<button class="btn btn-primary m-r-xs" id="submitBtn">提交</button>
+		<button class="btn btn-white m-l-xs" id="cancelBtn">取消</button>
+	</div>
+</div>
+<script type="text/javascript">
+require(["jquery","${viewPath}/js/${className}-input.js"],function($,page){
+	page.init();
+});
+</script>
+]]>
+	</content>
+</template>
